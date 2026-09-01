@@ -1,0 +1,24 @@
+[project]
+name = "climaton2026"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Antonio S. Dromundo", email = "sebastiandromundo@outlook.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "earthengine-api>=1.7.42",
+    "folium>=0.20.0",
+    "geemap>=0.38.4",
+    "matplotlib>=3.11.1",
+    "numpy>=2.5.2",
+    "pandas>=3.0.5",
+]
+
+[project.scripts]
+climaton2026 = "climaton2026:main"
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"
