@@ -1,17 +1,22 @@
 [project]
 name = "climaton2026"
 version = "0.1.0"
-description = "Add your description here"
+description = "Repositorio de trabajo para Climaton 2026"
 readme = "README.md"
 authors = [
-    { name = "Antonio S. Dromundo", email = "sebastiandromundo@outlook.com" }
+    { name = "Antonio S. Dromundo", email = "sebastiandromundo@outlook.com" },
 ]
 requires-python = ">=3.14"
 dependencies = [
+    "contextily>=1.7.1",
     "earthengine-api>=1.7.42",
     "folium>=0.20.0",
     "geemap>=0.38.4",
+    "geopandas>=1.1.4",
+    "ipykernel>=7.3.0",
+    "mapclassify>=2.11.0",
     "matplotlib>=3.11.1",
+    "notebook>=7.6.2",
     "numpy>=2.5.2",
     "pandas>=3.0.5",
 ]
