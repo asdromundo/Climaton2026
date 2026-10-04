@@ -1,4 +1,4 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Circle } from "@revideo/2d";
+import { makeScene2D, Node, Audio, Rect, Txt, Img } from "@revideo/2d";
 import {
   all,
   createRef,
@@ -11,6 +11,7 @@ import { THEME } from "../theme";
 import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo2 from "../../audio/parrafo2.m4a";
+import mapTemporalTexture from "../../assets/textures/cdmx-mapa-temporal.png";
 
 /**
  * TOMA 2 MAESTRA · 20.24 s
@@ -18,8 +19,9 @@ import audioParrafo2 from "../../audio/parrafo2.m4a";
  *
  * Estructura:
  * 1. [0.0s – 2.8s]:   TOMA REAL (Parcelas de temporal en la CDMX)
- * 2. [2.8s – 12.2s]:  INS-03 (Grilla >90% INEGI + Calendario siembra tardía finales de junio)
- * 3. [12.2s – 20.24s]: TOMA REAL (Agricultores y testimonio sobre saber tradicional)
+ * 2. [2.8s – 6.0s]:   INS-03 T1 (Mapa de Agricultura de Temporal + Cifra >90% INEGI)
+ * 3. [6.0s – 12.2s]:  INS-03 T2 (Calendario de siembra tardía finales de junio)
+ * 4. [12.2s – 20.24s]: TOMA REAL (Agricultores y testimonio sobre saber tradicional)
  */
 export default makeScene2D("toma-02", function* (view) {
   view.fill(THEME.colors.paper.cream);
@@ -28,12 +30,12 @@ export default makeScene2D("toma-02", function* (view) {
   const ins03Node = createRef<Node>();
   const footage2Node = createRef<Node>();
 
-  // Elementos internos de INS-03
+  // Elementos internos de INS-03 (Tiempo 1: Mapa + Estadística)
   const gridNode = createRef<Node>();
   const statCard = createRef<Rect>();
-  const rainDrops = Array.from({ length: 10 }, () => createRef<Circle>());
-  const parcelFills = Array.from({ length: 10 }, () => createRef<Rect>());
+  const mapTemporalNode = createRef<Node>();
 
+  // Elementos internos de INS-03 (Tiempo 2: Calendario)
   const calendarNode = createRef<Node>();
   const calendarSlider = createRef<Node>();
   const delayBadge = createRef<Rect>();
@@ -55,31 +57,30 @@ export default makeScene2D("toma-02", function* (view) {
 
       {/* 3. Capa INS-03 (La milpa depende de la lluvia) */}
       <Node ref={ins03Node} opacity={0}>
-        {/* TIEMPO 1: Cuadrícula de 10 parcelas (>90% INEGI) */}
+        {/* TIEMPO 1: Mapa de Agricultura de Temporal + Tarjeta Hero >90% INEGI */}
         <Node ref={gridNode} position={[0, -20]}>
           <Rect
             ref={statCard}
-            position={[-380, -20]}
-            width={530}
-            height={410}
+            position={[-355, 20]}
+            width={570}
+            height={520}
             fill={THEME.colors.paper.amateLight}
             stroke={THEME.colors.earth.ochre}
             lineWidth={2.5}
-            radius={18}
+            radius={20}
             padding={[32, 38]}
             shadowColor={`${THEME.colors.earth.dark}22`}
             shadowBlur={25}
             shadowOffset={[0, 6]}
             opacity={0}
-            y={0}
           >
             <Txt
               text=">90%"
               fill={THEME.colors.milpa.deepGreen}
               fontFamily={THEME.typography.serif}
-              fontSize={105}
+              fontSize={110}
               fontWeight={700}
-              position={[0, -80]}
+              position={[0, -115]}
             />
             <Txt
               text="de la tierra cultivada"
@@ -87,7 +88,7 @@ export default makeScene2D("toma-02", function* (view) {
               fontFamily={THEME.typography.serif}
               fontSize={36}
               fontWeight={600}
-              position={[0, 15]}
+              position={[0, 0]}
             />
             <Txt
               text="depende de la lluvia"
@@ -95,62 +96,45 @@ export default makeScene2D("toma-02", function* (view) {
               fontFamily={THEME.typography.serif}
               fontSize={36}
               fontWeight={600}
-              position={[0, 60]}
+              position={[0, 50]}
             />
             <Txt
-              text="Fuente: INEGI"
+              text="12,180 ha de temporal (91.6%)"
+              fill={THEME.colors.earth.terracotta}
+              fontFamily={THEME.typography.sans}
+              fontSize={26}
+              fontWeight={700}
+              position={[0, 115]}
+            />
+            <Txt
+              text="Fuente: Censo Agropecuario · INEGI"
               fill={THEME.colors.earth.warmClay}
               fontFamily={THEME.typography.mono}
-              fontSize={24}
+              fontSize={20}
               fontWeight={600}
-              position={[0, 135]}
+              position={[0, 168]}
             />
           </Rect>
 
-          <Node position={[220, -20]}>
-            {Array.from({ length: 10 }).map((_, idx) => {
-              const col = idx % 5;
-              const row = Math.floor(idx / 5);
-              const x = (col - 2) * 110;
-              const y = (row - 0.5) * 130;
-              const isRainFed = idx < 9;
-
-              return (
-                <Node position={[x, y]}>
-                  <Circle
-                    ref={rainDrops[idx]}
-                    size={16}
-                    fill={THEME.colors.climate.rainBlue}
-                    position={[0, -80]}
-                    opacity={0}
-                  />
-                  <Rect
-                    width={98}
-                    height={110}
-                    fill={THEME.colors.paper.cream}
-                    stroke={THEME.colors.earth.ochre}
-                    lineWidth={2}
-                    radius={10}
-                  >
-                    <Rect
-                      ref={parcelFills[idx]}
-                      width={98}
-                      height={0}
-                      position={[0, 55]}
-                      offset={[0, 1]}
-                      fill={isRainFed ? THEME.colors.milpa.leaf : "#D8D0C5"}
-                      radius={10}
-                    />
-                    <Txt
-                      text={isRainFed ? "🌽" : "💧"}
-                      fontSize={32}
-                      position={[0, 0]}
-                      opacity={0.85}
-                    />
-                  </Rect>
-                </Node>
-              );
-            })}
+          {/* Mapa cartográfico de Modalidad Hídrica y Temporal */}
+          <Node ref={mapTemporalNode} position={[355, 0]} opacity={0} scale={0.92}>
+            <Rect
+              width={505}
+              height={580}
+              fill={THEME.colors.paper.cream}
+              stroke={THEME.colors.earth.ochre}
+              lineWidth={2}
+              radius={18}
+              clip={true}
+              shadowColor={`${THEME.colors.earth.dark}25`}
+              shadowBlur={25}
+              shadowOffset={[0, 6]}
+            >
+              <Img
+                src={mapTemporalTexture}
+                height={580}
+              />
+            </Rect>
           </Node>
         </Node>
 
@@ -313,11 +297,11 @@ export default makeScene2D("toma-02", function* (view) {
   );
 
   // ==========================================
-  // COREOGRAFÍA TEMPORAL EXACTA (20.24 s)
+  // COREOGRAFÍA TEMPORAL EXACTA (20.288 s - parrafo2.m4a)
   // ==========================================
 
   // [0.0s – 2.8s]: Toma Real 1 («De acuerdo al INEGI, en la Ciudad de México...»)
-  yield* waitFor(2.5);
+  yield* waitFor(2.45);
 
   // Transición: Footage 1 sale, INS-03 entra (~10 frames antes de «más del 90%»)
   yield* all(
@@ -326,38 +310,34 @@ export default makeScene2D("toma-02", function* (view) {
   );
 
   // [2.8s – 6.0s]: «...más del 90% de la tierra cultivada depende de la lluvia.»
+  // Entrada sincronizada de Tarjeta de Estadística y Mapa Cartográfico de Temporal
   yield* all(
-    statCard().opacity(1, 0.7, easeOutCubic),
-    statCard().position.y(-20, 0.7, easeOutCubic),
+    statCard().opacity(1, 0.65, easeOutCubic),
+    statCard().position.y(0, 0.65, easeOutCubic),
+    mapTemporalNode().opacity(1, 0.65, easeOutCubic),
+    mapTemporalNode().scale(1, 0.65, easeOutBack),
   );
 
-  for (let i = 0; i < 10; i++) {
-    const isRainFed = i < 9;
-    rainDrops[i]().opacity(1, 0.1);
-    rainDrops[i]().position.y(-30, 0.22, easeInOutCubic);
-    if (isRainFed) {
-      parcelFills[i]().height(106, 0.3, easeOutCubic);
-    }
-    yield* waitFor(0.06);
-  }
-  yield* waitFor(0.6);
+  // Pausa de lectura para apreciar el mapa y las cifras por alcaldía (>90%)
+  yield* waitFor(2.55);
 
   // [6.0s – 12.2s]: «Y con un clima cada vez más impredecible... finales de junio.»
+  // Transición de Tiempo 1 (Mapa) a Tiempo 2 (Calendario de siembra)
   yield* all(
-    gridNode().opacity(0, 0.6, easeInOutCubic),
-    gridNode().scale(0.9, 0.6, easeInOutCubic),
-    calendarNode().opacity(1, 0.8, easeOutCubic),
+    gridNode().opacity(0, 0.55, easeInOutCubic),
+    gridNode().scale(0.92, 0.55, easeInOutCubic),
+    calendarNode().opacity(1, 0.65, easeOutCubic),
   );
 
-  yield* waitFor(0.4);
+  yield* waitFor(0.35);
 
-  // Desplazamiento del marcador a finales de junio
+  // Desplazamiento del marcador hacia finales de junio con la alerta
   yield* all(
     calendarSlider().position.x(140, 1.8, easeInOutCubic),
     delayBadge().opacity(1, 1.0, easeOutCubic),
   );
 
-  yield* waitFor(2.2);
+  yield* waitFor(3.05);
 
   // Transición hacia Toma Real 2 (~10 frames después de «finales de junio»)
   yield* all(
@@ -365,6 +345,6 @@ export default makeScene2D("toma-02", function* (view) {
     footage2Node().opacity(1, 0.35, easeInOutCubic),
   );
 
-  // [12.2s – 20.24s]: Toma Real 2 («Quienes siembran lo enfrentan solos...»)
-  yield* waitFor(10.2);
+  // [12.2s – 20.288s]: Toma Real 2 («Quienes siembran lo enfrentan solos...»)
+  yield* waitFor(8.088);
 });
