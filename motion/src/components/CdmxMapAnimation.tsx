@@ -30,9 +30,9 @@ export class CdmxMapAnimation extends Node {
     super(props);
 
     const mapHeight = 1000;
-    const mapWidth = mapHeight * (1860 / 2180); // ~853 px
-    const teuhtliPosX = mapWidth * 0.355;
-    const teuhtliPosY = mapHeight * 0.255;
+    const mapWidth = mapHeight * (3085 / 3580); // ~861.7 px
+    const teuhtliPosX = mapWidth * 0.2699; // Coordenada normalizada exacta
+    const teuhtliPosY = mapHeight * 0.2246;
 
     this.add(
       <Node>
@@ -155,7 +155,7 @@ export class CdmxMapAnimation extends Node {
             />
             <Txt
               ref={this.teuhtliSubtitle}
-              text="2,710 msnm · Milpa Alta / Tláhuac"
+              text="2,710 msnm · Santiago Tulyehualco (1,661 ha)"
               position={[0, 42]}
               fill={THEME.colors.earth.warmClay}
               fontFamily={THEME.typography.sans}
@@ -183,9 +183,9 @@ export class CdmxMapAnimation extends Node {
    */
   public *zoomToTeuhtli(duration: number = 2.0) {
     const mapHeight = 1000;
-    const mapWidth = mapHeight * (1860 / 2180);
-    const teuhtliPosX = mapWidth * 0.355;
-    const teuhtliPosY = mapHeight * 0.255;
+    const mapWidth = mapHeight * (3085 / 3580);
+    const teuhtliPosX = mapWidth * 0.2699;
+    const teuhtliPosY = mapHeight * 0.2246;
     const zoomScale = 3.2;
     const zoomTargetX = -teuhtliPosX * zoomScale + 120;
     const zoomTargetY = -teuhtliPosY * zoomScale;
