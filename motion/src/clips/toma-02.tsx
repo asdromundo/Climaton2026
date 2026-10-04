@@ -46,47 +46,47 @@ export default makeScene2D("toma-02", function* (view) {
       <Audio src={audioParrafo2} play={true} />
 
       {/* 2. Capa Toma Real 1 */}
-      <Node ref={footage1Node} opacity={1}>
+      {/* <Node ref={footage1Node} opacity={1}>
         <VideoPlaceholder
           title="Parcelas de temporal en la CDMX"
           cue="De acuerdo al INEGI, en la Ciudad de México..."
           suggestedFile="toma-02-parcelas-temporal.mp4"
           durationSeconds={2.8}
         />
-      </Node>
+      </Node> */}
 
       {/* 3. Capa INS-03 (La milpa depende de la lluvia) */}
       <Node ref={ins03Node} opacity={0}>
         {/* TIEMPO 1: Mapa de Agricultura de Temporal + Tarjeta Hero >90% INEGI */}
-        <Node ref={gridNode} position={[0, -20]}>
+        <Node ref={gridNode} position={[0, 0]}>
           <Rect
             ref={statCard}
-            position={[-355, 20]}
-            width={570}
-            height={520}
+            position={[-575, 20]}
+            width={610}
+            height={540}
             fill={THEME.colors.paper.amateLight}
             stroke={THEME.colors.earth.ochre}
             lineWidth={2.5}
-            radius={20}
-            padding={[32, 38]}
+            radius={22}
+            padding={[36, 40]}
             shadowColor={`${THEME.colors.earth.dark}22`}
-            shadowBlur={25}
-            shadowOffset={[0, 6]}
+            shadowBlur={30}
+            shadowOffset={[0, 8]}
             opacity={0}
           >
             <Txt
               text=">90%"
               fill={THEME.colors.milpa.deepGreen}
               fontFamily={THEME.typography.serif}
-              fontSize={110}
+              fontSize={120}
               fontWeight={700}
-              position={[0, -115]}
+              position={[0, -120]}
             />
             <Txt
               text="de la tierra cultivada"
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
-              fontSize={36}
+              fontSize={38}
               fontWeight={600}
               position={[0, 0]}
             />
@@ -94,9 +94,9 @@ export default makeScene2D("toma-02", function* (view) {
               text="depende de la lluvia"
               fill={THEME.colors.climate.rainBlue}
               fontFamily={THEME.typography.serif}
-              fontSize={36}
+              fontSize={38}
               fontWeight={600}
-              position={[0, 50]}
+              position={[0, 52]}
             />
             <Txt
               text="12,180 ha de temporal (91.6%)"
@@ -104,7 +104,7 @@ export default makeScene2D("toma-02", function* (view) {
               fontFamily={THEME.typography.sans}
               fontSize={26}
               fontWeight={700}
-              position={[0, 115]}
+              position={[0, 120]}
             />
             <Txt
               text="Fuente: Censo Agropecuario · INEGI"
@@ -112,28 +112,30 @@ export default makeScene2D("toma-02", function* (view) {
               fontFamily={THEME.typography.mono}
               fontSize={20}
               fontWeight={600}
-              position={[0, 168]}
+              position={[0, 172]}
             />
           </Rect>
 
-          {/* Mapa cartográfico de Modalidad Hídrica y Temporal */}
-          <Node ref={mapTemporalNode} position={[355, 0]} opacity={0} scale={0.92}>
+          {/* Mapa cartográfico de Modalidad Hídrica y Temporal a gran escala */}
+          <Node
+            ref={mapTemporalNode}
+            position={[240, 0]}
+            opacity={0}
+            scale={0.96}
+          >
             <Rect
-              width={505}
-              height={580}
+              width={830}
+              height={1006}
               fill={THEME.colors.paper.cream}
               stroke={THEME.colors.earth.ochre}
-              lineWidth={2}
-              radius={18}
+              lineWidth={2.5}
+              radius={20}
               clip={true}
-              shadowColor={`${THEME.colors.earth.dark}25`}
-              shadowBlur={25}
-              shadowOffset={[0, 6]}
+              shadowColor={`${THEME.colors.earth.dark}28`}
+              shadowBlur={35}
+              shadowOffset={[0, 8]}
             >
-              <Img
-                src={mapTemporalTexture}
-                height={580}
-              />
+              <Img src={mapTemporalTexture} height={1006} />
             </Rect>
           </Node>
         </Node>
@@ -301,22 +303,23 @@ export default makeScene2D("toma-02", function* (view) {
   // ==========================================
 
   // [0.0s – 2.8s]: Toma Real 1 («De acuerdo al INEGI, en la Ciudad de México...»)
-  yield* waitFor(2.45);
 
   // Transición: Footage 1 sale, INS-03 entra (~10 frames antes de «más del 90%»)
   yield* all(
-    footage1Node().opacity(0, 0.35, easeInOutCubic),
+    // footage1Node().opacity(0, 0.35, easeInOutCubic),
     ins03Node().opacity(1, 0.35, easeInOutCubic),
   );
 
   // [2.8s – 6.0s]: «...más del 90% de la tierra cultivada depende de la lluvia.»
   // Entrada sincronizada de Tarjeta de Estadística y Mapa Cartográfico de Temporal
   yield* all(
-    statCard().opacity(1, 0.65, easeOutCubic),
-    statCard().position.y(0, 0.65, easeOutCubic),
+    statCard().opacity(1, 3.5, easeInOutCubic),
+    statCard().position.y(0, 4.0, easeInOutCubic),
     mapTemporalNode().opacity(1, 0.65, easeOutCubic),
     mapTemporalNode().scale(1, 0.65, easeOutBack),
   );
+
+  yield* waitFor(2.45);
 
   // Pausa de lectura para apreciar el mapa y las cifras por alcaldía (>90%)
   yield* waitFor(2.55);
