@@ -1,0 +1,10 @@
+{
+  "extends": "@revideo/2d/tsconfig.project.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "strict": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vite/client", "node"]
+  },
+  "include": ["src", "scripts", "vite.config.ts"]
+}

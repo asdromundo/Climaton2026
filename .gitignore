@@ -1,0 +1,39 @@
+# Python & Entornos
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Node & Motion Design
+node_modules/
+motion/node_modules/
+out/
+motion/out/
+renders/
+motion/renders/
+frames/
+motion/frames/
+footage/
+motion/footage/
+tmp/
+motion/tmp/
+
+# Entornos y logs
+.env
+*.log
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Formatos de video y animaciones (NUNCA versionar)
+*.mp4
+*.mov
+*.webm
+*.mkv
+*.avi
+*.m4v
+*.mxf
+*.gif

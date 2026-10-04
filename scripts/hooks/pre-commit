@@ -1,0 +1,29 @@
+#!/bin/sh
+# Pre-commit hook to block committing video and animation media files
+
+# Get staged files (Added, Copied, Modified, Renamed)
+staged_files=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ -z "$staged_files" ]; then
+    exit 0
+fi
+
+# Prohibited video and animation formats: mp4, mov, webm, mkv, avi, m4v, mxf, gif
+prohibited_pattern='\.(mp4|mov|webm|mkv|avi|m4v|mxf|gif)$'
+
+blocked_files=$(printf '%s\n' "$staged_files" | grep -Ei "$prohibited_pattern" || true)
+
+if [ -n "$blocked_files" ]; then
+    echo "==========================================================" >&2
+    echo " [ERROR] Pre-commit hook bloqueó el commit:               " >&2
+    echo " Se detectaron archivos de video/animación en staging.     " >&2
+    echo " Los videos (renders y footage) NUNCA se versionan:       " >&2
+    echo "==========================================================" >&2
+    printf '%s\n' "$blocked_files" >&2
+    echo "" >&2
+    echo "Para desestagiar: git reset HEAD <archivo>" >&2
+    echo "Coloca footage en footage/ y renders en out/ (ignorados)." >&2
+    exit 1
+fi
+
+exit 0
