@@ -33,8 +33,6 @@ export default makeScene2D("toma-03", function* (view) {
 
   // Elementos INS-04 (El Niño)
   const ins04Card = createRef<Rect>();
-  const warmBlob = createRef<Rect>();
-  const warmBlobInner = createRef<Rect>();
   const meterBar = createRef<Rect>();
   const meterVal = createRef<Txt>();
 
@@ -82,24 +80,6 @@ export default makeScene2D("toma-03", function* (view) {
             height={740}
           />
 
-          {/* Pulso de onda térmica ecuatorial que se expande hacia el este */}
-          <Rect
-            ref={warmBlob}
-            position={[170, 0]}
-            width={0}
-            height={130}
-            radius={65}
-            fill={`${THEME.colors.climate.droughtOrange}35`}
-          />
-          <Rect
-            ref={warmBlobInner}
-            position={[250, 0]}
-            width={0}
-            height={85}
-            radius={42}
-            fill={`${THEME.colors.earth.terracotta}55`}
-          />
-
           {/* Tarjeta de datos NOAA con escala de proyección en flanco oeste */}
           <Rect
             ref={ins04Card}
@@ -109,7 +89,7 @@ export default makeScene2D("toma-03", function* (view) {
             stroke={THEME.colors.earth.ochre}
             lineWidth={2.5}
             radius={18}
-            position={[-440, 0]}
+            position={[-465, 0]}
             padding={[30, 36]}
             shadowColor={`${THEME.colors.earth.dark}25`}
             shadowBlur={22}
@@ -425,8 +405,7 @@ export default makeScene2D("toma-03", function* (view) {
   // [2.5s – 10.2s]: INS-04 (El Niño)
   yield* all(
     ins04Card().opacity(1, 0.6, easeOutCubic),
-    warmBlob().width(680, 2.8, easeInOutCubic),
-    warmBlobInner().width(420, 2.8, easeInOutCubic),
+    ins04Card().position.x(-440, 0.6, easeOutCubic),
   );
 
   yield* all(
@@ -434,7 +413,7 @@ export default makeScene2D("toma-03", function* (view) {
     meterVal().opacity(1, 0.5, easeOutCubic),
   );
 
-  yield* waitFor(2.3);
+  yield* waitFor(4.5);
 
   // Transición hacia Toma Real 2 (~10 frames después de «otoño y el invierno»)
   yield* all(
