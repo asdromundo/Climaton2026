@@ -1,0 +1,203 @@
+import {makeScene2D, Node, Audio, Rect, Txt, Circle} from '@revideo/2d';
+import {all, createRef, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
+import {THEME} from '../theme';
+import {VideoPlaceholder} from '../components/VideoPlaceholder';
+
+import audioParrafo6 from '../../audio/parrafo6.m4a';
+
+/**
+ * TOMA 6 MAESTRA · 28.18 s
+ * Sincronización continua con parrafo6.m4a
+ * 
+ * Estructura:
+ * 1. [0.0s – 4.5s]:   TOMA REAL 1 (Familias colaborando)
+ * 2. [4.5s – 27.5s]:  INS-10 (Línea del tiempo continua: 3 etapas + corchete financiamiento)
+ * 3. [27.5s – 28.18s]: Transición a Toma 7
+ */
+export default makeScene2D('toma-06', function* (view) {
+  view.fill(THEME.colors.paper.cream);
+
+  const footage1Node = createRef<Node>();
+  const ins10Node = createRef<Node>();
+
+  // Elementos INS-10 (Línea del tiempo)
+  const timelineBar = createRef<Rect>();
+  const step1Node = createRef<Node>();
+  const step2Node = createRef<Node>();
+  const step3Node = createRef<Node>();
+  const fundingBracket = createRef<Rect>();
+
+  view.add(
+    <Node>
+      {/* Audio maestro continuo de la Toma 6 */}
+      <Audio src={audioParrafo6} play={true} />
+
+      {/* 1. Capa Toma Real 1 */}
+      <Node ref={footage1Node} opacity={1}>
+        <VideoPlaceholder
+          title="Familias colaborando y asamblea comunitaria"
+          cue="Hay familias dispuestas a colaborar, y desarrollaremos el proyecto en tres etapas."
+          suggestedFile="toma-06-familias-asamblea.mp4"
+          durationSeconds={4.5}
+        />
+      </Node>
+
+      {/* 2. Capa INS-10 (Las tres etapas) */}
+      <Node ref={ins10Node} opacity={0}>
+        <Rect
+          width={1660}
+          height={760}
+          fill={THEME.colors.paper.amateLight}
+          stroke={THEME.colors.earth.ochre}
+          lineWidth={2.5}
+          radius={20}
+          position={[0, -20]}
+          padding={[40, 50]}
+        >
+          <Txt
+            text="DESARROLLO EN TRES ETAPAS"
+            position={[0, -310]}
+            fill={THEME.colors.earth.deep}
+            fontFamily={THEME.typography.serif}
+            fontSize={38}
+            fontWeight={700}
+            letterSpacing={3}
+          />
+          <Txt
+            text="Ruta comunitaria de adaptación, implementación y adopción"
+            position={[0, -265]}
+            fill={THEME.colors.earth.warmClay}
+            fontFamily={THEME.typography.sans}
+            fontSize={22}
+          />
+
+          {/* Línea horizontal continua de tiempo */}
+          <Rect
+            ref={timelineBar}
+            width={0}
+            height={4}
+            position={[-650, -110]}
+            fill={THEME.colors.earth.ochre}
+            offset={[-1, 0]}
+          />
+
+          {/* Etapa 1: Adaptación */}
+          <Node ref={step1Node} position={[-440, 20]} opacity={0} y={50}>
+            <Circle size={32} fill={THEME.colors.milpa.deepGreen} position={[0, -130]} />
+            <Txt text="1" position={[0, -130]} fill={THEME.colors.paper.cream} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
+
+            <Rect width={420} height={260} fill={THEME.colors.paper.cream} stroke={THEME.colors.milpa.leaf} lineWidth={2} radius={16} padding={[20, 24]}>
+              <Txt text="1 · ADAPTACIÓN" position={[0, -80]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.serif} fontSize={24} fontWeight={700} />
+              <Txt text="Primer año, desde 2027" position={[0, -45]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={16} fontWeight={600} />
+
+              <Rect width={360} height={1} position={[0, -20]} fill={`${THEME.colors.earth.ochre}44`} />
+
+              <Txt text="• Escuchamos a la comunidad" position={[-160, 15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
+              <Txt text="• Calibramos las estaciones" position={[-160, 50]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
+            </Rect>
+          </Node>
+
+          {/* Etapa 2: Implementación */}
+          <Node ref={step2Node} position={[0, 20]} opacity={0} y={50}>
+            <Circle size={32} fill={THEME.colors.milpa.leaf} position={[0, -130]} />
+            <Txt text="2" position={[0, -130]} fill={THEME.colors.paper.cream} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
+
+            <Rect width={420} height={260} fill={THEME.colors.paper.cream} stroke={THEME.colors.milpa.leaf} lineWidth={2} radius={16} padding={[20, 24]}>
+              <Txt text="2 · IMPLEMENTACIÓN" position={[0, -80]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.serif} fontSize={24} fontWeight={700} />
+              <Txt text="Medición y aviso comunitario" position={[0, -45]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={16} />
+
+              <Rect width={360} height={1} position={[0, -20]} fill={`${THEME.colors.earth.ochre}44`} />
+
+              <Txt text="• Las estaciones miden y avisan" position={[-160, 15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
+              <Txt text="• Habitantes monitores (mujeres y hombres)" position={[-160, 50]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={15} offset={[-1, 0]} />
+            </Rect>
+          </Node>
+
+          {/* Etapa 3: Adopción */}
+          <Node ref={step3Node} position={[440, 20]} opacity={0} y={50}>
+            <Circle size={32} fill={THEME.colors.earth.ochre} position={[0, -130]} />
+            <Txt text="3" position={[0, -130]} fill={THEME.colors.paper.cream} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
+
+            <Rect width={420} height={260} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.ochre} lineWidth={2} radius={16} padding={[20, 24]}>
+              <Txt text="3 · ADOPCIÓN" position={[0, -80]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={24} fontWeight={700} />
+              <Txt text="2028 en adelante" position={[0, -45]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={16} fontWeight={600} />
+
+              <Rect width={360} height={1} position={[0, -20]} fill={`${THEME.colors.earth.ochre}44`} />
+
+              <Txt text="• La comunidad lo opera sola" position={[-160, 15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
+              <Txt text="• Autonomía y sostenibilidad" position={[-160, 50]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
+            </Rect>
+          </Node>
+
+          {/* Resalte / Corchete de Financiamiento (Etapas 1 y 2) */}
+          <Rect
+            ref={fundingBracket}
+            position={[-220, 220]}
+            width={880}
+            height={60}
+            fill={THEME.colors.milpa.deepGreen}
+            radius={12}
+            padding={[14, 24]}
+            shadowColor={`${THEME.colors.milpa.deepGreen}44`}
+            shadowBlur={16}
+            opacity={0}
+            scale={0.9}
+          >
+            <Txt
+              text="Financiamiento: las dos primeras etapas (Adaptación + Implementación)"
+              fill={THEME.colors.paper.cream}
+              fontFamily={THEME.typography.sans}
+              fontSize={20}
+              fontWeight={700}
+            />
+          </Rect>
+        </Rect>
+      </Node>
+    </Node>
+  );
+
+  // ==========================================
+  // COREOGRAFÍA TEMPORAL EXACTA (28.18 s)
+  // ==========================================
+
+  // [0.0s – 4.5s]: Toma Real 1
+  yield* waitFor(4.15);
+
+  // Transición hacia INS-10 (~10 frames antes de «Primero, adaptación...»)
+  yield* all(
+    footage1Node().opacity(0, 0.35, easeInOutCubic),
+    ins10Node().opacity(1, 0.35, easeInOutCubic),
+  );
+
+  // [4.5s – 11.5s]: Etapa 1 «Primero, adaptación: durante el primer año, desde 2027...»
+  yield* timelineBar().width(1300, 2.0, easeOutCubic);
+  yield* all(
+    step1Node().opacity(1, 0.6, easeOutBack),
+    step1Node().position.y(20, 0.6, easeOutBack),
+  );
+  yield* waitFor(4.5);
+
+  // [11.5s – 18.5s]: Etapa 2 «Luego, implementación: las estaciones miden y avisan...»
+  yield* all(
+    step2Node().opacity(1, 0.6, easeOutBack),
+    step2Node().position.y(20, 0.6, easeOutBack),
+  );
+  yield* waitFor(5.0);
+
+  // [18.5s – 22.0s]: Etapa 3 «Y de 2028 en adelante, adopción: la comunidad lo opera sola.»
+  yield* all(
+    step3Node().opacity(1, 0.6, easeOutBack),
+    step3Node().position.y(20, 0.6, easeOutBack),
+  );
+  yield* waitFor(2.5);
+
+  // [22.0s – 27.5s]: «El financiamiento nos permitirá iniciar las dos primeras etapas.»
+  yield* all(
+    fundingBracket().opacity(1, 0.8, easeOutBack),
+    fundingBracket().scale(1, 0.8, easeOutBack),
+  );
+  yield* waitFor(4.5);
+
+  // [27.5s – 28.18s]: Cierre
+  yield* waitFor(0.68);
+});

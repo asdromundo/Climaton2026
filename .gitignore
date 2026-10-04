@@ -21,6 +21,8 @@ audio/
 motion/audio/
 tmp/
 motion/tmp/
+dist/
+motion/dist/
 
 # Entornos y logs
 .env
