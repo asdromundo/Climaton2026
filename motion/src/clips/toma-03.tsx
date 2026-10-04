@@ -1,4 +1,4 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path } from "@revideo/2d";
+import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path, Img } from "@revideo/2d";
 import {
   all,
   createRef,
@@ -11,16 +11,17 @@ import { THEME } from "../theme";
 import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo3 from "../../audio/parrafo3.m4a";
+import pacificoElNinoTexture from "../../assets/textures/pacifico-el-nino.png";
 
 /**
- * TOMA 3 MAESTRA · 23.06 s
+ * TOMA 3 MAESTRA · 23.104 s
  * Sincronización continua con parrafo3.m4a
  *
  * Estructura:
  * 1. [0.0s – 2.5s]:   TOMA REAL 1 (Agricultores mirando el cielo / laderas)
- * 2. [2.5s – 10.2s]:  INS-04 (El Niño NOAA: Pacífico, mancha cálida, medidor >90%)
+ * 2. [2.5s – 10.2s]:  INS-04 (El Niño NOAA: Mapa estilizado Pacífico, anomalía térmica TSM, medidor >90%)
  * 3. [10.2s – 12.8s]: TOMA REAL 2 (Incertidumbre en las laderas)
- * 4. [12.8s – 22.8s]: INS-05 (De lo global a lo local: 3 preguntas + estación agrometeorológica)
+ * 4. [12.8s – 23.1s]: INS-05 (De lo global a lo local: 3 preguntas + estación agrometeorológica)
  */
 export default makeScene2D("toma-03", function* (view) {
   view.fill(THEME.colors.paper.cream);
@@ -32,8 +33,8 @@ export default makeScene2D("toma-03", function* (view) {
 
   // Elementos INS-04 (El Niño)
   const ins04Card = createRef<Rect>();
-  const warmBlob = createRef<Circle>();
-  const warmBlobInner = createRef<Circle>();
+  const warmBlob = createRef<Rect>();
+  const warmBlobInner = createRef<Rect>();
   const meterBar = createRef<Rect>();
   const meterVal = createRef<Txt>();
 
@@ -61,10 +62,10 @@ export default makeScene2D("toma-03", function* (view) {
 
       {/* 3. Capa INS-04 (El Niño - NOAA) */}
       <Node ref={ins04Node} opacity={0}>
-        {/* Mapa esquemático del Pacífico ecuatorial */}
+        {/* Marco y Mapa cartográfico del Pacífico ecuatorial */}
         <Rect
-          width={1500}
-          height={720}
+          width={1540}
+          height={740}
           fill={THEME.colors.paper.amateLight}
           stroke={THEME.colors.earth.ochre}
           lineWidth={2.5}
@@ -74,82 +75,41 @@ export default makeScene2D("toma-03", function* (view) {
           shadowBlur={30}
           clip={true}
         >
-          {/* Océano Pacífico base */}
-          <Rect width={1500} height={720} fill="#E8EFF2" />
-
-          {/* Costa Asia / Oceanía (Oeste) */}
-          <Path
-            data="M -750,-360 L -550,-360 C -520,-200 -580,0 -500,100 C -480,200 -540,360 -560,360 L -750,360 Z"
-            fill={THEME.colors.milpa.paleLeaf}
-            opacity={0.8}
-          />
-          <Txt
-            text="ASIA / OCEANÍA"
-            position={[-620, -310]}
-            fill={THEME.colors.earth.warmClay}
-            fontFamily={THEME.typography.mono}
-            fontSize={24}
-            fontWeight={700}
-            letterSpacing={2}
+          {/* Mapa cartográfico estilizado de la Cuenca del Pacífico y El Niño */}
+          <Img
+            src={pacificoElNinoTexture}
+            width={1540}
+            height={740}
           />
 
-          {/* Costa América (Este) */}
-          <Path
-            data="M 750,-360 L 520,-360 C 490,-150 560,0 480,180 C 460,260 510,360 530,360 L 750,360 Z"
-            fill={THEME.colors.milpa.paleLeaf}
-            opacity={0.8}
-          />
-          <Txt
-            text="AMÉRICA"
-            position={[620, -310]}
-            fill={THEME.colors.earth.warmClay}
-            fontFamily={THEME.typography.mono}
-            fontSize={24}
-            fontWeight={700}
-            letterSpacing={2}
-          />
-
-          {/* Línea del Ecuador */}
+          {/* Pulso de onda térmica ecuatorial que se expande hacia el este */}
           <Rect
-            width={1100}
-            height={3}
-            position={[0, 0]}
-            fill={`${THEME.colors.climate.rainBlue}44`}
-          />
-          <Txt
-            text="ECUADOR 0°"
-            position={[0, -18]}
-            fill={THEME.colors.climate.skyMist}
-            fontFamily={THEME.typography.mono}
-            fontSize={20}
-            fontWeight={600}
-            letterSpacing={3}
-          />
-
-          {/* Mancha térmica de El Niño que se expande hacia el este */}
-          <Circle
             ref={warmBlob}
-            position={[40, 0]}
-            size={0}
-            fill={`${THEME.colors.climate.droughtOrange}44`}
+            position={[170, 0]}
+            width={0}
+            height={130}
+            radius={65}
+            fill={`${THEME.colors.climate.droughtOrange}35`}
           />
-          <Circle
+          <Rect
             ref={warmBlobInner}
-            position={[120, 0]}
-            size={0}
-            fill={`${THEME.colors.earth.terracotta}88`}
+            position={[250, 0]}
+            width={0}
+            height={85}
+            radius={42}
+            fill={`${THEME.colors.earth.terracotta}55`}
           />
 
-          {/* Tarjeta de datos NOAA con escala de proyección */}
+          {/* Tarjeta de datos NOAA con escala de proyección en flanco oeste */}
           <Rect
             ref={ins04Card}
-            width={640}
-            height={390}
-            fill={THEME.colors.paper.cream}
+            width={580}
+            height={430}
+            fill={`${THEME.colors.paper.cream}F7`}
             stroke={THEME.colors.earth.ochre}
             lineWidth={2.5}
             radius={18}
-            position={[-180, 0]}
+            position={[-440, 0]}
             padding={[30, 36]}
             shadowColor={`${THEME.colors.earth.dark}25`}
             shadowBlur={22}
@@ -157,7 +117,7 @@ export default makeScene2D("toma-03", function* (view) {
           >
             <Txt
               text="EL NIÑO SE ESTÁ FORTALECIENDO"
-              position={[0, -125]}
+              position={[0, -145]}
               fill={THEME.colors.climate.droughtOrange}
               fontFamily={THEME.typography.sans}
               fontSize={24}
@@ -167,7 +127,7 @@ export default makeScene2D("toma-03", function* (view) {
 
             <Txt
               text="Probabilidad mayor al 90%"
-              position={[0, -62]}
+              position={[0, -78]}
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
               fontSize={44}
@@ -176,7 +136,7 @@ export default makeScene2D("toma-03", function* (view) {
 
             <Txt
               text="de un evento muy fuerte durante el otoño y el invierno"
-              position={[0, -10]}
+              position={[0, -18]}
               fill={THEME.colors.earth.warmClay}
               fontFamily={THEME.typography.sans}
               fontSize={24}
@@ -186,7 +146,7 @@ export default makeScene2D("toma-03", function* (view) {
 
             {/* Medidor de probabilidad */}
             <Rect
-              width={500}
+              width={480}
               height={26}
               radius={13}
               fill={`${THEME.colors.earth.ochre}33`}
@@ -198,14 +158,14 @@ export default makeScene2D("toma-03", function* (view) {
                 height={26}
                 radius={13}
                 fill={THEME.colors.climate.droughtOrange}
-                position={[-250, 0]}
+                position={[-240, 0]}
                 offset={[-1, 0]}
               />
             </Rect>
             <Txt
               ref={meterVal}
               text=">90%"
-              position={[215, 90]}
+              position={[205, 92]}
               fill={THEME.colors.climate.droughtOrange}
               fontFamily={THEME.typography.mono}
               fontSize={28}
@@ -213,12 +173,12 @@ export default makeScene2D("toma-03", function* (view) {
               opacity={0}
             />
 
-            <Node position={[0, 135]}>
+            <Node position={[0, 142]}>
               <Txt
-                text="Esquema ilustrativo · Fuente: NOAA"
+                text="Fuente: Discusión Diagnóstica ENSO · NOAA CPC"
                 fill={THEME.colors.earth.warmClay}
                 fontFamily={THEME.typography.mono}
-                fontSize={22}
+                fontSize={20}
                 fontWeight={600}
               />
             </Node>
@@ -465,12 +425,12 @@ export default makeScene2D("toma-03", function* (view) {
   // [2.5s – 10.2s]: INS-04 (El Niño)
   yield* all(
     ins04Card().opacity(1, 0.6, easeOutCubic),
-    warmBlob().size(580, 2.8, easeInOutCubic),
-    warmBlobInner().size(340, 2.8, easeInOutCubic),
+    warmBlob().width(680, 2.8, easeInOutCubic),
+    warmBlobInner().width(420, 2.8, easeInOutCubic),
   );
 
   yield* all(
-    meterBar().width(450, 1.4, easeOutCubic),
+    meterBar().width(435, 1.4, easeOutCubic),
     meterVal().opacity(1, 0.5, easeOutCubic),
   );
 
