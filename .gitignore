@@ -17,6 +17,8 @@ frames/
 motion/frames/
 footage/
 motion/footage/
+audio/
+motion/audio/
 tmp/
 motion/tmp/
 
@@ -37,3 +39,21 @@ Thumbs.db
 *.m4v
 *.mxf
 *.gif
+
+# Formatos de audio (locución no versionada)
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.flac
+*.ogg
+
+# Quarto y reportes generados (NUNCA versionar)
+.quarto/
+*_files/
+notebooks/*.html
+notebooks/*.pdf
+notebooks/*.log
+notebooks/*.tex
+notebooks/tmp.ipynb
+docs/*.pdf
