@@ -159,5 +159,5 @@ export default makeScene2D('toma-08', function* (view) {
     logosArea().opacity(1, 0.8, easeOutCubic),
   );
 
-  yield* waitFor(2.4);
+  yield* waitFor(4.5);
 });

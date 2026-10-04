@@ -289,5 +289,5 @@ export default makeScene2D('toma-02', function* (view) {
   );
 
   // [12.2s – 20.24s]: Toma Real 2 («Quienes siembran lo enfrentan solos...»)
-  yield* waitFor(7.6);
+  yield* waitFor(10.2);
 });

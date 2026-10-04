@@ -199,5 +199,5 @@ export default makeScene2D('toma-06', function* (view) {
   yield* waitFor(4.5);
 
   // [27.5s – 28.18s]: Cierre
-  yield* waitFor(0.68);
+  yield* waitFor(3.0);
 });

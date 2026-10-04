@@ -473,5 +473,5 @@ export default makeScene2D('toma-03', function* (view) {
     stationPin().scale(1, 0.6, easeOutBack),
   );
 
-  yield* waitFor(1.6);
+  yield* waitFor(4.2);
 });

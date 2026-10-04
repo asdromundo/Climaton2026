@@ -220,5 +220,5 @@ export default makeScene2D('toma-05', function* (view) {
   );
 
   // [16.5s – 21.61s]: Toma Real 2
-  yield* waitFor(4.76);
+  yield* waitFor(5.6);
 });

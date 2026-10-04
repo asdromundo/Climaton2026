@@ -110,5 +110,5 @@ export default makeScene2D('toma-01', function* (view) {
   // El eslabón del amaranto se tiñe de ámbar y se agrieta
   yield* ins02Anim().triggerRisk();
 
-  yield* waitFor(1.2);
+  yield* waitFor(2.2);
 });

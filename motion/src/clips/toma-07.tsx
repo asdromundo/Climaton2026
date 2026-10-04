@@ -337,5 +337,5 @@ export default makeScene2D('toma-07', function* (view) {
   yield* waitFor(3.8);
 
   // [26.5s – 26.90s]: Colchón final
-  yield* waitFor(0.4);
+  yield* waitFor(2.0);
 });
