@@ -1,20 +1,28 @@
-import {makeScene2D, Node, Rect, Txt, Circle, Audio} from '@revideo/2d';
-import {all, createRef, createSignal, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
+import { makeScene2D, Node, Rect, Txt, Circle, Audio } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  createSignal,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
 
-import audioParrafo2 from '../../audio/parrafo2.m4a';
+import audioParrafo2 from "../../audio/parrafo2.m4a";
 
 /**
  * INS-03 · La milpa depende de la lluvia
  * Toma 2 · Duración ~12 s (sincronizado con parrafo2.m4a)
- * 
+ *
  * Guion:
  * - Tiempo 1: Cuadrícula de 10 parcelas de milpa; caen gotas y el relleno verde rebasa el 90 %.
  *   Texto: «Más del 90 % de la tierra cultivada depende de la lluvia · Fuente: INEGI»
  * - Tiempo 2: Clima impredecible; franja de calendario (mayo–julio);
  *   el marcador de siembra se desliza hasta «finales de junio» y la lluvia llega tarde.
  */
-export default makeScene2D('ins-03-milpa-lluvia', function* (view) {
+export default makeScene2D("ins-03-milpa-lluvia", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const audio = createRef<Audio>();
@@ -24,8 +32,8 @@ export default makeScene2D('ins-03-milpa-lluvia', function* (view) {
   const gridNode = createRef<Node>();
   const statCard = createRef<Rect>();
   const statNumber = createRef<Txt>();
-  const rainDrops = Array.from({length: 10}, () => createRef<Circle>());
-  const parcelFills = Array.from({length: 10}, () => createRef<Rect>());
+  const rainDrops = Array.from({ length: 10 }, () => createRef<Circle>());
+  const parcelFills = Array.from({ length: 10 }, () => createRef<Rect>());
 
   // Parte 2: Calendario de siembra tardía
   const calendarNode = createRef<Node>();
@@ -95,7 +103,7 @@ export default makeScene2D('ins-03-milpa-lluvia', function* (view) {
 
         {/* Cuadrícula de 10 parcelas (2 filas de 5) */}
         <Node position={[220, -20]}>
-          {Array.from({length: 10}).map((_, idx) => {
+          {Array.from({ length: 10 }).map((_, idx) => {
             const col = idx % 5;
             const row = Math.floor(idx / 5);
             const x = (col - 2) * 110;
@@ -129,13 +137,13 @@ export default makeScene2D('ins-03-milpa-lluvia', function* (view) {
                     height={0}
                     position={[0, 53]}
                     offset={[0, 1]}
-                    fill={isRainFed ? THEME.colors.milpa.leaf : '#D8D0C5'}
+                    fill={isRainFed ? THEME.colors.milpa.leaf : "#D8D0C5"}
                     radius={10}
                   />
 
                   {/* Ícono de maíz/milpa */}
                   <Txt
-                    text={isRainFed ? '🌽' : '💧'}
+                    text={isRainFed ? "🌽" : "💧"}
                     fontSize={28}
                     position={[0, 0]}
                     opacity={0.8}
@@ -180,17 +188,60 @@ export default makeScene2D('ins-03-milpa-lluvia', function* (view) {
           position={[0, -40]}
         >
           {/* Divisores de mes */}
-          <Rect width={2} height={110} position={[-183, 0]} fill={THEME.colors.earth.ochre} />
-          <Rect width={2} height={110} position={[183, 0]} fill={THEME.colors.earth.ochre} />
+          <Rect
+            width={2}
+            height={110}
+            position={[-183, 0]}
+            fill={THEME.colors.earth.ochre}
+          />
+          <Rect
+            width={2}
+            height={110}
+            position={[183, 0]}
+            fill={THEME.colors.earth.ochre}
+          />
 
           {/* Rótulos de meses */}
-          <Txt text="MAYO" position={[-366, -15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
-          <Txt text="Siembra histórica" position={[-366, 25]} fill={THEME.colors.milpa.nopal} fontFamily={THEME.typography.sans} fontSize={16} />
+          <Txt
+            text="MAYO"
+            position={[-366, -15]}
+            fill={THEME.colors.earth.deep}
+            fontFamily={THEME.typography.serif}
+            fontSize={28}
+            fontWeight={700}
+          />
+          <Txt
+            text="Siembra histórica"
+            position={[-366, 25]}
+            fill={THEME.colors.milpa.nopal}
+            fontFamily={THEME.typography.sans}
+            fontSize={16}
+          />
 
-          <Txt text="JUNIO" position={[0, -15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
+          <Txt
+            text="JUNIO"
+            position={[0, -15]}
+            fill={THEME.colors.earth.deep}
+            fontFamily={THEME.typography.serif}
+            fontSize={28}
+            fontWeight={700}
+          />
 
-          <Txt text="JULIO" position={[366, -15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
-          <Txt text="Lluvia retrasada" position={[366, 25]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.sans} fontSize={16} />
+          <Txt
+            text="JULIO"
+            position={[366, -15]}
+            fill={THEME.colors.earth.deep}
+            fontFamily={THEME.typography.serif}
+            fontSize={28}
+            fontWeight={700}
+          />
+          <Txt
+            text="Lluvia retrasada"
+            position={[366, 25]}
+            fill={THEME.colors.climate.droughtOrange}
+            fontFamily={THEME.typography.sans}
+            fontSize={16}
+          />
         </Rect>
 
         {/* Marcador deslizante de fecha de siembra */}
@@ -253,7 +304,7 @@ export default makeScene2D('ins-03-milpa-lluvia', function* (view) {
           />
         </Rect>
       </Node>
-    </Node>
+    </Node>,
   );
 
   // ==========================================
@@ -303,7 +354,5 @@ export default makeScene2D('ins-03-milpa-lluvia', function* (view) {
   yield* waitFor(2.0);
 
   // Salida hacia la toma real
-  yield* all(
-    container().opacity(0, 0.7, easeInOutCubic),
-  );
+  yield* all(container().opacity(0, 0.7, easeInOutCubic));
 });

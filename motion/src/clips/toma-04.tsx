@@ -1,14 +1,21 @@
-import {makeScene2D, Node, Audio, Rect, Txt, Circle, Path} from '@revideo/2d';
-import {all, createRef, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
-import {VideoPlaceholder} from '../components/VideoPlaceholder';
+import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
+import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
-import audioParrafo4 from '../../audio/parrafo4.m4a';
+import audioParrafo4 from "../../audio/parrafo4.m4a";
 
 /**
  * TOMA 4 MAESTRA · 38.76 s
  * Sincronización continua con parrafo4.m4a
- * 
+ *
  * Estructura:
  * 1. [0.0s – 4.5s]:   TOMA REAL 1 (Equipo Cehuamilli)
  * 2. [4.5s – 12.5s]:  INS-06 (Perfil del Teuhtli + estaciones a distintas alturas)
@@ -18,7 +25,7 @@ import audioParrafo4 from '../../audio/parrafo4.m4a';
  * 6. [27.0s – 34.0s]: INS-08 (Vacío que se llena de datos + planta brotando)
  * 7. [34.0s – 38.76s]: TOMA REAL 4 (Toma de decisiones y resiliencia comunitaria)
  */
-export default makeScene2D('toma-04', function* (view) {
+export default makeScene2D("toma-04", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
@@ -43,7 +50,7 @@ export default makeScene2D('toma-04', function* (view) {
   const floodWater = createRef<Path>();
 
   // Elementos INS-08 (Vacío que se llena de datos)
-  const dataPoints = Array.from({length: 8}, () => createRef<Circle>());
+  const dataPoints = Array.from({ length: 8 }, () => createRef<Circle>());
   const plantStem = createRef<Rect>();
   const plantLeaf1 = createRef<Path>();
   const plantLeaf2 = createRef<Path>();
@@ -111,35 +118,133 @@ export default makeScene2D('toma-04', function* (view) {
           {/* Estación 1: Base / Tulyehualco */}
           <Node ref={station1} position={[-420, 220]} opacity={0} scale={0}>
             <Circle size={28} fill={THEME.colors.milpa.deepGreen} />
-            <Rect position={[0, -70]} width={360} height={86} fill={THEME.colors.paper.cream} stroke={THEME.colors.milpa.leaf} lineWidth={2} radius={14} padding={[10, 16]}>
-              <Txt text="Base · 2,260 msnm" position={[0, -16]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={22} fontWeight={700} />
-              <Txt text="Temp: 22°C · Hum: 65%" position={[0, 16]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.mono} fontSize={18} fontWeight={600} />
+            <Rect
+              position={[0, -70]}
+              width={360}
+              height={86}
+              fill={THEME.colors.paper.cream}
+              stroke={THEME.colors.milpa.leaf}
+              lineWidth={2}
+              radius={14}
+              padding={[10, 16]}
+            >
+              <Txt
+                text="Base · 2,260 msnm"
+                position={[0, -16]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.mono}
+                fontSize={22}
+                fontWeight={700}
+              />
+              <Txt
+                text="Temp: 22°C · Hum: 65%"
+                position={[0, 16]}
+                fill={THEME.colors.earth.warmClay}
+                fontFamily={THEME.typography.mono}
+                fontSize={18}
+                fontWeight={600}
+              />
             </Rect>
           </Node>
 
           {/* Estación 2: Ladera Media / Parcelas de Temporal */}
           <Node ref={station2} position={[-200, 90]} opacity={0} scale={0}>
             <Circle size={28} fill={THEME.colors.milpa.deepGreen} />
-            <Rect position={[0, -70]} width={360} height={86} fill={THEME.colors.paper.cream} stroke={THEME.colors.milpa.leaf} lineWidth={2} radius={14} padding={[10, 16]}>
-              <Txt text="Ladera Media · 2,450 msnm" position={[0, -16]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={22} fontWeight={700} />
-              <Txt text="Lluvia: 12 mm · Viento: 18 km/h" position={[0, 16]} fill={THEME.colors.climate.rainBlue} fontFamily={THEME.typography.mono} fontSize={18} fontWeight={600} />
+            <Rect
+              position={[0, -70]}
+              width={360}
+              height={86}
+              fill={THEME.colors.paper.cream}
+              stroke={THEME.colors.milpa.leaf}
+              lineWidth={2}
+              radius={14}
+              padding={[10, 16]}
+            >
+              <Txt
+                text="Ladera Media · 2,450 msnm"
+                position={[0, -16]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.mono}
+                fontSize={22}
+                fontWeight={700}
+              />
+              <Txt
+                text="Lluvia: 12 mm · Viento: 18 km/h"
+                position={[0, 16]}
+                fill={THEME.colors.climate.rainBlue}
+                fontFamily={THEME.typography.mono}
+                fontSize={18}
+                fontWeight={600}
+              />
             </Rect>
           </Node>
 
           {/* Estación 3: Cumbre del Teuhtli */}
           <Node ref={station3} position={[0, -110]} opacity={0} scale={0}>
-            <Circle size={32} fill={THEME.colors.earth.terracotta} stroke={THEME.colors.paper.cream} lineWidth={2.5} />
-            <Rect position={[0, -74]} width={360} height={86} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.terracotta} lineWidth={2} radius={14} padding={[10, 16]}>
-              <Txt text="Cumbre · 2,710 msnm" position={[0, -16]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={22} fontWeight={700} />
-              <Txt text="Ráfagas: 38 km/h · Presión: 740 hPa" position={[0, 16]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.mono} fontSize={18} fontWeight={600} />
+            <Circle
+              size={32}
+              fill={THEME.colors.earth.terracotta}
+              stroke={THEME.colors.paper.cream}
+              lineWidth={2.5}
+            />
+            <Rect
+              position={[0, -74]}
+              width={360}
+              height={86}
+              fill={THEME.colors.paper.cream}
+              stroke={THEME.colors.earth.terracotta}
+              lineWidth={2}
+              radius={14}
+              padding={[10, 16]}
+            >
+              <Txt
+                text="Cumbre · 2,710 msnm"
+                position={[0, -16]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.mono}
+                fontSize={22}
+                fontWeight={700}
+              />
+              <Txt
+                text="Ráfagas: 38 km/h · Presión: 740 hPa"
+                position={[0, 16]}
+                fill={THEME.colors.earth.terracotta}
+                fontFamily={THEME.typography.mono}
+                fontSize={18}
+                fontWeight={600}
+              />
             </Rect>
           </Node>
 
           {/* Rótulos clave: Costo accesible + Mantenimiento viable */}
           <Node ref={badgesNode} position={[420, -160]} opacity={0}>
-            <Rect width={460} height={136} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.ochre} lineWidth={2} radius={16} padding={[20, 24]}>
-              <Txt text="✓ Costo accesible" position={[-190, -24]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.sans} fontSize={26} fontWeight={700} offset={[-1, 0]} />
-              <Txt text="✓ Mantenimiento viable para la comunidad" position={[-190, 24]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={22} fontWeight={600} offset={[-1, 0]} />
+            <Rect
+              width={460}
+              height={136}
+              fill={THEME.colors.paper.cream}
+              stroke={THEME.colors.earth.ochre}
+              lineWidth={2}
+              radius={16}
+              padding={[20, 24]}
+            >
+              <Txt
+                text="✓ Costo accesible"
+                position={[-190, -24]}
+                fill={THEME.colors.milpa.deepGreen}
+                fontFamily={THEME.typography.sans}
+                fontSize={26}
+                fontWeight={700}
+                offset={[-1, 0]}
+              />
+              <Txt
+                text="✓ Mantenimiento viable para la comunidad"
+                position={[-190, 24]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={22}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
             </Rect>
           </Node>
         </Rect>
@@ -212,15 +317,40 @@ export default makeScene2D('toma-04', function* (view) {
 
           {/* Casitas iluminadas en la parte baja */}
           <Node position={[-520, 240]}>
-            <Rect width={40} height={35} fill={THEME.colors.earth.warmClay} radius={4} position={[-50, 0]} />
-            <Path data="M -75,-17 L -50,-40 L -25,-17 Z" fill={THEME.colors.earth.terracotta} />
+            <Rect
+              width={40}
+              height={35}
+              fill={THEME.colors.earth.warmClay}
+              radius={4}
+              position={[-50, 0]}
+            />
+            <Path
+              data="M -75,-17 L -50,-40 L -25,-17 Z"
+              fill={THEME.colors.earth.terracotta}
+            />
             <Circle size={10} position={[-50, 0]} fill="#FFE57F" />
 
-            <Rect width={40} height={35} fill={THEME.colors.earth.warmClay} radius={4} position={[20, 0]} />
-            <Path data="M -5,-17 L 20,-40 L 45,-17 Z" fill={THEME.colors.earth.terracotta} />
+            <Rect
+              width={40}
+              height={35}
+              fill={THEME.colors.earth.warmClay}
+              radius={4}
+              position={[20, 0]}
+            />
+            <Path
+              data="M -5,-17 L 20,-40 L 45,-17 Z"
+              fill={THEME.colors.earth.terracotta}
+            />
             <Circle size={10} position={[20, 0]} fill="#FFE57F" />
 
-            <Txt text="Parte baja del cerro · Zonas inundables" position={[-15, 45]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={22} fontWeight={700} />
+            <Txt
+              text="Parte baja del cerro · Zonas inundables"
+              position={[-15, 45]}
+              fill={THEME.colors.earth.deep}
+              fontFamily={THEME.typography.sans}
+              fontSize={22}
+              fontWeight={700}
+            />
           </Node>
 
           {/* Mockup de teléfono móvil con burbuja de chat genérica */}
@@ -240,8 +370,21 @@ export default makeScene2D('toma-04', function* (view) {
             y={80}
           >
             {/* Cabecera del teléfono */}
-            <Rect width={120} height={18} fill={THEME.colors.earth.deep} radius={9} position={[0, -240]} />
-            <Txt text="AVISO CLIMÁTICO" position={[0, -190]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={22} fontWeight={700} />
+            <Rect
+              width={120}
+              height={18}
+              fill={THEME.colors.earth.deep}
+              radius={9}
+              position={[0, -240]}
+            />
+            <Txt
+              text="AVISO CLIMÁTICO"
+              position={[0, -190]}
+              fill={THEME.colors.earth.deep}
+              fontFamily={THEME.typography.sans}
+              fontSize={22}
+              fontWeight={700}
+            />
 
             {/* Burbuja de alerta genérica */}
             <Rect
@@ -254,10 +397,39 @@ export default makeScene2D('toma-04', function* (view) {
               radius={16}
               padding={[16, 18]}
             >
-              <Txt text="⚠️ ALERTA HIDROMETEOROLÓGICA" position={[-135, -48]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} offset={[-1, 0]} />
-              <Rect width={260} height={12} fill={THEME.colors.earth.deep} radius={6} position={[-135, -10]} offset={[-1, 0]} />
-              <Rect width={210} height={12} fill={THEME.colors.earth.warmClay} radius={6} position={[-135, 18]} offset={[-1, 0]} />
-              <Rect width={150} height={12} fill={THEME.colors.earth.ochre} radius={6} position={[-135, 46]} offset={[-1, 0]} />
+              <Txt
+                text="⚠️ ALERTA METEOROLÓGICA"
+                position={[-135, -48]}
+                fill={THEME.colors.climate.droughtOrange}
+                fontFamily={THEME.typography.sans}
+                fontSize={18}
+                fontWeight={700}
+                offset={[-1, 0]}
+              />
+              <Rect
+                width={260}
+                height={12}
+                fill={THEME.colors.earth.deep}
+                radius={6}
+                position={[-135, -10]}
+                offset={[-1, 0]}
+              />
+              <Rect
+                width={210}
+                height={12}
+                fill={THEME.colors.earth.warmClay}
+                radius={6}
+                position={[-135, 18]}
+                offset={[-1, 0]}
+              />
+              <Rect
+                width={150}
+                height={12}
+                fill={THEME.colors.earth.ochre}
+                radius={6}
+                position={[-135, 46]}
+                offset={[-1, 0]}
+              />
             </Rect>
 
             <Txt
@@ -323,12 +495,20 @@ export default makeScene2D('toma-04', function* (view) {
             radius={16}
             clip={true}
           >
-            <Txt text="Vacío de datos inicial" position={[0, -170]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.mono} fontSize={24} fontWeight={600} />
+            <Txt
+              text="Vacío de datos inicial"
+              position={[0, -170]}
+              fill={THEME.colors.earth.warmClay}
+              fontFamily={THEME.typography.mono}
+              fontSize={24}
+              fontWeight={600}
+            />
 
             {/* Puntos de datos climáticos que van apareciendo */}
             {dataPoints.map((ref, idx) => {
               const x = -200 + (idx % 4) * 120 + (idx > 3 ? 30 : 0);
-              const y = -60 + Math.floor(idx / 4) * 110 + (idx % 2 === 0 ? -20 : 20);
+              const y =
+                -60 + Math.floor(idx / 4) * 110 + (idx % 2 === 0 ? -20 : 20);
               return (
                 <Circle
                   ref={ref}
@@ -400,7 +580,7 @@ export default makeScene2D('toma-04', function* (view) {
           durationSeconds={4.76}
         />
       </Node>
-    </Node>
+    </Node>,
   );
 
   // ==========================================

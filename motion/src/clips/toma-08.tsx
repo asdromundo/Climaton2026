@@ -1,19 +1,26 @@
-import {makeScene2D, Node, Audio, Rect, Txt, Circle, Path} from '@revideo/2d';
-import {all, createRef, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
+import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
 
-import audioParrafo8 from '../../audio/parrafo8.m4a';
+import audioParrafo8 from "../../audio/parrafo8.m4a";
 
 /**
  * TOMA 8 MAESTRA · 8.70 s
  * Sincronización continua con parrafo8.m4a
- * 
+ *
  * Estructura:
  * 1. [0.0s – 4.5s]:   INS-13 (Crecimiento de la milpa: alegría, olivo y quelites)
  * 2. [4.5s – 5.5s]:   Pausa serena
  * 3. [5.5s – 8.70s]:  Título Cehuamilli + Alertas que nacen de la tierra + Logos oficiales
  */
-export default makeScene2D('toma-08', function* (view) {
+export default makeScene2D("toma-08", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const milpaNode = createRef<Node>();
@@ -45,7 +52,13 @@ export default makeScene2D('toma-08', function* (view) {
         {/* Gráfica botánica: Milpa + Alegría + Olivo + Quelites */}
         <Node ref={milpaNode} position={[0, 120]}>
           {/* Suelo fértil */}
-          <Rect width={1000} height={6} position={[0, 160]} fill={THEME.colors.earth.terracotta} radius={3} />
+          <Rect
+            width={1000}
+            height={6}
+            position={[0, 160]}
+            fill={THEME.colors.earth.terracotta}
+            radius={3}
+          />
 
           {/* Tallo de maíz central */}
           <Rect
@@ -66,7 +79,15 @@ export default makeScene2D('toma-08', function* (view) {
             opacity={0}
             scale={0}
           />
-          <Txt text="🌾 Alegría" position={[-115, -50]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={24} fontWeight={700} opacity={0.95} />
+          <Txt
+            text="🌾 Alegría"
+            position={[-115, -50]}
+            fill={THEME.colors.earth.terracotta}
+            fontFamily={THEME.typography.sans}
+            fontSize={24}
+            fontWeight={700}
+            opacity={0.95}
+          />
 
           {/* Rama de olivo */}
           <Path
@@ -76,7 +97,15 @@ export default makeScene2D('toma-08', function* (view) {
             opacity={0}
             scale={0}
           />
-          <Txt text="🌿 Olivo" position={[115, -30]} fill={THEME.colors.milpa.nopal} fontFamily={THEME.typography.sans} fontSize={24} fontWeight={700} opacity={0.95} />
+          <Txt
+            text="🌿 Olivo"
+            position={[115, -30]}
+            fill={THEME.colors.milpa.nopal}
+            fontFamily={THEME.typography.sans}
+            fontSize={24}
+            fontWeight={700}
+            opacity={0.95}
+          />
 
           {/* Quelites al ras del suelo */}
           <Path
@@ -86,7 +115,15 @@ export default makeScene2D('toma-08', function* (view) {
             opacity={0}
             scale={0}
           />
-          <Txt text="🌱 Quelites" position={[-175, 95]} fill={THEME.colors.milpa.leaf} fontFamily={THEME.typography.sans} fontSize={24} fontWeight={700} opacity={0.95} />
+          <Txt
+            text="🌱 Quelites"
+            position={[-175, 95]}
+            fill={THEME.colors.milpa.leaf}
+            fontFamily={THEME.typography.sans}
+            fontSize={24}
+            fontWeight={700}
+            opacity={0.95}
+          />
         </Node>
 
         {/* Título de cierre y lema */}
@@ -111,26 +148,67 @@ export default makeScene2D('toma-08', function* (view) {
 
         {/* Área de Logotipos Institucionales */}
         <Node ref={logosArea} position={[0, 310]} opacity={0}>
-          <Rect width={1140} height={86} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.ochre} lineWidth={1.5} radius={16} padding={[10, 30]}>
+          <Rect
+            width={1140}
+            height={86}
+            fill={THEME.colors.paper.cream}
+            stroke={THEME.colors.earth.ochre}
+            lineWidth={1.5}
+            radius={16}
+            padding={[10, 30]}
+          >
             <Node position={[-370, 0]}>
-              <Rect width={260} height={54} fill={THEME.colors.paper.amateLight} radius={10}>
-                <Txt text="[LOGO: CEHUAMILLI]" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={20} fontWeight={600} />
+              <Rect
+                width={260}
+                height={54}
+                fill={THEME.colors.paper.amateLight}
+                radius={10}
+              >
+                <Txt
+                  text="[LOGO: CEHUAMILLI]"
+                  fill={THEME.colors.earth.deep}
+                  fontFamily={THEME.typography.mono}
+                  fontSize={20}
+                  fontWeight={600}
+                />
               </Rect>
             </Node>
             <Node position={[0, 0]}>
-              <Rect width={260} height={54} fill={THEME.colors.paper.amateLight} radius={10}>
-                <Txt text="[LOGO: UNAM]" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={20} fontWeight={600} />
+              <Rect
+                width={260}
+                height={54}
+                fill={THEME.colors.paper.amateLight}
+                radius={10}
+              >
+                <Txt
+                  text="[LOGO: UNAM]"
+                  fill={THEME.colors.earth.deep}
+                  fontFamily={THEME.typography.mono}
+                  fontSize={20}
+                  fontWeight={600}
+                />
               </Rect>
             </Node>
             <Node position={[370, 0]}>
-              <Rect width={260} height={54} fill={THEME.colors.paper.amateLight} radius={10}>
-                <Txt text="[LOGO: CLIMATÓN 2026]" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={20} fontWeight={600} />
+              <Rect
+                width={260}
+                height={54}
+                fill={THEME.colors.paper.amateLight}
+                radius={10}
+              >
+                <Txt
+                  text="[LOGO: CLIMATÓN 2026]"
+                  fill={THEME.colors.earth.deep}
+                  fontFamily={THEME.typography.mono}
+                  fontSize={20}
+                  fontWeight={600}
+                />
               </Rect>
             </Node>
           </Rect>
         </Node>
       </Rect>
-    </Node>
+    </Node>,
   );
 
   // ==========================================

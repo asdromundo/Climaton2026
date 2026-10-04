@@ -1,32 +1,35 @@
 /**
  * prepare-data.ts
- * 
+ *
  * Esqueleto para transformar las series climatológicas locales del SMN
  * (Milpa Alta y Tláhuac) y los polígonos GeoJSON de Tulyehualco en archivos JSON
  * limpios y optimizados para el render de animaciones en Revideo.
  * Ejecutable directamente con: bun scripts/prepare-data.ts
- * 
+ *
  * FUENTES PRINCIPALES DEL REPOSITORIO (NO DUPLICAR):
  * - ../../data/datos_climatologicos/milpa_alta.txt (Estación 9032)
  * - ../../data/datos_climatologicos/normal_milpa_alta_1991_2020.txt
  * - ../../data/datos_climatologicos/tlahuac.txt
  * - ../../notebooks/tulyehualco_*.geojson
- * 
+ *
  * DESTINO:
  * - ../data/processed/climatologia-resumen.json
  * - ../data/processed/tulyehualco-poligono.json
- * 
+ *
  * NOTA: NO EJECUTAR TODAVÍA.
  */
 
-import * as path from 'path';
-import { fileURLToPath } from 'url';
+import * as path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const ROOT_DATA_DIR = path.resolve(__dirname, '../../data/datos_climatologicos');
-const PROCESSED_DATA_DIR = path.resolve(__dirname, '../data/processed');
+const ROOT_DATA_DIR = path.resolve(
+  __dirname,
+  "../../data/datos_climatologicos",
+);
+const PROCESSED_DATA_DIR = path.resolve(__dirname, "../data/processed");
 
 export interface ClimatologySummary {
   estacion: string;
@@ -48,11 +51,13 @@ export interface ClimatologySummary {
 }
 
 export async function prepareData(): Promise<void> {
-  console.log('[prepare-data] Esqueleto preparado para ejecución con Bun.');
+  console.log("[prepare-data] Esqueleto preparado para ejecución con Bun.");
   console.log(`[prepare-data] Leyendo desde: ${ROOT_DATA_DIR}`);
   console.log(`[prepare-data] Destino: ${PROCESSED_DATA_DIR}`);
 }
 
-if (process.argv[1] && process.argv[1].endsWith('prepare-data.ts')) {
-  console.log('Script prepare-data listo. Ejecutar tras definir esquema de clips.');
+if (process.argv[1] && process.argv[1].endsWith("prepare-data.ts")) {
+  console.log(
+    "Script prepare-data listo. Ejecutar tras definir esquema de clips.",
+  );
 }

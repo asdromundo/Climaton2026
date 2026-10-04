@@ -1,11 +1,18 @@
-import {makeScene2D, Node, Rect, Txt, Circle, Path} from '@revideo/2d';
-import {all, createRef, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
+import { makeScene2D, Node, Rect, Txt, Circle, Path } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
 
 /**
  * INS-02 · La cadena del amaranto en riesgo
  * Toma 1 · Duración ~5.5 s
- * 
+ *
  * Guion:
  * - Entra: «Una cadena que el cambio climático»
  * - Sale: «ya pone en riesgo»
@@ -13,7 +20,7 @@ import {THEME} from '../theme';
  *   Amaranto → Comal → Miel → Alegría.
  *   Al final, el primer eslabón se agrieta y se tiñe de ámbar.
  */
-export default makeScene2D('ins-02-cadena-amaranto', function* (view) {
+export default makeScene2D("ins-02-cadena-amaranto", function* (view) {
   // Fondo de papel crema / amate
   view.fill(THEME.colors.paper.cream);
 
@@ -29,10 +36,10 @@ export default makeScene2D('ins-02-cadena-amaranto', function* (view) {
 
   // Datos de los 4 eslabones
   const links = [
-    {ref: linkAmaranto, label: 'Amaranto', icon: '🌾', x: -450},
-    {ref: linkComal, label: 'Comal', icon: '🔥', x: -150},
-    {ref: linkMiel, label: 'Miel', icon: '🍯', x: 150},
-    {ref: linkAlegria, label: 'Alegría', icon: '✨', x: 450},
+    { ref: linkAmaranto, label: "Amaranto", icon: "🌾", x: -450 },
+    { ref: linkComal, label: "Comal", icon: "🔥", x: -150 },
+    { ref: linkMiel, label: "Miel", icon: "🍯", x: 150 },
+    { ref: linkAlegria, label: "Alegría", icon: "✨", x: 450 },
   ];
 
   view.add(
@@ -134,7 +141,7 @@ export default makeScene2D('ins-02-cadena-amaranto', function* (view) {
           letterSpacing={2}
         />
       </Rect>
-    </Node>
+    </Node>,
   );
 
   // ==========================================
@@ -188,7 +195,5 @@ export default makeScene2D('ins-02-cadena-amaranto', function* (view) {
   yield* waitFor(2.0);
 
   // Salida suave
-  yield* all(
-    container().opacity(0, 0.6, easeInOutCubic),
-  );
+  yield* all(container().opacity(0, 0.6, easeInOutCubic));
 });

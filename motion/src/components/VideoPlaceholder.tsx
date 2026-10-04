@@ -1,5 +1,5 @@
-import {Node, Rect, Txt, Circle} from '@revideo/2d';
-import {THEME} from '../theme';
+import { Node, Rect, Txt, Circle } from "@revideo/2d";
+import { THEME } from "../theme";
 
 export interface VideoPlaceholderProps {
   title: string;
@@ -27,11 +27,7 @@ export function VideoPlaceholder({
   return (
     <Node position={position}>
       {/* Fondo de claqueta / pantalla cinematográfica */}
-      <Rect
-        width={width}
-        height={height}
-        fill={THEME.colors.earth.dark}
-      />
+      <Rect width={width} height={height} fill={THEME.colors.earth.dark} />
 
       {/* Guías de encuadre 16:9 y bordes de visor de cámara */}
       <Rect

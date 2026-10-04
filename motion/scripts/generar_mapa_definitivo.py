@@ -58,13 +58,17 @@ def generar_mapa_definitivo():
     )
 
     # 6. Capa 3: Límites de Alcaldías
+    alcaldias_conservacion = ['009', '011', '012', '013', '004', '008']
+
     for _, row in alcaldias.iterrows():
+        cve = row['CVE_MUN']
+        is_sur = cve in alcaldias_conservacion
         gpd.GeoSeries([row['geometry']]).boundary.plot(
             ax=ax,
-            color='#B5A48B',
-            linewidth=0.7,
+            color='#8C4D2E' if is_sur else '#B8A890',
+            linewidth=1.2 if is_sur else 0.8,
             linestyle='-',
-            alpha=0.75,
+            alpha=0.85,
             zorder=3
         )
 
@@ -110,7 +114,7 @@ def generar_mapa_definitivo():
     # Marcador sutil del cráter
     ax.plot(tx, ty, marker='^', markersize=5, color='#8C4D2E', zorder=7)
 
-    # 9. Nombres oficiales de las Alcaldías / Delegaciones
+    # 9. Nombres oficiales de las Alcaldías / Delegaciones (centrados en sus demarcaciones con tipografía cartográfica real)
     NOMBRES = {
         '002': 'Azcapotzalco',
         '003': 'Coyoacán',
@@ -131,47 +135,53 @@ def generar_mapa_definitivo():
     }
     alcaldias['NOM_ALC'] = alcaldias['CVE_MUN'].map(NOMBRES)
 
-    # Offsets para balance óptico y evitar tocar la zona de estudio ni el volcán
-    OFFSETS = {
-        '011': (0.022, 0.008),   # Tláhuac: hacia el noreste para despejar Tulyehualco
-        '013': (-0.018, 0.005),  # Xochimilco: hacia su zona urbana/lacustre
-        '009': (0.000, -0.012),  # Milpa Alta: centrado en su amplio valle agrícola
-        '012': (-0.008, 0.000),  # Tlalpan: centrado en su zona montañosa
-        '007': (0.006, 0.002),   # Iztapalapa: centrado
-        '005': (0.000, -0.025),  # GAM: bajar para no tocar la punta norte
-        '002': (0.000, -0.006),  # Azcapotzalco
-        '010': (-0.006, 0.000),  # Álvaro Obregón
-        '004': (-0.005, 0.000),  # Cuajimalpa
-        '008': (-0.004, -0.005), # Magdalena Contreras
-    }
+    import matplotlib.patheffects as pe
 
     for _, r in alcaldias.iterrows():
         cve = r['CVE_MUN']
         nombre = r['NOM_ALC']
-        pt = r.geometry.representative_point()
-        dx, dy = OFFSETS.get(cve, (0.0, 0.0))
+        pt = r.geometry.centroid
+        is_sur = cve in alcaldias_conservacion
+
+        # Offsets mínimos solo donde el centroide coincide con relieve o tulyehualco
+        dx, dy = 0.0, 0.0
+        if cve == '011':   # Tláhuac: leve aire hacia su cabecera para no tocar Tulyehualco
+            dx, dy = 0.012, 0.005
+        elif cve == '013': # Xochimilco: leve ajuste hacia el centro urbano
+            dx, dy = -0.008, 0.002
+        elif cve == '005': # GAM: centrado hacia el área poblada
+            dx, dy = 0.000, -0.015
+
         x, y = pt.x + dx, pt.y + dy
 
-        is_sur = cve in ['009', '011', '012', '013', '007']
-        # Tipografía a escala real para que sea nítida en proyección 1080p
-        fs = 20 if is_sur else 15
-        weight = 'bold'
-        col = '#241710' if is_sur else '#4A3728'
-        edge = '#8C4D2E' if is_sur else '#B8A890'
-        lw = 1.2 if is_sur else 0.8
+        # Mismo color que los bordes correspondientes, tipografía limpia sin globos de snapchat
+        col = '#8C4D2E' if is_sur else '#8A7863'
+        fs = 12 if is_sur else 10
+        weight = 'bold' if is_sur else 'semibold'
+
+        # Halo cartográfico invisible sobre papel amate para máxima nitidez sin cajas artificiales
+        halo = [pe.withStroke(linewidth=2.5, foreground='#FAF7F0')]
 
         ax.text(
             x, y, nombre.upper() if is_sur else nombre,
             fontsize=fs, fontweight=weight, color=col,
             ha='center', va='center', zorder=8,
-            bbox=dict(
-                boxstyle='round,pad=0.32',
-                facecolor='#FAF7F0',
-                edgecolor=edge,
-                linewidth=lw,
-                alpha=0.92
-            )
+            path_effects=halo
         )
+
+    # 10. Señalizaciones de colores (Leyenda Cartográfica elegante)
+    import matplotlib.patches as mpatches
+    leyenda_parches = [
+        mpatches.Patch(facecolor='#E2EBDC', edgecolor='#7D9D64', linewidth=1.2, label='Suelo de Conservación (Rural CDMX)'),
+        mpatches.Patch(facecolor='#F7EFE2', edgecolor='#B8A890', linewidth=1.0, label='Zona Urbana (CDMX)'),
+        mpatches.Patch(facecolor='#E67E22', edgecolor='#8C4D2E', linewidth=1.8, label='Zona de Estudio: Tulyehualco (1,661 ha)'),
+        mpatches.Patch(facecolor='none', edgecolor='#C97A3E', linestyle='--', linewidth=1.2, label='Curvas de nivel: Volcán Teuhtli (2,710 msnm)'),
+    ]
+    leg = ax.legend(
+        handles=leyenda_parches, loc='lower left', frameon=True,
+        facecolor='#FAF7F0', edgecolor='#C97A3E', fontsize=11, framealpha=0.95
+    )
+    leg.set_zorder(9)
 
     plt.tight_layout(pad=0)
 

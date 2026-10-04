@@ -1,8 +1,8 @@
-import {makeScene2D, Txt} from '@revideo/2d';
-import {createRef, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
+import { makeScene2D, Txt } from "@revideo/2d";
+import { createRef, waitFor } from "@revideo/core";
+import { THEME } from "../theme";
 
-export default makeScene2D('intro', function* (view) {
+export default makeScene2D("intro", function* (view) {
   // Fondo oscuro color tierra volcánica del volcán Teuhtli
   view.fill(THEME.colors.earth.dark);
 
@@ -16,7 +16,7 @@ export default makeScene2D('intro', function* (view) {
       fontSize={THEME.typography.sizes.hero}
       opacity={0}
       y={30}
-    />
+    />,
   );
 
   // Animación de entrada suave
@@ -25,4 +25,3 @@ export default makeScene2D('intro', function* (view) {
 
   yield* waitFor(3);
 });
-

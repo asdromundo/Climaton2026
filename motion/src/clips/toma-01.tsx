@@ -1,23 +1,29 @@
-import {makeScene2D, Node, Audio} from '@revideo/2d';
-import {all, createRef, easeInOutCubic, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
-import {VideoPlaceholder} from '../components/VideoPlaceholder';
-import {CdmxMapAnimation} from '../components/CdmxMapAnimation';
-import {AmarantoChainAnimation} from '../components/AmarantoChainAnimation';
+import { makeScene2D, Node, Audio } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  easeInOutCubic,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
+import { VideoPlaceholder } from "../components/VideoPlaceholder";
+import { CdmxMapAnimation } from "../components/CdmxMapAnimation";
+import { AmarantoChainAnimation } from "../components/AmarantoChainAnimation";
 
-import audioParrafo1 from '../../audio/parrafo1.m4a';
+import audioParrafo1 from "../../audio/parrafo1.m4a";
 
 /**
  * TOMA 1 MAESTRA · 19.65 s
  * Sincronización continua con parrafo1.m4a
- * 
+ *
  * Estructura y ritmos (respetando ~10 frames antes y después de cada frase):
  * 1. [0.0s – 3.0s]:   TOMA REAL (Cosecha de amaranto en la ladera)
  * 2. [3.0s – 7.8s]:   INS-01 (Mapa CDMX -> Zoom Teuhtli -> Pin Cehuamilli)
  * 3. [7.8s – 15.2s]:  TOMA REAL (Cosecha en invierno + Mujeres en comal y miel)
  * 4. [15.2s – 19.65s]: INS-02 (Cadena del amaranto en riesgo)
  */
-export default makeScene2D('toma-01', function* (view) {
+export default makeScene2D("toma-01", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
@@ -62,7 +68,7 @@ export default makeScene2D('toma-01', function* (view) {
       <Node ref={ins02Node} opacity={0}>
         <AmarantoChainAnimation ref={ins02Anim} />
       </Node>
-    </Node>
+    </Node>,
   );
 
   // ==========================================

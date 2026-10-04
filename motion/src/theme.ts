@@ -1,6 +1,6 @@
 /**
  * Cehuamilli Motion Design — Shared Theme & Aesthetics
- * 
+ *
  * Estética: Cálida y artesanal, tonos tierra volcánicos (Teuhtli),
  * verdes milpa y textura de papel amate.
  * Regla: Easings intencionales, nunca lineales; entradas escalonadas;
@@ -25,38 +25,38 @@ export const THEME = {
   colors: {
     // Tonos Tierra y Volcán Teuhtli
     earth: {
-      dark: '#1C1613',
-      deep: '#2F241D',
-      terracotta: '#8C4D2E',
-      ochre: '#C97A3E',
-      warmClay: '#A4603D',
+      dark: "#1C1613",
+      deep: "#2F241D",
+      terracotta: "#8C4D2E",
+      ochre: "#C97A3E",
+      warmClay: "#A4603D",
     },
     // Verdes de Milpa y Agrosistema
     milpa: {
-      deepGreen: '#1B3022',
-      leaf: '#2E4C38',
-      nopal: '#4F6D42',
-      sprout: '#7D9D64',
-      paleLeaf: '#C5D6B8',
+      deepGreen: "#1B3022",
+      leaf: "#2E4C38",
+      nopal: "#4F6D42",
+      sprout: "#7D9D64",
+      paleLeaf: "#C5D6B8",
     },
     // Texturas de Papel y Amate
     paper: {
-      cream: '#FAF7F0',
-      amateLight: '#F2EBD9',
-      amateBase: '#E3D7BF',
-      amateDark: '#C9BBA0',
+      cream: "#FAF7F0",
+      amateLight: "#F2EBD9",
+      amateBase: "#E3D7BF",
+      amateDark: "#C9BBA0",
     },
     // Acentos Climatológicos y Datos
     climate: {
-      rainBlue: '#2D5B7A',
-      skyMist: '#6B90A6',
-      frost: '#A8C2D1',
-      droughtOrange: '#D46A38',
+      rainBlue: "#2D5B7A",
+      skyMist: "#6B90A6",
+      frost: "#A8C2D1",
+      droughtOrange: "#D46A38",
     },
     // Estado y Placeholders
     status: {
-      pending: '#C0392B', // Usado para banner o etiqueta "DATO PENDIENTE"
-      verified: '#2E7D32',
+      pending: "#C0392B", // Usado para banner o etiqueta "DATO PENDIENTE"
+      verified: "#2E7D32",
     },
   },
 
@@ -108,4 +108,3 @@ export const THEME = {
 } as const;
 
 export type Theme = typeof THEME;
-

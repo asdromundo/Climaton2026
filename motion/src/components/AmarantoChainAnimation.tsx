@@ -1,6 +1,13 @@
-import {Node, Rect, Txt, Circle, Path, NodeProps} from '@revideo/2d';
-import {all, createRef, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
+import { Node, Rect, Txt, Circle, Path, NodeProps } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
 
 export interface AmarantoChainAnimationProps extends NodeProps {
   position?: [number, number];
@@ -23,10 +30,10 @@ export class AmarantoChainAnimation extends Node {
     super(props);
 
     const links = [
-      {ref: this.linkAmaranto, label: 'Amaranto', icon: '🌾', x: -450},
-      {ref: this.linkComal, label: 'Comal', icon: '🔥', x: -150},
-      {ref: this.linkMiel, label: 'Miel', icon: '🍯', x: 150},
-      {ref: this.linkAlegria, label: 'Alegría', icon: '✨', x: 450},
+      { ref: this.linkAmaranto, label: "Amaranto", icon: "🌾", x: -450 },
+      { ref: this.linkComal, label: "Comal", icon: "🔥", x: -150 },
+      { ref: this.linkMiel, label: "Miel", icon: "🍯", x: 150 },
+      { ref: this.linkAlegria, label: "Alegría", icon: "✨", x: 450 },
     ];
 
     this.add(
@@ -121,7 +128,7 @@ export class AmarantoChainAnimation extends Node {
             letterSpacing={2}
           />
         </Rect>
-      </Node>
+      </Node>,
     );
   }
 

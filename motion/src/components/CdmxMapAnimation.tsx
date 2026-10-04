@@ -1,7 +1,14 @@
-import {Node, Img, Rect, Txt, Circle, NodeProps} from '@revideo/2d';
-import {all, createRef, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
-import mapTexture from '../../assets/textures/cdmx-mapa-referencia.png';
+import { Node, Img, Rect, Txt, Circle, NodeProps } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
+import mapTexture from "../../assets/textures/cdmx-mapa-referencia.png";
 
 export interface CdmxMapAnimationProps extends NodeProps {
   position?: [number, number];
@@ -32,7 +39,7 @@ export class CdmxMapAnimation extends Node {
     const mapHeight = 1000;
     const mapWidth = mapHeight * (2356 / 3200); // 736.25 px
     const teuhtliPosX = mapWidth * 0.2689; // Coordenada normalizada exacta
-    const teuhtliPosY = mapHeight * 0.1260;
+    const teuhtliPosY = mapHeight * 0.126;
 
     this.add(
       <Node>
@@ -140,7 +147,7 @@ export class CdmxMapAnimation extends Node {
             />
             <Txt
               ref={this.cdmxSubtitle}
-              text="Suelo de Conservación y Zona Metropolitana"
+              text="Zona Urbana y Suelo de Conservación"
               position={[0, 36]}
               fill={THEME.colors.milpa.deepGreen}
               fontFamily={THEME.typography.sans}
@@ -171,7 +178,7 @@ export class CdmxMapAnimation extends Node {
             />
           </Node>
         </Rect>
-      </Node>
+      </Node>,
     );
   }
 
@@ -192,7 +199,7 @@ export class CdmxMapAnimation extends Node {
     const mapHeight = 1000;
     const mapWidth = mapHeight * (2356 / 3200);
     const teuhtliPosX = mapWidth * 0.2689;
-    const teuhtliPosY = mapHeight * 0.1260;
+    const teuhtliPosY = mapHeight * 0.126;
     const zoomScale = 3.2;
     const zoomTargetX = -teuhtliPosX * zoomScale + 120;
     const zoomTargetY = -teuhtliPosY * zoomScale;
@@ -200,7 +207,11 @@ export class CdmxMapAnimation extends Node {
     const self = this;
     yield* all(
       this.camera().scale(zoomScale, duration, easeInOutCubic),
-      this.camera().position([zoomTargetX, zoomTargetY], duration, easeInOutCubic),
+      this.camera().position(
+        [zoomTargetX, zoomTargetY],
+        duration,
+        easeInOutCubic,
+      ),
 
       // Transición fluida del texto de la tarjeta
       this.cdmxTitle().opacity(0, duration * 0.35, easeOutCubic),

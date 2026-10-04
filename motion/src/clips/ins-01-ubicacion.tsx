@@ -1,21 +1,29 @@
-import {makeScene2D, Img, Audio, Txt, Rect, Circle, Node} from '@revideo/2d';
-import {all, createRef, createSignal, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
+import { makeScene2D, Img, Audio, Txt, Rect, Circle, Node } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  createSignal,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
 
-import audioParrafo1 from '../../audio/parrafo1.m4a';
-import mapTexture from '../../assets/textures/cdmx-mapa-referencia.png';
+import audioParrafo1 from "../../audio/parrafo1.m4a";
+import mapTexture from "../../assets/textures/cdmx-mapa-referencia.png";
 
 /**
  * INS-01 · Ubicación: el Teuhtli en el mapa
  * Toma 1 · Sincronizado exactamente con parrafo1.m4a
- * 
+ *
  * Timeline de audio real:
  * - 0.0s – 2.8s:  «Seguro han comido una alegría. Lo que quizá no sabían es que...»
  * - 2.8s – 5.5s:  «...empieza aquí, en la Ciudad de México...» -> Rótulo y foco en CDMX
  * - 5.5s – 8.2s:  «...en una ladera del volcán Teuhtli...» -> Zoom cinematográfico al Teuhtli, curvas topográficas y pin
  * - 8.2s – 10.8s: «...donde los agricultores cosechan el amaranto en invierno. [Pausa]»
  */
-export default makeScene2D('ins-01-ubicacion', function* (view) {
+export default makeScene2D("ins-01-ubicacion", function* (view) {
   // Fondo de papel amate cálido
   view.fill(THEME.colors.paper.cream);
 
@@ -39,7 +47,7 @@ export default makeScene2D('ins-01-ubicacion', function* (view) {
 
   // Posición relativa del Teuhtli sobre el mapa (medida con precisión: +26.89% X, +12.60% Y)
   const teuhtliPosX = mapWidth * 0.2689;
-  const teuhtliPosY = mapHeight * 0.1260;
+  const teuhtliPosY = mapHeight * 0.126;
 
   // Escala para el zoom hacia el volcán
   const zoomScale = 3.2;
@@ -187,7 +195,7 @@ export default makeScene2D('ins-01-ubicacion', function* (view) {
           />
         </Node>
       </Rect>
-    </Node>
+    </Node>,
   );
 
   // ==========================================
@@ -196,9 +204,7 @@ export default makeScene2D('ins-01-ubicacion', function* (view) {
 
   // [0.0s – 2.8s]: Intro de la locución («Seguro han comido una alegría...»)
   // El mapa de la CDMX aparece centrado y nítido
-  yield* all(
-    mapImg().opacity(1, 1.2, easeOutCubic),
-  );
+  yield* all(mapImg().opacity(1, 1.2, easeOutCubic));
   yield* waitFor(1.6);
 
   // [2.8s – 5.5s]: «...empieza aquí, en la Ciudad de México...»
@@ -237,7 +243,5 @@ export default makeScene2D('ins-01-ubicacion', function* (view) {
   yield* waitFor(2.6);
 
   // [10.8s – 11.5s]: Pausa de respiración del guion -> Salida suave hacia la toma real
-  yield* all(
-    view.opacity(0, 0.7, easeInOutCubic),
-  );
+  yield* all(view.opacity(0, 0.7, easeInOutCubic));
 });

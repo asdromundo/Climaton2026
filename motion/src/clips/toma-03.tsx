@@ -1,21 +1,28 @@
-import {makeScene2D, Node, Audio, Rect, Txt, Circle, Path} from '@revideo/2d';
-import {all, createRef, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
-import {VideoPlaceholder} from '../components/VideoPlaceholder';
+import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
+import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
-import audioParrafo3 from '../../audio/parrafo3.m4a';
+import audioParrafo3 from "../../audio/parrafo3.m4a";
 
 /**
  * TOMA 3 MAESTRA · 23.06 s
  * Sincronización continua con parrafo3.m4a
- * 
+ *
  * Estructura:
  * 1. [0.0s – 2.5s]:   TOMA REAL 1 (Agricultores mirando el cielo / laderas)
  * 2. [2.5s – 10.2s]:  INS-04 (El Niño NOAA: Pacífico, mancha cálida, medidor >90%)
  * 3. [10.2s – 12.8s]: TOMA REAL 2 (Incertidumbre en las laderas)
  * 4. [12.8s – 22.8s]: INS-05 (De lo global a lo local: 3 preguntas + estación agrometeorológica)
  */
-export default makeScene2D('toma-03', function* (view) {
+export default makeScene2D("toma-03", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
@@ -103,7 +110,12 @@ export default makeScene2D('toma-03', function* (view) {
           />
 
           {/* Línea del Ecuador */}
-          <Rect width={1100} height={3} position={[0, 0]} fill={`${THEME.colors.climate.rainBlue}44`} />
+          <Rect
+            width={1100}
+            height={3}
+            position={[0, 0]}
+            fill={`${THEME.colors.climate.rainBlue}44`}
+          />
           <Txt
             text="ECUADOR 0°"
             position={[0, -18]}
@@ -329,8 +341,18 @@ export default makeScene2D('toma-03', function* (view) {
               clip={true}
             >
               {/* Ejes ilustrativos */}
-              <Rect width={560} height={2} position={[0, 130]} fill={THEME.colors.earth.ochre} />
-              <Rect width={2} height={260} position={[-250, 0]} fill={THEME.colors.earth.ochre} />
+              <Rect
+                width={560}
+                height={2}
+                position={[0, 130]}
+                fill={THEME.colors.earth.ochre}
+              />
+              <Rect
+                width={2}
+                height={260}
+                position={[-250, 0]}
+                fill={THEME.colors.earth.ochre}
+              />
 
               <Txt
                 text="Acumulado de lluvia (mm)"
@@ -350,10 +372,26 @@ export default makeScene2D('toma-03', function* (view) {
               />
 
               {/* Abanico ilustrativo de curvas históricas dispersas */}
-              <Path data="M -250,130 Q -100,80 50,30 T 250,-70" stroke={`${THEME.colors.climate.rainBlue}33`} lineWidth={2.5} />
-              <Path data="M -250,130 Q -80,110 80,60 T 250,0" stroke={`${THEME.colors.climate.rainBlue}33`} lineWidth={2.5} />
-              <Path data="M -250,130 Q -120,60 20,-20 T 250,-110" stroke={`${THEME.colors.climate.rainBlue}33`} lineWidth={2.5} />
-              <Path data="M -250,130 Q -60,120 100,90 T 250,30" stroke={`${THEME.colors.climate.rainBlue}33`} lineWidth={2.5} />
+              <Path
+                data="M -250,130 Q -100,80 50,30 T 250,-70"
+                stroke={`${THEME.colors.climate.rainBlue}33`}
+                lineWidth={2.5}
+              />
+              <Path
+                data="M -250,130 Q -80,110 80,60 T 250,0"
+                stroke={`${THEME.colors.climate.rainBlue}33`}
+                lineWidth={2.5}
+              />
+              <Path
+                data="M -250,130 Q -120,60 20,-20 T 250,-110"
+                stroke={`${THEME.colors.climate.rainBlue}33`}
+                lineWidth={2.5}
+              />
+              <Path
+                data="M -250,130 Q -60,120 100,90 T 250,30"
+                stroke={`${THEME.colors.climate.rainBlue}33`}
+                lineWidth={2.5}
+              />
 
               <Txt
                 text="Incertidumbre climática · Ilustrativo"
@@ -408,7 +446,7 @@ export default makeScene2D('toma-03', function* (view) {
           </Node>
         </Rect>
       </Node>
-    </Node>
+    </Node>,
   );
 
   // ==========================================

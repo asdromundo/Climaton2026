@@ -1,20 +1,27 @@
-import {makeScene2D, Node, Audio, Rect, Txt, Circle} from '@revideo/2d';
-import {all, createRef, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
-import {VideoPlaceholder} from '../components/VideoPlaceholder';
+import { makeScene2D, Node, Audio, Rect, Txt, Circle } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
+import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
-import audioParrafo6 from '../../audio/parrafo6.m4a';
+import audioParrafo6 from "../../audio/parrafo6.m4a";
 
 /**
  * TOMA 6 MAESTRA · 28.18 s
  * Sincronización continua con parrafo6.m4a
- * 
+ *
  * Estructura:
  * 1. [0.0s – 4.5s]:   TOMA REAL 1 (Familias colaborando)
  * 2. [4.5s – 27.5s]:  INS-10 (Línea del tiempo continua: 3 etapas + corchete financiamiento)
  * 3. [27.5s – 28.18s]: Transición a Toma 7
  */
-export default makeScene2D('toma-06', function* (view) {
+export default makeScene2D("toma-06", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
@@ -84,49 +91,211 @@ export default makeScene2D('toma-06', function* (view) {
 
           {/* Etapa 1: Adaptación */}
           <Node ref={step1Node} position={[-460, 20]} opacity={0} y={50}>
-            <Circle size={36} fill={THEME.colors.milpa.deepGreen} position={[0, -135]} />
-            <Txt text="1" position={[0, -135]} fill={THEME.colors.paper.cream} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={700} />
+            <Circle
+              size={36}
+              fill={THEME.colors.milpa.deepGreen}
+              position={[0, -135]}
+            />
+            <Txt
+              text="1"
+              position={[0, -135]}
+              fill={THEME.colors.paper.cream}
+              fontFamily={THEME.typography.sans}
+              fontSize={20}
+              fontWeight={700}
+            />
 
-            <Rect width={440} height={280} fill={THEME.colors.paper.cream} stroke={THEME.colors.milpa.leaf} lineWidth={2} radius={16} padding={[22, 26]}>
-              <Txt text="1 · ADAPTACIÓN" position={[0, -85]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
-              <Txt text="Primer año, desde 2027" position={[0, -48]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={600} />
+            <Rect
+              width={440}
+              height={280}
+              fill={THEME.colors.paper.cream}
+              stroke={THEME.colors.milpa.leaf}
+              lineWidth={2}
+              radius={16}
+              padding={[22, 26]}
+            >
+              <Txt
+                text="1 · ADAPTACIÓN"
+                position={[0, -85]}
+                fill={THEME.colors.milpa.deepGreen}
+                fontFamily={THEME.typography.serif}
+                fontSize={28}
+                fontWeight={700}
+              />
+              <Txt
+                text="Primer año, desde 2027"
+                position={[0, -48]}
+                fill={THEME.colors.earth.terracotta}
+                fontFamily={THEME.typography.sans}
+                fontSize={20}
+                fontWeight={600}
+              />
 
-              <Rect width={380} height={1.5} position={[0, -20]} fill={`${THEME.colors.earth.ochre}44`} />
+              <Rect
+                width={380}
+                height={1.5}
+                position={[0, -20]}
+                fill={`${THEME.colors.earth.ochre}44`}
+              />
 
-              <Txt text="• Escuchamos a la comunidad" position={[-175, 18]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={21} fontWeight={600} offset={[-1, 0]} />
-              <Txt text="• Calibramos las estaciones" position={[-175, 58]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={21} fontWeight={600} offset={[-1, 0]} />
+              <Txt
+                text="• Escuchamos a la comunidad"
+                position={[-175, 18]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={21}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+              <Txt
+                text="• Calibramos las estaciones"
+                position={[-175, 58]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={21}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
             </Rect>
           </Node>
 
           {/* Etapa 2: Implementación */}
           <Node ref={step2Node} position={[0, 20]} opacity={0} y={50}>
-            <Circle size={36} fill={THEME.colors.milpa.leaf} position={[0, -135]} />
-            <Txt text="2" position={[0, -135]} fill={THEME.colors.paper.cream} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={700} />
+            <Circle
+              size={36}
+              fill={THEME.colors.milpa.leaf}
+              position={[0, -135]}
+            />
+            <Txt
+              text="2"
+              position={[0, -135]}
+              fill={THEME.colors.paper.cream}
+              fontFamily={THEME.typography.sans}
+              fontSize={20}
+              fontWeight={700}
+            />
 
-            <Rect width={440} height={280} fill={THEME.colors.paper.cream} stroke={THEME.colors.milpa.leaf} lineWidth={2} radius={16} padding={[22, 26]}>
-              <Txt text="2 · IMPLEMENTACIÓN" position={[0, -85]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
-              <Txt text="Medición y aviso comunitario" position={[0, -48]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={600} />
+            <Rect
+              width={440}
+              height={280}
+              fill={THEME.colors.paper.cream}
+              stroke={THEME.colors.milpa.leaf}
+              lineWidth={2}
+              radius={16}
+              padding={[22, 26]}
+            >
+              <Txt
+                text="2 · IMPLEMENTACIÓN"
+                position={[0, -85]}
+                fill={THEME.colors.milpa.deepGreen}
+                fontFamily={THEME.typography.serif}
+                fontSize={28}
+                fontWeight={700}
+              />
+              <Txt
+                text="Medición y aviso comunitario"
+                position={[0, -48]}
+                fill={THEME.colors.earth.warmClay}
+                fontFamily={THEME.typography.sans}
+                fontSize={20}
+                fontWeight={600}
+              />
 
-              <Rect width={380} height={1.5} position={[0, -20]} fill={`${THEME.colors.earth.ochre}44`} />
+              <Rect
+                width={380}
+                height={1.5}
+                position={[0, -20]}
+                fill={`${THEME.colors.earth.ochre}44`}
+              />
 
-              <Txt text="• Las estaciones miden y avisan" position={[-175, 18]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={21} fontWeight={600} offset={[-1, 0]} />
-              <Txt text="• Habitantes monitores locales" position={[-175, 58]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={21} fontWeight={600} offset={[-1, 0]} />
+              <Txt
+                text="• Las estaciones miden y avisan"
+                position={[-175, 18]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={21}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+              <Txt
+                text="• Habitantes monitores locales"
+                position={[-175, 58]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={21}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
             </Rect>
           </Node>
 
           {/* Etapa 3: Adopción */}
           <Node ref={step3Node} position={[460, 20]} opacity={0} y={50}>
-            <Circle size={36} fill={THEME.colors.earth.ochre} position={[0, -135]} />
-            <Txt text="3" position={[0, -135]} fill={THEME.colors.paper.cream} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={700} />
+            <Circle
+              size={36}
+              fill={THEME.colors.earth.ochre}
+              position={[0, -135]}
+            />
+            <Txt
+              text="3"
+              position={[0, -135]}
+              fill={THEME.colors.paper.cream}
+              fontFamily={THEME.typography.sans}
+              fontSize={20}
+              fontWeight={700}
+            />
 
-            <Rect width={440} height={280} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.ochre} lineWidth={2} radius={16} padding={[22, 26]}>
-              <Txt text="3 · ADOPCIÓN" position={[0, -85]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
-              <Txt text="2028 en adelante" position={[0, -48]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={600} />
+            <Rect
+              width={440}
+              height={280}
+              fill={THEME.colors.paper.cream}
+              stroke={THEME.colors.earth.ochre}
+              lineWidth={2}
+              radius={16}
+              padding={[22, 26]}
+            >
+              <Txt
+                text="3 · ADOPCIÓN"
+                position={[0, -85]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.serif}
+                fontSize={28}
+                fontWeight={700}
+              />
+              <Txt
+                text="2028 en adelante"
+                position={[0, -48]}
+                fill={THEME.colors.earth.terracotta}
+                fontFamily={THEME.typography.sans}
+                fontSize={20}
+                fontWeight={600}
+              />
 
-              <Rect width={380} height={1.5} position={[0, -20]} fill={`${THEME.colors.earth.ochre}44`} />
+              <Rect
+                width={380}
+                height={1.5}
+                position={[0, -20]}
+                fill={`${THEME.colors.earth.ochre}44`}
+              />
 
-              <Txt text="• La comunidad lo opera sola" position={[-175, 18]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={21} fontWeight={600} offset={[-1, 0]} />
-              <Txt text="• Autonomía y sostenibilidad" position={[-175, 58]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={21} fontWeight={600} offset={[-1, 0]} />
+              <Txt
+                text="• La comunidad lo opera sola"
+                position={[-175, 18]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={21}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+              <Txt
+                text="• Autonomía y sostenibilidad"
+                position={[-175, 58]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={21}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
             </Rect>
           </Node>
 
@@ -154,7 +323,7 @@ export default makeScene2D('toma-06', function* (view) {
           </Rect>
         </Rect>
       </Node>
-    </Node>
+    </Node>,
   );
 
   // ==========================================

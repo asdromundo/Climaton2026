@@ -1,20 +1,27 @@
-import {makeScene2D, Node, Audio, Rect, Txt, Circle} from '@revideo/2d';
-import {all, createRef, easeInOutCubic, easeOutBack, easeOutCubic, waitFor} from '@revideo/core';
-import {THEME} from '../theme';
-import {VideoPlaceholder} from '../components/VideoPlaceholder';
+import { makeScene2D, Node, Audio, Rect, Txt, Circle } from "@revideo/2d";
+import {
+  all,
+  createRef,
+  easeInOutCubic,
+  easeOutBack,
+  easeOutCubic,
+  waitFor,
+} from "@revideo/core";
+import { THEME } from "../theme";
+import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
-import audioParrafo2 from '../../audio/parrafo2.m4a';
+import audioParrafo2 from "../../audio/parrafo2.m4a";
 
 /**
  * TOMA 2 MAESTRA · 20.24 s
  * Sincronización continua con parrafo2.m4a
- * 
+ *
  * Estructura:
  * 1. [0.0s – 2.8s]:   TOMA REAL (Parcelas de temporal en la CDMX)
  * 2. [2.8s – 12.2s]:  INS-03 (Grilla >90% INEGI + Calendario siembra tardía finales de junio)
  * 3. [12.2s – 20.24s]: TOMA REAL (Agricultores y testimonio sobre saber tradicional)
  */
-export default makeScene2D('toma-02', function* (view) {
+export default makeScene2D("toma-02", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
@@ -24,8 +31,8 @@ export default makeScene2D('toma-02', function* (view) {
   // Elementos internos de INS-03
   const gridNode = createRef<Node>();
   const statCard = createRef<Rect>();
-  const rainDrops = Array.from({length: 10}, () => createRef<Circle>());
-  const parcelFills = Array.from({length: 10}, () => createRef<Rect>());
+  const rainDrops = Array.from({ length: 10 }, () => createRef<Circle>());
+  const parcelFills = Array.from({ length: 10 }, () => createRef<Rect>());
 
   const calendarNode = createRef<Node>();
   const calendarSlider = createRef<Node>();
@@ -101,7 +108,7 @@ export default makeScene2D('toma-02', function* (view) {
           </Rect>
 
           <Node position={[220, -20]}>
-            {Array.from({length: 10}).map((_, idx) => {
+            {Array.from({ length: 10 }).map((_, idx) => {
               const col = idx % 5;
               const row = Math.floor(idx / 5);
               const x = (col - 2) * 110;
@@ -131,11 +138,11 @@ export default makeScene2D('toma-02', function* (view) {
                       height={0}
                       position={[0, 55]}
                       offset={[0, 1]}
-                      fill={isRainFed ? THEME.colors.milpa.leaf : '#D8D0C5'}
+                      fill={isRainFed ? THEME.colors.milpa.leaf : "#D8D0C5"}
                       radius={10}
                     />
                     <Txt
-                      text={isRainFed ? '🌽' : '💧'}
+                      text={isRainFed ? "🌽" : "💧"}
                       fontSize={32}
                       position={[0, 0]}
                       opacity={0.85}
@@ -176,15 +183,60 @@ export default makeScene2D('toma-02', function* (view) {
             radius={18}
             position={[0, -40]}
           >
-            <Rect width={2} height={125} position={[-190, 0]} fill={THEME.colors.earth.ochre} />
-            <Rect width={2} height={125} position={[190, 0]} fill={THEME.colors.earth.ochre} />
-            <Txt text="MAYO" position={[-380, -18]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={34} fontWeight={700} />
-            <Txt text="Siembra habitual" position={[-380, 26]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.sans} fontSize={22} fontWeight={600} />
+            <Rect
+              width={2}
+              height={125}
+              position={[-190, 0]}
+              fill={THEME.colors.earth.ochre}
+            />
+            <Rect
+              width={2}
+              height={125}
+              position={[190, 0]}
+              fill={THEME.colors.earth.ochre}
+            />
+            <Txt
+              text="MAYO"
+              position={[-380, -18]}
+              fill={THEME.colors.earth.deep}
+              fontFamily={THEME.typography.serif}
+              fontSize={34}
+              fontWeight={700}
+            />
+            <Txt
+              text="Siembra habitual"
+              position={[-380, 26]}
+              fill={THEME.colors.milpa.deepGreen}
+              fontFamily={THEME.typography.sans}
+              fontSize={22}
+              fontWeight={600}
+            />
 
-            <Txt text="JUNIO" position={[0, -18]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={34} fontWeight={700} />
+            <Txt
+              text="JUNIO"
+              position={[0, -18]}
+              fill={THEME.colors.earth.deep}
+              fontFamily={THEME.typography.serif}
+              fontSize={34}
+              fontWeight={700}
+            />
 
-            <Txt text="JULIO" position={[380, -18]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={34} fontWeight={700} />
-            <Txt text="Lluvia retrasada" position={[380, 26]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.sans} fontSize={22} fontWeight={600} />
+            <Txt
+              text="JULIO"
+              position={[380, -18]}
+              fill={THEME.colors.earth.deep}
+              fontFamily={THEME.typography.serif}
+              fontSize={34}
+              fontWeight={700}
+            />
+            <Txt
+              text="Lluvia retrasada"
+              position={[380, 26]}
+              fill={THEME.colors.climate.droughtOrange}
+              fontFamily={THEME.typography.sans}
+              fontSize={22}
+              fontWeight={600}
+            />
           </Rect>
 
           <Node ref={calendarSlider} position={[-380, -40]}>
@@ -198,9 +250,30 @@ export default makeScene2D('toma-02', function* (view) {
               shadowColor={`${THEME.colors.climate.droughtOrange}55`}
               shadowBlur={20}
             >
-              <Txt text="SIEMBRA" position={[0, -42]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} letterSpacing={2} />
-              <Txt text="Finales de" position={[0, 0]} fill={THEME.colors.earth.dark} fontFamily={THEME.typography.serif} fontSize={24} />
-              <Txt text="JUNIO" position={[0, 36]} fill={THEME.colors.earth.dark} fontFamily={THEME.typography.serif} fontSize={32} fontWeight={700} />
+              <Txt
+                text="SIEMBRA"
+                position={[0, -42]}
+                fill={THEME.colors.climate.droughtOrange}
+                fontFamily={THEME.typography.sans}
+                fontSize={18}
+                fontWeight={700}
+                letterSpacing={2}
+              />
+              <Txt
+                text="Finales de"
+                position={[0, 0]}
+                fill={THEME.colors.earth.dark}
+                fontFamily={THEME.typography.serif}
+                fontSize={24}
+              />
+              <Txt
+                text="JUNIO"
+                position={[0, 36]}
+                fill={THEME.colors.earth.dark}
+                fontFamily={THEME.typography.serif}
+                fontSize={32}
+                fontWeight={700}
+              />
             </Rect>
           </Node>
 
@@ -236,7 +309,7 @@ export default makeScene2D('toma-02', function* (view) {
           durationSeconds={8.0}
         />
       </Node>
-    </Node>
+    </Node>,
   );
 
   // ==========================================
