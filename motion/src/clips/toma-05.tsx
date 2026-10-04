@@ -83,7 +83,7 @@ export default makeScene2D('toma-05', function* (view) {
               lineWidth={4}
               opacity={0.8}
             />
-            <Txt text="Saber tradicional" position={[-250, -25]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={16} fontWeight={700} />
+            <Txt text="Saber tradicional" position={[-250, -25]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
 
             <Path
               ref={threadData}
@@ -92,7 +92,7 @@ export default makeScene2D('toma-05', function* (view) {
               lineWidth={4}
               opacity={0.8}
             />
-            <Txt text="Datos de estaciones" position={[250, -25]} fill={THEME.colors.climate.rainBlue} fontFamily={THEME.typography.sans} fontSize={16} fontWeight={700} />
+            <Txt text="Datos de estaciones" position={[250, -25]} fill={THEME.colors.climate.rainBlue} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
           </Node>
 
           {/* Carpeta / Manual con fichas de acción */}
@@ -114,9 +114,9 @@ export default makeScene2D('toma-05', function* (view) {
             <Node ref={cardSequia} position={[-340, -10]} opacity={0} y={30}>
               <Rect width={300} height={260} fill={THEME.colors.paper.amateLight} stroke={THEME.colors.earth.ochre} lineWidth={1.5} radius={14} padding={[18, 16]}>
                 <Txt text="☀️" fontSize={48} position={[0, -65]} />
-                <Txt text="SEQUÍA" position={[0, 0]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.serif} fontSize={26} fontWeight={700} />
-                <Txt text="Manejo de suelo y humedad" position={[0, 40]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={16} />
-                <Txt text="Acción preventiva" position={[0, 75]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={14} />
+                <Txt text="SEQUÍA" position={[0, 0]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
+                <Txt text="Manejo de suelo y humedad" position={[0, 42]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={600} />
+                <Txt text="Acción preventiva" position={[0, 78]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={16} />
               </Rect>
             </Node>
 
@@ -124,9 +124,9 @@ export default makeScene2D('toma-05', function* (view) {
             <Node ref={cardVentarron} position={[0, -10]} opacity={0} y={30}>
               <Rect width={300} height={260} fill={THEME.colors.paper.amateLight} stroke={THEME.colors.earth.ochre} lineWidth={1.5} radius={14} padding={[18, 16]}>
                 <Txt text="💨" fontSize={48} position={[0, -65]} />
-                <Txt text="VENTARRÓN" position={[0, 0]} fill={THEME.colors.climate.skyMist} fontFamily={THEME.typography.serif} fontSize={26} fontWeight={700} />
-                <Txt text="Protección de espigas y corte" position={[0, 40]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={16} />
-                <Txt text="Aviso de ráfagas" position={[0, 75]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={14} />
+                <Txt text="VENTARRÓN" position={[0, 0]} fill={THEME.colors.climate.skyMist} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
+                <Txt text="Protección de espigas y corte" position={[0, 42]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={600} />
+                <Txt text="Aviso de ráfagas" position={[0, 78]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={16} />
               </Rect>
             </Node>
 
@@ -134,9 +134,9 @@ export default makeScene2D('toma-05', function* (view) {
             <Node ref={cardHelada} position={[340, -10]} opacity={0} y={30}>
               <Rect width={300} height={260} fill={THEME.colors.paper.amateLight} stroke={THEME.colors.earth.ochre} lineWidth={1.5} radius={14} padding={[18, 16]}>
                 <Txt text="❄️" fontSize={48} position={[0, -65]} />
-                <Txt text="HELADA" position={[0, 0]} fill={THEME.colors.climate.frost} fontFamily={THEME.typography.serif} fontSize={26} fontWeight={700} />
-                <Txt text="Temperatura crítica en cumbre" position={[0, 40]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={16} />
-                <Txt text="Alerta anticipada" position={[0, 75]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={14} />
+                <Txt text="HELADA" position={[0, 0]} fill={THEME.colors.climate.frost} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
+                <Txt text="Temperatura crítica en cumbre" position={[0, 42]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={600} />
+                <Txt text="Alerta anticipada" position={[0, 78]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={16} />
               </Rect>
             </Node>
           </Rect>
@@ -145,7 +145,7 @@ export default makeScene2D('toma-05', function* (view) {
           <Node position={[0, 275]}>
             <Circle
               ref={annualRing}
-              size={36}
+              size={40}
               stroke={THEME.colors.milpa.deepGreen}
               lineWidth={3}
               opacity={0.8}
@@ -155,7 +155,7 @@ export default makeScene2D('toma-05', function* (view) {
               position={[0, 0]}
               fill={THEME.colors.milpa.deepGreen}
               fontFamily={THEME.typography.sans}
-              fontSize={18}
+              fontSize={22}
               fontWeight={700}
             />
           </Node>

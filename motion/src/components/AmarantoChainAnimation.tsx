@@ -68,11 +68,11 @@ export class AmarantoChainAnimation extends Node {
                 position={[0, 45]}
                 fill={THEME.colors.earth.deep}
                 fontFamily={THEME.typography.serif}
-                fontSize={28}
+                fontSize={30}
                 fontWeight={700}
               />
               <Circle
-                size={28}
+                size={32}
                 position={[0, -110]}
                 fill={THEME.colors.earth.terracotta}
               >
@@ -80,7 +80,7 @@ export class AmarantoChainAnimation extends Node {
                   text={`${idx + 1}`}
                   fill={THEME.colors.paper.cream}
                   fontFamily={THEME.typography.sans}
-                  fontSize={16}
+                  fontSize={18}
                   fontWeight={700}
                 />
               </Circle>
@@ -102,8 +102,10 @@ export class AmarantoChainAnimation extends Node {
         <Rect
           ref={this.alertBadge}
           position={[-450, 180]}
+          width={330}
+          height={54}
           fill={THEME.colors.earth.dark}
-          radius={8}
+          radius={10}
           padding={[10, 20]}
           opacity={0}
           scale={0.8}
@@ -112,7 +114,7 @@ export class AmarantoChainAnimation extends Node {
             text="EN RIESGO CLIMÁTICO"
             fill={THEME.colors.climate.droughtOrange}
             fontFamily={THEME.typography.sans}
-            fontSize={18}
+            fontSize={22}
             fontWeight={700}
             letterSpacing={2}
           />

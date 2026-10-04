@@ -87,13 +87,13 @@ export default makeScene2D('toma-06', function* (view) {
             <Txt text="1" position={[0, -130]} fill={THEME.colors.paper.cream} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
 
             <Rect width={420} height={260} fill={THEME.colors.paper.cream} stroke={THEME.colors.milpa.leaf} lineWidth={2} radius={16} padding={[20, 24]}>
-              <Txt text="1 · ADAPTACIÓN" position={[0, -80]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.serif} fontSize={24} fontWeight={700} />
-              <Txt text="Primer año, desde 2027" position={[0, -45]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={16} fontWeight={600} />
+              <Txt text="1 · ADAPTACIÓN" position={[0, -80]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.serif} fontSize={26} fontWeight={700} />
+              <Txt text="Primer año, desde 2027" position={[0, -45]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={600} />
 
               <Rect width={360} height={1} position={[0, -20]} fill={`${THEME.colors.earth.ochre}44`} />
 
-              <Txt text="• Escuchamos a la comunidad" position={[-160, 15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
-              <Txt text="• Calibramos las estaciones" position={[-160, 50]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
+              <Txt text="• Escuchamos a la comunidad" position={[-160, 15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={19} offset={[-1, 0]} />
+              <Txt text="• Calibramos las estaciones" position={[-160, 50]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={19} offset={[-1, 0]} />
             </Rect>
           </Node>
 
@@ -103,13 +103,13 @@ export default makeScene2D('toma-06', function* (view) {
             <Txt text="2" position={[0, -130]} fill={THEME.colors.paper.cream} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
 
             <Rect width={420} height={260} fill={THEME.colors.paper.cream} stroke={THEME.colors.milpa.leaf} lineWidth={2} radius={16} padding={[20, 24]}>
-              <Txt text="2 · IMPLEMENTACIÓN" position={[0, -80]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.serif} fontSize={24} fontWeight={700} />
-              <Txt text="Medición y aviso comunitario" position={[0, -45]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={16} />
+              <Txt text="2 · IMPLEMENTACIÓN" position={[0, -80]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.serif} fontSize={26} fontWeight={700} />
+              <Txt text="Medición y aviso comunitario" position={[0, -45]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={18} />
 
               <Rect width={360} height={1} position={[0, -20]} fill={`${THEME.colors.earth.ochre}44`} />
 
-              <Txt text="• Las estaciones miden y avisan" position={[-160, 15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
-              <Txt text="• Habitantes monitores (mujeres y hombres)" position={[-160, 50]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={15} offset={[-1, 0]} />
+              <Txt text="• Las estaciones miden y avisan" position={[-160, 15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={19} offset={[-1, 0]} />
+              <Txt text="• Habitantes monitores comunitarios" position={[-160, 50]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={18} offset={[-1, 0]} />
             </Rect>
           </Node>
 
@@ -119,13 +119,13 @@ export default makeScene2D('toma-06', function* (view) {
             <Txt text="3" position={[0, -130]} fill={THEME.colors.paper.cream} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
 
             <Rect width={420} height={260} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.ochre} lineWidth={2} radius={16} padding={[20, 24]}>
-              <Txt text="3 · ADOPCIÓN" position={[0, -80]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={24} fontWeight={700} />
-              <Txt text="2028 en adelante" position={[0, -45]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={16} fontWeight={600} />
+              <Txt text="3 · ADOPCIÓN" position={[0, -80]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={26} fontWeight={700} />
+              <Txt text="2028 en adelante" position={[0, -45]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={600} />
 
               <Rect width={360} height={1} position={[0, -20]} fill={`${THEME.colors.earth.ochre}44`} />
 
-              <Txt text="• La comunidad lo opera sola" position={[-160, 15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
-              <Txt text="• Autonomía y sostenibilidad" position={[-160, 50]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={17} offset={[-1, 0]} />
+              <Txt text="• La comunidad lo opera sola" position={[-160, 15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={19} offset={[-1, 0]} />
+              <Txt text="• Autonomía y sostenibilidad" position={[-160, 50]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={19} offset={[-1, 0]} />
             </Rect>
           </Node>
 
@@ -133,8 +133,8 @@ export default makeScene2D('toma-06', function* (view) {
           <Rect
             ref={fundingBracket}
             position={[-220, 220]}
-            width={880}
-            height={60}
+            width={900}
+            height={64}
             fill={THEME.colors.milpa.deepGreen}
             radius={12}
             padding={[14, 24]}
@@ -147,7 +147,7 @@ export default makeScene2D('toma-06', function* (view) {
               text="Financiamiento: las dos primeras etapas (Adaptación + Implementación)"
               fill={THEME.colors.paper.cream}
               fontFamily={THEME.typography.sans}
-              fontSize={20}
+              fontSize={22}
               fontWeight={700}
             />
           </Rect>

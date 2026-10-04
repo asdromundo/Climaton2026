@@ -82,19 +82,23 @@ export default makeScene2D('toma-01', function* (view) {
   yield* ins01Anim().introCdmx(0.7);
   yield* waitFor(1.8);
 
-  // [5.5s – 7.8s]: «...en una ladera del volcán Teuhtli...»
+  // [5.5s – 7.5s]: «...en una ladera del volcán Teuhtli...»
   // Zoom hacia el Teuhtli y revelado del pin
-  yield* ins01Anim().zoomToTeuhtli(1.9);
+  yield* ins01Anim().zoomToTeuhtli(2.0);
 
-  // Salida de INS-01 (~10 frames después de «volcán Teuhtli») hacia Toma Real 2
+  // [7.5s – 10.5s]: «...donde los agricultores cosechan el amaranto en invierno. [pausa]»
+  // Se extiende la escena del mapa con Teuhtli y pulso sobre el pin Cehuamilli
+  yield* ins01Anim().holdTeuhtli(2.9);
+
+  // Salida de INS-01 hacia Toma Real 2 justo antes de «Después, las mujeres...» (~10.8s)
   yield* all(
     ins01Node().opacity(0, 0.35, easeInOutCubic),
     footage2Node().opacity(1, 0.35, easeInOutCubic),
   );
 
-  // [7.8s – 15.2s]: Toma Real 2 (Cosecha invierno + Comal y Miel)
-  // «...donde los agricultores cosechan el amaranto en invierno. [pausa] Después, las mujeres lo revientan en el comal...»
-  yield* waitFor(7.05);
+  // [10.8s – 15.2s]: Toma Real 2 (Mujeres en el comal y alegría con miel)
+  // «Después, las mujeres lo revientan en el comal y, con miel, lo vuelven alegría.»
+  yield* waitFor(4.05);
 
   // Transición hacia INS-02 (~10 frames antes de «Una cadena...»)
   yield* all(
@@ -110,5 +114,5 @@ export default makeScene2D('toma-01', function* (view) {
   // El eslabón del amaranto se tiñe de ámbar y se agrieta
   yield* ins02Anim().triggerRisk();
 
-  yield* waitFor(2.2);
+  yield* waitFor(2.7);
 });

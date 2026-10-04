@@ -1,10 +1,8 @@
 """
-Generador cartográfico limpio para Cehuamilli Motion Design.
-Produce un lienzo puro sin textos estáticos pegados, permitiendo que Revideo
-maneje toda la tipografía, pines, llamadas y animaciones vectoriales sin encimarse.
-
-Utiliza el Marco Geoestadístico oficial de INEGI (ageb_urbano + ageb_rural)
-para garantizar contornos continuos de la CDMX y del Suelo de Conservación.
+Generador cartográfico definitivo para Cehuamilli Motion Design.
+Produce un lienzo limpio en papel amate con los nombres de las delegaciones/alcaldías,
+el Suelo de Conservación en verde milpa, y el polígono de Tulyehualco sin encimamientos,
+permitiendo que Revideo maneje la tipografía animada, tarjetas y pines vectoriales.
 """
 import json
 import matplotlib.pyplot as plt
@@ -12,7 +10,7 @@ from matplotlib.patches import Circle as MplCircle
 import geopandas as gpd
 import pandas as pd
 
-def generar_mapa_limpio():
+def generar_mapa_definitivo():
     # 1. Cargar capas de INEGI Marco Geoestadístico
     urb = gpd.read_file("data/ageb_urbano/ageb_urbano.shp").to_crs(epsg=4326)
     rur = gpd.read_file("data/ageb_rural/ageb_rural.shp").to_crs(epsg=4326)
@@ -20,7 +18,7 @@ def generar_mapa_limpio():
 
     # 2. Alcaldías oficiales consolidadas y contorno continuo de CDMX
     combined = pd.concat([urb[['CVE_MUN', 'geometry']], rur[['CVE_MUN', 'geometry']]])
-    alcaldias = gpd.GeoDataFrame(combined, crs='EPSG:4326').dissolve(by='CVE_MUN')
+    alcaldias = gpd.GeoDataFrame(combined, crs='EPSG:4326').dissolve(by='CVE_MUN').reset_index()
     contorno_cdmx = alcaldias.dissolve()
 
     # Bounding box con margen proporcional
@@ -59,7 +57,7 @@ def generar_mapa_limpio():
         zorder=2
     )
 
-    # 6. Capa 3: Límites de Alcaldías (trazos sutiles sin texto)
+    # 6. Capa 3: Límites de Alcaldías
     for _, row in alcaldias.iterrows():
         gpd.GeoSeries([row['geometry']]).boundary.plot(
             ax=ax,
@@ -112,6 +110,97 @@ def generar_mapa_limpio():
     # Marcador sutil del cráter
     ax.plot(tx, ty, marker='^', markersize=5, color='#8C4D2E', zorder=7)
 
+    # 9. Nombres oficiales de las Alcaldías / Delegaciones
+    NOMBRES = {
+        '002': 'Azcapotzalco',
+        '003': 'Coyoacán',
+        '004': 'Cuajimalpa',
+        '005': 'Gustavo A. Madero',
+        '006': 'Iztacalco',
+        '007': 'Iztapalapa',
+        '008': 'M. Contreras',
+        '009': 'Milpa Alta',
+        '010': 'Álvaro Obregón',
+        '011': 'Tláhuac',
+        '012': 'Tlalpan',
+        '013': 'Xochimilco',
+        '014': 'Benito Juárez',
+        '015': 'Cuauhtémoc',
+        '016': 'Miguel Hidalgo',
+        '017': 'V. Carranza'
+    }
+    alcaldias['NOM_ALC'] = alcaldias['CVE_MUN'].map(NOMBRES)
+
+    # Offsets para balance óptico y evitar tocar la zona de estudio
+    OFFSETS = {
+        '011': (0.018, 0.003),   # Tláhuac: aire respecto a Tulyehualco
+        '013': (-0.012, 0.002),  # Xochimilco: más hacia su centro urbano
+        '005': (0.000, -0.022),  # GAM: bajar para no tocar la punta norte
+        '002': (0.000, -0.005),  # Azcapotzalco
+        '009': (0.000, -0.005),  # Milpa Alta
+    }
+
+    for _, r in alcaldias.iterrows():
+        cve = r['CVE_MUN']
+        nombre = r['NOM_ALC']
+        pt = r.geometry.representative_point()
+        dx, dy = OFFSETS.get(cve, (0.0, 0.0))
+        x, y = pt.x + dx, pt.y + dy
+
+        is_sur = cve in ['009', '011', '012', '013', '007']
+        fs = 9.5 if is_sur else 8.2
+        weight = 'bold'
+        col = '#4A3728' if is_sur else '#735E4D'
+
+        ax.text(
+            x, y, nombre.upper() if is_sur else nombre,
+            fontsize=fs, fontweight=weight, color=col,
+            ha='center', va='center', zorder=8,
+            bbox=dict(boxstyle='round,pad=0.2', facecolor='#FAF7F0', edgecolor='none', alpha=0.65)
+        )
+
+    # 10. Textos estáticos editoriales y cartelas clásicas
+    # Título editorial cartográfico (arriba a la izquierda)
+    ax.text(
+        bounds[0] + 0.015, bounds[3] - 0.02,
+        "CIUDAD DE MÉXICO\nSuelo de Conservación y Zona de Estudio",
+        fontsize=14.5, fontweight='bold', color='#2F241D',
+        bbox=dict(boxstyle='round,pad=0.5', facecolor='#F2EBD9', edgecolor='#C97A3E', linewidth=1.5, alpha=0.95),
+        zorder=9
+    )
+
+    # Rótulo y flecha hacia la Zona de Estudio (Santiago Tulyehualco - 1,661 ha)
+    z_centroid = zona_estudio.geometry.iloc[0].centroid
+    ax.annotate(
+        "ZONA DE ESTUDIO\nSantiago Tulyehualco\n(1,661 ha · Temporal)",
+        xy=(z_centroid.x, z_centroid.y),
+        xytext=(z_centroid.x + 0.055, z_centroid.y + 0.045),
+        arrowprops=dict(facecolor='#8C4D2E', edgecolor='#2F241D', width=1.4, headwidth=6, shrink=0.08),
+        fontsize=10.5, fontweight='bold', color='#1C1613', zorder=10,
+        bbox=dict(boxstyle='round,pad=0.4', facecolor='#F2EBD9', edgecolor='#C97A3E', linewidth=1.4, alpha=0.95)
+    )
+
+    # Rótulo del Volcán Teuhtli
+    ax.text(
+        tx, ty - 0.0075, "Volcán Teuhtli\n2,710 msnm", fontsize=9.5, fontweight='bold',
+        color='#2F241D', ha='center', va='top', zorder=9,
+        bbox=dict(boxstyle='round,pad=0.25', facecolor='#FAF7F0', edgecolor='#8C4D2E', linewidth=1.0, alpha=0.9)
+    )
+
+    # Leyenda cartográfica (abajo a la izquierda)
+    import matplotlib.patches as mpatches
+    leyenda_parches = [
+        mpatches.Patch(facecolor='#E2EBDC', edgecolor='#96B485', label='Suelo de Conservación (Rural CDMX)'),
+        mpatches.Patch(facecolor='#F7EFE2', edgecolor='#D8CABA', label='Zona Urbana Consolidada'),
+        mpatches.Patch(facecolor='#E67E22', edgecolor='#8C4D2E', linewidth=1.5, label='Zona de Estudio: Tulyehualco (1,661 ha)'),
+        mpatches.Patch(facecolor='none', edgecolor='#C97A3E', linestyle='--', label='Curvas de nivel: Volcán Teuhtli'),
+    ]
+    leg = ax.legend(
+        handles=leyenda_parches, loc='lower left', frameon=True,
+        facecolor='#FAF7F0', edgecolor='#C97A3E', fontsize=9.5
+    )
+    leg.set_zorder(9)
+
     plt.tight_layout(pad=0)
 
     # Obtener el bbox recortado real de la imagen guardada
@@ -121,10 +210,9 @@ def generar_mapa_limpio():
     out_png = "motion/assets/textures/cdmx-mapa-referencia.png"
     plt.savefig(out_png, dpi=200, bbox_inches='tight', pad_inches=0, facecolor='#FAF7F0')
     plt.close()
-    print(f"Mapa limpio generado exitosamente en: {out_png}")
+    print(f"Mapa con delegaciones generado exitosamente en: {out_png}")
 
-    # 9. Calcular coordenadas relativas exactas respecto al PNG guardado
-    # Relativo a la imagen generada por bbox_inches='tight'
+    # 10. Calcular coordenadas relativas exactas respecto al PNG guardado
     px, py = ax.transData.transform((tx, ty))
     rel_x = (px - bbox.x0) / bbox.width
     rel_y = (py - bbox.y0) / bbox.height
@@ -159,4 +247,4 @@ def generar_mapa_limpio():
     print(f"  Tulye norm:   x={tulye_norm_x:.4f}, y={tulye_norm_y:.4f}")
 
 if __name__ == "__main__":
-    generar_mapa_limpio()
+    generar_mapa_definitivo()

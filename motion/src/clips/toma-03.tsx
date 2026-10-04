@@ -81,7 +81,7 @@ export default makeScene2D('toma-03', function* (view) {
             position={[-620, -310]}
             fill={THEME.colors.earth.warmClay}
             fontFamily={THEME.typography.mono}
-            fontSize={14}
+            fontSize={18}
             fontWeight={600}
             letterSpacing={2}
           />
@@ -97,7 +97,7 @@ export default makeScene2D('toma-03', function* (view) {
             position={[620, -310]}
             fill={THEME.colors.earth.warmClay}
             fontFamily={THEME.typography.mono}
-            fontSize={14}
+            fontSize={18}
             fontWeight={600}
             letterSpacing={2}
           />
@@ -109,7 +109,7 @@ export default makeScene2D('toma-03', function* (view) {
             position={[0, -14]}
             fill={THEME.colors.climate.skyMist}
             fontFamily={THEME.typography.mono}
-            fontSize={14}
+            fontSize={16}
             letterSpacing={3}
           />
 
@@ -130,8 +130,8 @@ export default makeScene2D('toma-03', function* (view) {
           {/* Tarjeta de datos NOAA */}
           <Rect
             ref={ins04Card}
-            width={580}
-            height={360}
+            width={600}
+            height={370}
             fill={THEME.colors.paper.cream}
             stroke={THEME.colors.earth.ochre}
             lineWidth={2}
@@ -147,7 +147,7 @@ export default makeScene2D('toma-03', function* (view) {
               position={[0, -120]}
               fill={THEME.colors.climate.droughtOrange}
               fontFamily={THEME.typography.sans}
-              fontSize={18}
+              fontSize={22}
               fontWeight={700}
               letterSpacing={2}
             />
@@ -157,7 +157,7 @@ export default makeScene2D('toma-03', function* (view) {
               position={[0, -60]}
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
-              fontSize={36}
+              fontSize={38}
               fontWeight={700}
             />
 
@@ -166,23 +166,23 @@ export default makeScene2D('toma-03', function* (view) {
               position={[0, -10]}
               fill={THEME.colors.earth.warmClay}
               fontFamily={THEME.typography.sans}
-              fontSize={20}
+              fontSize={22}
               textAlign="center"
             />
 
             {/* Medidor de probabilidad */}
             <Rect
               width={480}
-              height={20}
-              radius={10}
+              height={22}
+              radius={11}
               fill={`${THEME.colors.earth.ochre}33`}
               position={[0, 50]}
             >
               <Rect
                 ref={meterBar}
                 width={0}
-                height={20}
-                radius={10}
+                height={22}
+                radius={11}
                 fill={THEME.colors.climate.droughtOrange}
                 position={[-240, 0]}
                 offset={[-1, 0]}
@@ -194,7 +194,7 @@ export default makeScene2D('toma-03', function* (view) {
               position={[200, 85]}
               fill={THEME.colors.climate.droughtOrange}
               fontFamily={THEME.typography.mono}
-              fontSize={18}
+              fontSize={24}
               fontWeight={700}
               opacity={0}
             />
@@ -204,7 +204,7 @@ export default makeScene2D('toma-03', function* (view) {
                 text="Esquema ilustrativo · Fuente: NOAA"
                 fill={THEME.colors.earth.warmClay}
                 fontFamily={THEME.typography.mono}
-                fontSize={16}
+                fontSize={18}
               />
             </Node>
           </Rect>
@@ -333,14 +333,14 @@ export default makeScene2D('toma-03', function* (view) {
                 position={[-120, -140]}
                 fill={THEME.colors.earth.warmClay}
                 fontFamily={THEME.typography.mono}
-                fontSize={15}
+                fontSize={18}
               />
               <Txt
                 text="Meses (Mayo - Octubre)"
                 position={[140, 150]}
                 fill={THEME.colors.earth.warmClay}
                 fontFamily={THEME.typography.mono}
-                fontSize={15}
+                fontSize={18}
               />
 
               {/* Abanico ilustrativo de curvas históricas dispersas */}
@@ -354,7 +354,7 @@ export default makeScene2D('toma-03', function* (view) {
                 position={[110, -110]}
                 fill={THEME.colors.climate.skyMist}
                 fontFamily={THEME.typography.mono}
-                fontSize={13}
+                fontSize={16}
               />
 
               {/* Curva de medición local que se solidifica */}
@@ -367,12 +367,14 @@ export default makeScene2D('toma-03', function* (view) {
                 offset={[-1, 0]}
               />
 
-              {/* Punto de estación agrometeorológica */}
+              {/* Punto de estación agrometeorológica con dimensiones explícitas */}
               <Node ref={stationPin} position={[150, 40]} opacity={0} scale={0}>
                 <Circle size={28} fill={THEME.colors.milpa.leaf} />
                 <Circle size={14} fill={THEME.colors.paper.cream} />
                 <Rect
                   position={[0, -45]}
+                  width={180}
+                  height={44}
                   fill={THEME.colors.milpa.deepGreen}
                   radius={8}
                   padding={[6, 12]}
@@ -381,7 +383,7 @@ export default makeScene2D('toma-03', function* (view) {
                     text="Estación local"
                     fill={THEME.colors.paper.cream}
                     fontFamily={THEME.typography.sans}
-                    fontSize={14}
+                    fontSize={20}
                     fontWeight={600}
                   />
                 </Rect>
@@ -393,7 +395,7 @@ export default makeScene2D('toma-03', function* (view) {
               position={[0, 220]}
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
-              fontSize={24}
+              fontSize={26}
               fontWeight={700}
             />
           </Node>

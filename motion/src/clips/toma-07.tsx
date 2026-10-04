@@ -92,7 +92,7 @@ export default makeScene2D('toma-07', function* (view) {
 
             {/* Capa porosa volcánica */}
             <Rect width={700} height={120} position={[0, -50]} fill={`${THEME.colors.earth.terracotta}33`} stroke={THEME.colors.earth.ochre} lineWidth={1.5} radius={6} />
-            <Txt text="Estratos volcánicos porosos del Teuhtli" position={[0, -50]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.mono} fontSize={14} />
+            <Txt text="Estratos volcánicos porosos del Teuhtli" position={[0, -50]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.mono} fontSize={18} fontWeight={600} />
 
             {/* Gotas de lluvia infiltrándose */}
             {rainInfiltration.map((ref, idx) => (
@@ -116,7 +116,7 @@ export default makeScene2D('toma-07', function* (view) {
                 fill={THEME.colors.climate.rainBlue}
                 opacity={0.7}
               />
-              <Txt text="Manto Acuífero de la Cuenca de México" position={[0, -10]} fill={THEME.colors.climate.rainBlue} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
+              <Txt text="Manto Acuífero de la Cuenca de México" position={[0, -10]} fill={THEME.colors.climate.rainBlue} fontFamily={THEME.typography.sans} fontSize={22} fontWeight={700} />
             </Rect>
           </Node>
 
@@ -124,8 +124,8 @@ export default makeScene2D('toma-07', function* (view) {
           <Rect
             ref={statCard70}
             position={[400, 40]}
-            width={480}
-            height={360}
+            width={500}
+            height={370}
             fill={THEME.colors.paper.cream}
             stroke={THEME.colors.climate.rainBlue}
             lineWidth={2}
@@ -149,7 +149,7 @@ export default makeScene2D('toma-07', function* (view) {
               position={[0, 15]}
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
-              fontSize={26}
+              fontSize={28}
               fontWeight={600}
             />
             <Txt
@@ -157,7 +157,8 @@ export default makeScene2D('toma-07', function* (view) {
               position={[0, 60]}
               fill={THEME.colors.earth.warmClay}
               fontFamily={THEME.typography.sans}
-              fontSize={18}
+              fontSize={22}
+              fontWeight={600}
             />
           </Rect>
         </Rect>
@@ -229,35 +230,35 @@ export default makeScene2D('toma-07', function* (view) {
             lineDash={[8, 8]}
           />
 
-          {/* Pin central: Tulyehualco */}
+          {/* Pin central: Tulyehualco con dimensiones explícitas */}
           <Node ref={pinTulyehualco} position={[-200, 30]} opacity={0} scale={0}>
             <Circle size={40} fill={THEME.colors.earth.terracotta} stroke={THEME.colors.paper.cream} lineWidth={3} />
             <Circle size={16} fill={THEME.colors.paper.cream} />
-            <Rect position={[0, -65]} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.terracotta} lineWidth={2} radius={12} padding={[10, 18]}>
-              <Txt text="📍 TULYEHUALCO" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} />
-              <Txt text="Modelo de estudio inicial" position={[0, 24]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={14} />
+            <Rect position={[0, -68]} width={270} height={70} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.terracotta} lineWidth={2} radius={12} padding={[10, 18]}>
+              <Txt text="📍 TULYEHUALCO" position={[0, -12]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={700} />
+              <Txt text="Modelo de estudio inicial" position={[0, 14]} fill={THEME.colors.earth.warmClay} fontFamily={THEME.typography.sans} fontSize={16} />
             </Rect>
           </Node>
 
-          {/* Nodos réplica */}
+          {/* Nodos réplica con dimensiones explícitas */}
           <Node ref={nodeA} position={[150, -80]} opacity={0} scale={0}>
             <Circle size={24} fill={THEME.colors.milpa.deepGreen} />
-            <Rect position={[0, -45]} fill={THEME.colors.paper.cream} radius={8} padding={[6, 12]}>
-              <Txt text="Zona agrícola de réplica" fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.sans} fontSize={14} fontWeight={600} />
+            <Rect position={[0, -45]} width={250} height={42} fill={THEME.colors.paper.cream} radius={8} padding={[6, 12]}>
+              <Txt text="Zona agrícola de réplica" fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.sans} fontSize={17} fontWeight={600} />
             </Rect>
           </Node>
 
           <Node ref={nodeB} position={[250, 90]} opacity={0} scale={0}>
             <Circle size={24} fill={THEME.colors.milpa.deepGreen} />
-            <Rect position={[0, -45]} fill={THEME.colors.paper.cream} radius={8} padding={[6, 12]}>
-              <Txt text="Comunidad colaboradora" fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.sans} fontSize={14} fontWeight={600} />
+            <Rect position={[0, -45]} width={260} height={42} fill={THEME.colors.paper.cream} radius={8} padding={[6, 12]}>
+              <Txt text="Comunidad colaboradora" fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.sans} fontSize={17} fontWeight={600} />
             </Rect>
           </Node>
 
           <Node ref={nodeC} position={[120, 200]} opacity={0} scale={0}>
             <Circle size={24} fill={THEME.colors.milpa.deepGreen} />
-            <Rect position={[0, -45]} fill={THEME.colors.paper.cream} radius={8} padding={[6, 12]}>
-              <Txt text="Red de monitoreo expandida" fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.sans} fontSize={14} fontWeight={600} />
+            <Rect position={[0, -45]} width={280} height={42} fill={THEME.colors.paper.cream} radius={8} padding={[6, 12]}>
+              <Txt text="Red de monitoreo expandida" fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.sans} fontSize={17} fontWeight={600} />
             </Rect>
           </Node>
         </Rect>
