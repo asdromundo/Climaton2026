@@ -66,10 +66,11 @@ export default makeScene2D('toma-01', function* (view) {
   );
 
   // ==========================================
-  // COREOGRAFÍA TEMPORAL EXACTA (19.65 s)
+  // COREOGRAFÍA TEMPORAL EXACTA (19.65 s · parrafo1.m4a: 19.69 s)
   // ==========================================
 
-  // [0.0s – 3.0s]: Toma Real 1
+  // [0.0s – 3.0s]: Toma Real 1 (Cosecha en la ladera)
+  // «Seguro han comido una alegría. Lo que quizá no sabían es que...»
   yield* waitFor(2.7);
 
   // Transición suave: Footage 1 sale, INS-01 entra (~10 frames antes de «empieza aquí...»)
@@ -78,41 +79,42 @@ export default makeScene2D('toma-01', function* (view) {
     ins01Node().opacity(1, 0.35, easeInOutCubic),
   );
 
-  // [3.0s – 5.5s]: «...empieza aquí, en la Ciudad de México...»
-  yield* ins01Anim().introCdmx(0.7);
-  yield* waitFor(1.8);
+  // [3.05s – 5.15s]: «...empieza aquí, en la Ciudad de México...»
+  yield* ins01Anim().introCdmx(0.6);
+  yield* waitFor(1.5);
 
-  // [5.5s – 7.5s]: «...en una ladera del volcán Teuhtli...»
+  // [5.15s – 7.35s]: «...en una ladera del volcán Teuhtli...»
   // Zoom hacia el Teuhtli y revelado del pin
-  yield* ins01Anim().zoomToTeuhtli(2.0);
+  yield* ins01Anim().zoomToTeuhtli(2.2);
 
-  // [7.5s – 10.5s]: «...donde los agricultores cosechan el amaranto en invierno. [pausa]»
-  // Se extiende la escena del mapa con Teuhtli y pulso sobre el pin Cehuamilli
+  // [7.35s – 10.25s]: «...donde los agricultores cosechan el amaranto en invierno. [pausa]»
+  // Se extiende la escena del mapa en la ladera con pulso dinámico en Cehuamilli
   yield* ins01Anim().holdTeuhtli(2.9);
 
-  // Salida de INS-01 hacia Toma Real 2 justo antes de «Después, las mujeres...» (~10.8s)
+  // Salida de INS-01 hacia Toma Real 2 exactamente en la pausa previa a «Después, las mujeres...»
   yield* all(
     ins01Node().opacity(0, 0.35, easeInOutCubic),
     footage2Node().opacity(1, 0.35, easeInOutCubic),
   );
 
-  // [10.8s – 15.2s]: Toma Real 2 (Mujeres en el comal y alegría con miel)
+  // [10.60s – 15.30s]: Toma Real 2 (Mujeres en el comal y alegría con miel)
   // «Después, las mujeres lo revientan en el comal y, con miel, lo vuelven alegría.»
-  yield* waitFor(4.05);
+  yield* waitFor(4.7);
 
-  // Transición hacia INS-02 (~10 frames antes de «Una cadena...»)
+  // Transición hacia INS-02 en la pausa previa a «Una cadena...»
   yield* all(
     footage2Node().opacity(0, 0.35, easeInOutCubic),
     ins02Node().opacity(1, 0.35, easeInOutCubic),
   );
 
-  // [15.2s – 17.0s]: Entran los 4 eslabones
+  // [15.65s – 17.35s]: Entran los 4 eslabones
   yield* ins02Anim().revealLinks();
-  yield* waitFor(0.6);
+  yield* waitFor(0.3);
 
-  // [17.0s – 19.65s]: «...que el cambio climático ya pone en riesgo.»
+  // [17.35s – 17.85s]: «...que el cambio climático ya pone en riesgo.»
   // El eslabón del amaranto se tiñe de ámbar y se agrieta
   yield* ins02Anim().triggerRisk();
 
-  yield* waitFor(2.7);
+  // [17.85s – 19.65s]: Colchón final sereno sincronizado al cierre de parrafo1.m4a
+  yield* waitFor(1.8);
 });

@@ -81,8 +81,8 @@ export default makeScene2D('toma-03', function* (view) {
             position={[-620, -310]}
             fill={THEME.colors.earth.warmClay}
             fontFamily={THEME.typography.mono}
-            fontSize={18}
-            fontWeight={600}
+            fontSize={24}
+            fontWeight={700}
             letterSpacing={2}
           />
 
@@ -97,19 +97,20 @@ export default makeScene2D('toma-03', function* (view) {
             position={[620, -310]}
             fill={THEME.colors.earth.warmClay}
             fontFamily={THEME.typography.mono}
-            fontSize={18}
-            fontWeight={600}
+            fontSize={24}
+            fontWeight={700}
             letterSpacing={2}
           />
 
           {/* Línea del Ecuador */}
-          <Rect width={1100} height={2} position={[0, 0]} fill={`${THEME.colors.climate.rainBlue}33`} />
+          <Rect width={1100} height={3} position={[0, 0]} fill={`${THEME.colors.climate.rainBlue}44`} />
           <Txt
             text="ECUADOR 0°"
-            position={[0, -14]}
+            position={[0, -18]}
             fill={THEME.colors.climate.skyMist}
             fontFamily={THEME.typography.mono}
-            fontSize={16}
+            fontSize={20}
+            fontWeight={600}
             letterSpacing={3}
           />
 
@@ -127,37 +128,37 @@ export default makeScene2D('toma-03', function* (view) {
             fill={`${THEME.colors.earth.terracotta}88`}
           />
 
-          {/* Tarjeta de datos NOAA */}
+          {/* Tarjeta de datos NOAA con escala de proyección */}
           <Rect
             ref={ins04Card}
-            width={600}
-            height={370}
+            width={640}
+            height={390}
             fill={THEME.colors.paper.cream}
             stroke={THEME.colors.earth.ochre}
-            lineWidth={2}
-            radius={16}
+            lineWidth={2.5}
+            radius={18}
             position={[-180, 0]}
-            padding={[28, 32]}
+            padding={[30, 36]}
             shadowColor={`${THEME.colors.earth.dark}25`}
-            shadowBlur={20}
+            shadowBlur={22}
             opacity={0}
           >
             <Txt
               text="EL NIÑO SE ESTÁ FORTALECIENDO"
-              position={[0, -120]}
+              position={[0, -125]}
               fill={THEME.colors.climate.droughtOrange}
               fontFamily={THEME.typography.sans}
-              fontSize={22}
+              fontSize={24}
               fontWeight={700}
               letterSpacing={2}
             />
 
             <Txt
               text="Probabilidad mayor al 90%"
-              position={[0, -60]}
+              position={[0, -62]}
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
-              fontSize={38}
+              fontSize={44}
               fontWeight={700}
             />
 
@@ -166,45 +167,47 @@ export default makeScene2D('toma-03', function* (view) {
               position={[0, -10]}
               fill={THEME.colors.earth.warmClay}
               fontFamily={THEME.typography.sans}
-              fontSize={22}
+              fontSize={24}
+              fontWeight={600}
               textAlign="center"
             />
 
             {/* Medidor de probabilidad */}
             <Rect
-              width={480}
-              height={22}
-              radius={11}
+              width={500}
+              height={26}
+              radius={13}
               fill={`${THEME.colors.earth.ochre}33`}
-              position={[0, 50]}
+              position={[0, 52]}
             >
               <Rect
                 ref={meterBar}
                 width={0}
-                height={22}
-                radius={11}
+                height={26}
+                radius={13}
                 fill={THEME.colors.climate.droughtOrange}
-                position={[-240, 0]}
+                position={[-250, 0]}
                 offset={[-1, 0]}
               />
             </Rect>
             <Txt
               ref={meterVal}
               text=">90%"
-              position={[200, 85]}
+              position={[215, 90]}
               fill={THEME.colors.climate.droughtOrange}
               fontFamily={THEME.typography.mono}
-              fontSize={24}
+              fontSize={28}
               fontWeight={700}
               opacity={0}
             />
 
-            <Node position={[0, 130]}>
+            <Node position={[0, 135]}>
               <Txt
                 text="Esquema ilustrativo · Fuente: NOAA"
                 fill={THEME.colors.earth.warmClay}
                 fontFamily={THEME.typography.mono}
-                fontSize={18}
+                fontSize={22}
+                fontWeight={600}
               />
             </Node>
           </Rect>
@@ -235,10 +238,10 @@ export default makeScene2D('toma-03', function* (view) {
         >
           <Txt
             text="DE LO GLOBAL A LO LOCAL"
-            position={[0, -310]}
+            position={[0, -315]}
             fill={THEME.colors.earth.terracotta}
             fontFamily={THEME.typography.serif}
-            fontSize={36}
+            fontSize={44}
             fontWeight={700}
             letterSpacing={3}
           />
@@ -247,67 +250,68 @@ export default makeScene2D('toma-03', function* (view) {
             position={[0, -265]}
             fill={THEME.colors.earth.warmClay}
             fontFamily={THEME.typography.sans}
-            fontSize={22}
+            fontSize={26}
+            fontWeight={600}
           />
 
           {/* Tres preguntas tipográficas escalonadas */}
           <Node position={[-380, 0]}>
-            <Node ref={q1Node} position={[0, -80]} opacity={0} x={-40}>
+            <Node ref={q1Node} position={[0, -85]} opacity={0} x={-40}>
               <Rect
-                width={620}
-                height={70}
+                width={640}
+                height={80}
                 fill={THEME.colors.paper.cream}
                 stroke={THEME.colors.earth.ochre}
-                lineWidth={1.5}
-                radius={12}
-                padding={[10, 20]}
+                lineWidth={2}
+                radius={14}
+                padding={[12, 24]}
               >
                 <Txt
                   text="¿Lloverá menos?"
                   fill={THEME.colors.earth.deep}
                   fontFamily={THEME.typography.serif}
-                  fontSize={32}
-                  fontWeight={600}
+                  fontSize={36}
+                  fontWeight={700}
                 />
               </Rect>
             </Node>
 
             <Node ref={q2Node} position={[0, 10]} opacity={0} x={-40}>
               <Rect
-                width={620}
-                height={70}
+                width={640}
+                height={80}
                 fill={THEME.colors.paper.cream}
                 stroke={THEME.colors.earth.ochre}
-                lineWidth={1.5}
-                radius={12}
-                padding={[10, 20]}
+                lineWidth={2}
+                radius={14}
+                padding={[12, 24]}
               >
                 <Txt
                   text="¿Cuándo llegará la lluvia?"
                   fill={THEME.colors.earth.deep}
                   fontFamily={THEME.typography.serif}
-                  fontSize={32}
-                  fontWeight={600}
+                  fontSize={36}
+                  fontWeight={700}
                 />
               </Rect>
             </Node>
 
-            <Node ref={q3Node} position={[0, 100]} opacity={0} x={-40}>
+            <Node ref={q3Node} position={[0, 105]} opacity={0} x={-40}>
               <Rect
-                width={620}
-                height={70}
+                width={640}
+                height={80}
                 fill={THEME.colors.paper.cream}
                 stroke={THEME.colors.earth.ochre}
-                lineWidth={1.5}
-                radius={12}
-                padding={[10, 20]}
+                lineWidth={2}
+                radius={14}
+                padding={[12, 24]}
               >
                 <Txt
                   text="¿Cuánto cambiará la temporada?"
                   fill={THEME.colors.earth.deep}
                   fontFamily={THEME.typography.serif}
-                  fontSize={32}
-                  fontWeight={600}
+                  fontSize={36}
+                  fontWeight={700}
                 />
               </Rect>
             </Node>
@@ -333,14 +337,16 @@ export default makeScene2D('toma-03', function* (view) {
                 position={[-120, -140]}
                 fill={THEME.colors.earth.warmClay}
                 fontFamily={THEME.typography.mono}
-                fontSize={18}
+                fontSize={22}
+                fontWeight={600}
               />
               <Txt
                 text="Meses (Mayo - Octubre)"
                 position={[140, 150]}
                 fill={THEME.colors.earth.warmClay}
                 fontFamily={THEME.typography.mono}
-                fontSize={18}
+                fontSize={22}
+                fontWeight={600}
               />
 
               {/* Abanico ilustrativo de curvas históricas dispersas */}
@@ -354,14 +360,15 @@ export default makeScene2D('toma-03', function* (view) {
                 position={[110, -110]}
                 fill={THEME.colors.climate.skyMist}
                 fontFamily={THEME.typography.mono}
-                fontSize={16}
+                fontSize={20}
+                fontWeight={600}
               />
 
               {/* Curva de medición local que se solidifica */}
               <Rect
                 ref={localMeasureLine}
                 width={0}
-                height={5}
+                height={6}
                 position={[-250, 40]}
                 fill={THEME.colors.milpa.deepGreen}
                 offset={[-1, 0]}
@@ -369,22 +376,22 @@ export default makeScene2D('toma-03', function* (view) {
 
               {/* Punto de estación agrometeorológica con dimensiones explícitas */}
               <Node ref={stationPin} position={[150, 40]} opacity={0} scale={0}>
-                <Circle size={28} fill={THEME.colors.milpa.leaf} />
-                <Circle size={14} fill={THEME.colors.paper.cream} />
+                <Circle size={32} fill={THEME.colors.milpa.leaf} />
+                <Circle size={16} fill={THEME.colors.paper.cream} />
                 <Rect
-                  position={[0, -45]}
-                  width={180}
-                  height={44}
+                  position={[0, -48]}
+                  width={210}
+                  height={48}
                   fill={THEME.colors.milpa.deepGreen}
-                  radius={8}
-                  padding={[6, 12]}
+                  radius={10}
+                  padding={[6, 14]}
                 >
                   <Txt
                     text="Estación local"
                     fill={THEME.colors.paper.cream}
                     fontFamily={THEME.typography.sans}
-                    fontSize={20}
-                    fontWeight={600}
+                    fontSize={22}
+                    fontWeight={700}
                   />
                 </Rect>
               </Node>
@@ -395,7 +402,7 @@ export default makeScene2D('toma-03', function* (view) {
               position={[0, 220]}
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
-              fontSize={26}
+              fontSize={30}
               fontWeight={700}
             />
           </Node>

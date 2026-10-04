@@ -53,13 +53,13 @@ export default makeScene2D('toma-02', function* (view) {
           <Rect
             ref={statCard}
             position={[-380, -20]}
-            width={480}
-            height={380}
+            width={530}
+            height={410}
             fill={THEME.colors.paper.amateLight}
             stroke={THEME.colors.earth.ochre}
-            lineWidth={2}
-            radius={16}
-            padding={[30, 36]}
+            lineWidth={2.5}
+            radius={18}
+            padding={[32, 38]}
             shadowColor={`${THEME.colors.earth.dark}22`}
             shadowBlur={25}
             shadowOffset={[0, 6]}
@@ -70,32 +70,33 @@ export default makeScene2D('toma-02', function* (view) {
               text=">90%"
               fill={THEME.colors.milpa.deepGreen}
               fontFamily={THEME.typography.serif}
-              fontSize={84}
+              fontSize={105}
               fontWeight={700}
-              position={[0, -70]}
+              position={[0, -80]}
             />
             <Txt
               text="de la tierra cultivada"
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
-              fontSize={30}
+              fontSize={36}
               fontWeight={600}
-              position={[0, 10]}
+              position={[0, 15]}
             />
             <Txt
               text="depende de la lluvia"
               fill={THEME.colors.climate.rainBlue}
               fontFamily={THEME.typography.serif}
-              fontSize={30}
+              fontSize={36}
               fontWeight={600}
-              position={[0, 50]}
+              position={[0, 60]}
             />
             <Txt
               text="Fuente: INEGI"
               fill={THEME.colors.earth.warmClay}
               fontFamily={THEME.typography.mono}
-              fontSize={22}
-              position={[0, 120]}
+              fontSize={24}
+              fontWeight={600}
+              position={[0, 135]}
             />
           </Rect>
 
@@ -111,14 +112,14 @@ export default makeScene2D('toma-02', function* (view) {
                 <Node position={[x, y]}>
                   <Circle
                     ref={rainDrops[idx]}
-                    size={14}
+                    size={16}
                     fill={THEME.colors.climate.rainBlue}
                     position={[0, -80]}
                     opacity={0}
                   />
                   <Rect
-                    width={96}
-                    height={106}
+                    width={98}
+                    height={110}
                     fill={THEME.colors.paper.cream}
                     stroke={THEME.colors.earth.ochre}
                     lineWidth={2}
@@ -126,18 +127,18 @@ export default makeScene2D('toma-02', function* (view) {
                   >
                     <Rect
                       ref={parcelFills[idx]}
-                      width={96}
+                      width={98}
                       height={0}
-                      position={[0, 53]}
+                      position={[0, 55]}
                       offset={[0, 1]}
                       fill={isRainFed ? THEME.colors.milpa.leaf : '#D8D0C5'}
                       radius={10}
                     />
                     <Txt
                       text={isRainFed ? '🌽' : '💧'}
-                      fontSize={28}
+                      fontSize={32}
                       position={[0, 0]}
-                      opacity={0.8}
+                      opacity={0.85}
                     />
                   </Rect>
                 </Node>
@@ -150,10 +151,10 @@ export default makeScene2D('toma-02', function* (view) {
         <Node ref={calendarNode} opacity={0} position={[0, 40]}>
           <Txt
             text="CALENDARIO AGRÍCOLA DE TEMPORAL"
-            position={[0, -260]}
+            position={[0, -265]}
             fill={THEME.colors.earth.deep}
             fontFamily={THEME.typography.serif}
-            fontSize={38}
+            fontSize={44}
             fontWeight={700}
             letterSpacing={3}
           />
@@ -162,64 +163,65 @@ export default makeScene2D('toma-02', function* (view) {
             position={[0, -210]}
             fill={THEME.colors.climate.droughtOrange}
             fontFamily={THEME.typography.sans}
-            fontSize={24}
+            fontSize={28}
+            fontWeight={600}
           />
 
           <Rect
-            width={1100}
-            height={110}
+            width={1140}
+            height={125}
             fill={THEME.colors.paper.amateLight}
             stroke={THEME.colors.earth.ochre}
             lineWidth={2.5}
-            radius={16}
+            radius={18}
             position={[0, -40]}
           >
-            <Rect width={2} height={110} position={[-183, 0]} fill={THEME.colors.earth.ochre} />
-            <Rect width={2} height={110} position={[183, 0]} fill={THEME.colors.earth.ochre} />
-            <Txt text="MAYO" position={[-366, -15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={30} fontWeight={700} />
-            <Txt text="Siembra habitual" position={[-366, 25]} fill={THEME.colors.milpa.nopal} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={600} />
+            <Rect width={2} height={125} position={[-190, 0]} fill={THEME.colors.earth.ochre} />
+            <Rect width={2} height={125} position={[190, 0]} fill={THEME.colors.earth.ochre} />
+            <Txt text="MAYO" position={[-380, -18]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={34} fontWeight={700} />
+            <Txt text="Siembra habitual" position={[-380, 26]} fill={THEME.colors.milpa.deepGreen} fontFamily={THEME.typography.sans} fontSize={22} fontWeight={600} />
 
-            <Txt text="JUNIO" position={[0, -15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={30} fontWeight={700} />
+            <Txt text="JUNIO" position={[0, -18]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={34} fontWeight={700} />
 
-            <Txt text="JULIO" position={[366, -15]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={30} fontWeight={700} />
-            <Txt text="Lluvia retrasada" position={[366, 25]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={600} />
+            <Txt text="JULIO" position={[380, -18]} fill={THEME.colors.earth.deep} fontFamily={THEME.typography.serif} fontSize={34} fontWeight={700} />
+            <Txt text="Lluvia retrasada" position={[380, 26]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.sans} fontSize={22} fontWeight={600} />
           </Rect>
 
-          <Node ref={calendarSlider} position={[-366, -40]}>
+          <Node ref={calendarSlider} position={[-380, -40]}>
             <Rect
-              width={180}
-              height={136}
+              width={200}
+              height={148}
               fill={`${THEME.colors.climate.droughtOrange}26`}
               stroke={THEME.colors.climate.droughtOrange}
-              lineWidth={3.5}
-              radius={14}
+              lineWidth={4}
+              radius={16}
               shadowColor={`${THEME.colors.climate.droughtOrange}55`}
-              shadowBlur={18}
+              shadowBlur={20}
             >
-              <Txt text="SIEMBRA" position={[0, -38]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.sans} fontSize={16} fontWeight={700} letterSpacing={2} />
-              <Txt text="Finales de" position={[0, 0]} fill={THEME.colors.earth.dark} fontFamily={THEME.typography.serif} fontSize={22} />
-              <Txt text="JUNIO" position={[0, 32]} fill={THEME.colors.earth.dark} fontFamily={THEME.typography.serif} fontSize={28} fontWeight={700} />
+              <Txt text="SIEMBRA" position={[0, -42]} fill={THEME.colors.climate.droughtOrange} fontFamily={THEME.typography.sans} fontSize={18} fontWeight={700} letterSpacing={2} />
+              <Txt text="Finales de" position={[0, 0]} fill={THEME.colors.earth.dark} fontFamily={THEME.typography.serif} fontSize={24} />
+              <Txt text="JUNIO" position={[0, 36]} fill={THEME.colors.earth.dark} fontFamily={THEME.typography.serif} fontSize={32} fontWeight={700} />
             </Rect>
           </Node>
 
           <Rect
             ref={delayBadge}
-            position={[0, 140]}
-            width={860}
-            height={66}
+            position={[0, 150]}
+            width={1040}
+            height={74}
             fill={THEME.colors.earth.deep}
-            radius={12}
-            padding={[14, 28]}
-            shadowColor={`${THEME.colors.earth.dark}44`}
-            shadowBlur={16}
+            radius={14}
+            padding={[16, 32]}
+            shadowColor={`${THEME.colors.earth.dark}55`}
+            shadowBlur={18}
             opacity={0}
           >
             <Txt
               text="⚠️ RETRASO CRÍTICO: La siembra se desplaza hasta finales de junio"
               fill={THEME.colors.paper.cream}
               fontFamily={THEME.typography.sans}
-              fontSize={24}
-              fontWeight={600}
+              fontSize={28}
+              fontWeight={700}
             />
           </Rect>
         </Node>

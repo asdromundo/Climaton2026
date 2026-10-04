@@ -131,13 +131,18 @@ def generar_mapa_definitivo():
     }
     alcaldias['NOM_ALC'] = alcaldias['CVE_MUN'].map(NOMBRES)
 
-    # Offsets para balance óptico y evitar tocar la zona de estudio
+    # Offsets para balance óptico y evitar tocar la zona de estudio ni el volcán
     OFFSETS = {
-        '011': (0.018, 0.003),   # Tláhuac: aire respecto a Tulyehualco
-        '013': (-0.012, 0.002),  # Xochimilco: más hacia su centro urbano
-        '005': (0.000, -0.022),  # GAM: bajar para no tocar la punta norte
-        '002': (0.000, -0.005),  # Azcapotzalco
-        '009': (0.000, -0.005),  # Milpa Alta
+        '011': (0.022, 0.008),   # Tláhuac: hacia el noreste para despejar Tulyehualco
+        '013': (-0.018, 0.005),  # Xochimilco: hacia su zona urbana/lacustre
+        '009': (0.000, -0.012),  # Milpa Alta: centrado en su amplio valle agrícola
+        '012': (-0.008, 0.000),  # Tlalpan: centrado en su zona montañosa
+        '007': (0.006, 0.002),   # Iztapalapa: centrado
+        '005': (0.000, -0.025),  # GAM: bajar para no tocar la punta norte
+        '002': (0.000, -0.006),  # Azcapotzalco
+        '010': (-0.006, 0.000),  # Álvaro Obregón
+        '004': (-0.005, 0.000),  # Cuajimalpa
+        '008': (-0.004, -0.005), # Magdalena Contreras
     }
 
     for _, r in alcaldias.iterrows():
@@ -148,58 +153,25 @@ def generar_mapa_definitivo():
         x, y = pt.x + dx, pt.y + dy
 
         is_sur = cve in ['009', '011', '012', '013', '007']
-        fs = 9.5 if is_sur else 8.2
+        # Tipografía a escala real para que sea nítida en proyección 1080p
+        fs = 20 if is_sur else 15
         weight = 'bold'
-        col = '#4A3728' if is_sur else '#735E4D'
+        col = '#241710' if is_sur else '#4A3728'
+        edge = '#8C4D2E' if is_sur else '#B8A890'
+        lw = 1.2 if is_sur else 0.8
 
         ax.text(
             x, y, nombre.upper() if is_sur else nombre,
             fontsize=fs, fontweight=weight, color=col,
             ha='center', va='center', zorder=8,
-            bbox=dict(boxstyle='round,pad=0.2', facecolor='#FAF7F0', edgecolor='none', alpha=0.65)
+            bbox=dict(
+                boxstyle='round,pad=0.32',
+                facecolor='#FAF7F0',
+                edgecolor=edge,
+                linewidth=lw,
+                alpha=0.92
+            )
         )
-
-    # 10. Textos estáticos editoriales y cartelas clásicas
-    # Título editorial cartográfico (arriba a la izquierda)
-    ax.text(
-        bounds[0] + 0.015, bounds[3] - 0.02,
-        "CIUDAD DE MÉXICO\nSuelo de Conservación y Zona de Estudio",
-        fontsize=14.5, fontweight='bold', color='#2F241D',
-        bbox=dict(boxstyle='round,pad=0.5', facecolor='#F2EBD9', edgecolor='#C97A3E', linewidth=1.5, alpha=0.95),
-        zorder=9
-    )
-
-    # Rótulo y flecha hacia la Zona de Estudio (Santiago Tulyehualco - 1,661 ha)
-    z_centroid = zona_estudio.geometry.iloc[0].centroid
-    ax.annotate(
-        "ZONA DE ESTUDIO\nSantiago Tulyehualco\n(1,661 ha · Temporal)",
-        xy=(z_centroid.x, z_centroid.y),
-        xytext=(z_centroid.x + 0.055, z_centroid.y + 0.045),
-        arrowprops=dict(facecolor='#8C4D2E', edgecolor='#2F241D', width=1.4, headwidth=6, shrink=0.08),
-        fontsize=10.5, fontweight='bold', color='#1C1613', zorder=10,
-        bbox=dict(boxstyle='round,pad=0.4', facecolor='#F2EBD9', edgecolor='#C97A3E', linewidth=1.4, alpha=0.95)
-    )
-
-    # Rótulo del Volcán Teuhtli
-    ax.text(
-        tx, ty - 0.0075, "Volcán Teuhtli\n2,710 msnm", fontsize=9.5, fontweight='bold',
-        color='#2F241D', ha='center', va='top', zorder=9,
-        bbox=dict(boxstyle='round,pad=0.25', facecolor='#FAF7F0', edgecolor='#8C4D2E', linewidth=1.0, alpha=0.9)
-    )
-
-    # Leyenda cartográfica (abajo a la izquierda)
-    import matplotlib.patches as mpatches
-    leyenda_parches = [
-        mpatches.Patch(facecolor='#E2EBDC', edgecolor='#96B485', label='Suelo de Conservación (Rural CDMX)'),
-        mpatches.Patch(facecolor='#F7EFE2', edgecolor='#D8CABA', label='Zona Urbana Consolidada'),
-        mpatches.Patch(facecolor='#E67E22', edgecolor='#8C4D2E', linewidth=1.5, label='Zona de Estudio: Tulyehualco (1,661 ha)'),
-        mpatches.Patch(facecolor='none', edgecolor='#C97A3E', linestyle='--', label='Curvas de nivel: Volcán Teuhtli'),
-    ]
-    leg = ax.legend(
-        handles=leyenda_parches, loc='lower left', frameon=True,
-        facecolor='#FAF7F0', edgecolor='#C97A3E', fontsize=9.5
-    )
-    leg.set_zorder(9)
 
     plt.tight_layout(pad=0)
 

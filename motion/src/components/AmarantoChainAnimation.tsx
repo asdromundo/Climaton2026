@@ -33,17 +33,17 @@ export class AmarantoChainAnimation extends Node {
       <Node>
         <Txt
           text="CADENA PRODUCTIVA TRADICIONAL"
-          position={[0, -280]}
+          position={[0, -290]}
           fill={THEME.colors.earth.deep}
           fontFamily={THEME.typography.serif}
-          fontSize={36}
+          fontSize={44}
           fontWeight={700}
           letterSpacing={4}
         />
 
         <Rect
-          width={900}
-          height={4}
+          width={920}
+          height={6}
           position={[0, 0]}
           fill={`${THEME.colors.earth.terracotta}44`}
         />
@@ -52,35 +52,35 @@ export class AmarantoChainAnimation extends Node {
           <Node ref={item.ref} position={[item.x, 0]} scale={0} opacity={0}>
             <Rect
               ref={idx === 0 ? this.amarantoCard : undefined}
-              width={200}
-              height={220}
+              width={220}
+              height={240}
               fill={THEME.colors.paper.amateLight}
               stroke={THEME.colors.earth.ochre}
-              lineWidth={2}
-              radius={16}
+              lineWidth={2.5}
+              radius={18}
               shadowColor={`${THEME.colors.earth.dark}22`}
-              shadowBlur={20}
+              shadowBlur={22}
               shadowOffset={[0, 6]}
             >
-              <Txt text={item.icon} fontSize={60} position={[0, -40]} />
+              <Txt text={item.icon} fontSize={70} position={[0, -45]} />
               <Txt
                 text={item.label}
-                position={[0, 45]}
+                position={[0, 48]}
                 fill={THEME.colors.earth.deep}
                 fontFamily={THEME.typography.serif}
-                fontSize={30}
+                fontSize={34}
                 fontWeight={700}
               />
               <Circle
-                size={32}
-                position={[0, -110]}
+                size={38}
+                position={[0, -120]}
                 fill={THEME.colors.earth.terracotta}
               >
                 <Txt
                   text={`${idx + 1}`}
                   fill={THEME.colors.paper.cream}
                   fontFamily={THEME.typography.sans}
-                  fontSize={18}
+                  fontSize={22}
                   fontWeight={700}
                 />
               </Circle>
@@ -91,7 +91,7 @@ export class AmarantoChainAnimation extends Node {
                 ref={this.crackPath}
                 data="M -40,-20 L -10,10 L 15,-5 L 35,30 L 45,55"
                 stroke={THEME.colors.climate.droughtOrange}
-                lineWidth={4}
+                lineWidth={5}
                 end={0}
                 opacity={0}
               />
@@ -101,20 +101,22 @@ export class AmarantoChainAnimation extends Node {
 
         <Rect
           ref={this.alertBadge}
-          position={[-450, 180]}
-          width={330}
-          height={54}
+          position={[-450, 195]}
+          width={380}
+          height={64}
           fill={THEME.colors.earth.dark}
-          radius={10}
-          padding={[10, 20]}
+          radius={12}
+          padding={[12, 22]}
+          shadowColor={`${THEME.colors.earth.dark}55`}
+          shadowBlur={16}
           opacity={0}
           scale={0.8}
         >
           <Txt
-            text="EN RIESGO CLIMÁTICO"
+            text="🚨 EN RIESGO CLIMÁTICO"
             fill={THEME.colors.climate.droughtOrange}
             fontFamily={THEME.typography.sans}
-            fontSize={22}
+            fontSize={26}
             fontWeight={700}
             letterSpacing={2}
           />

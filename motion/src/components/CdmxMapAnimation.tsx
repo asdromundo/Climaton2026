@@ -30,8 +30,8 @@ export class CdmxMapAnimation extends Node {
     super(props);
 
     const mapHeight = 1000;
-    const mapWidth = mapHeight * (2429 / 3200); // 759.06 px
-    const teuhtliPosX = mapWidth * 0.2459; // Coordenada normalizada exacta
+    const mapWidth = mapHeight * (2356 / 3200); // 736.25 px
+    const teuhtliPosX = mapWidth * 0.2689; // Coordenada normalizada exacta
     const teuhtliPosY = mapHeight * 0.1260;
 
     this.add(
@@ -51,58 +51,58 @@ export class CdmxMapAnimation extends Node {
           {/* Ancla del Volcán Teuhtli */}
           <Node ref={this.teuhtliTarget} position={[teuhtliPosX, teuhtliPosY]}>
             <Circle
-              size={70}
+              size={76}
               stroke={THEME.colors.climate.droughtOrange}
-              lineWidth={2}
+              lineWidth={3}
               opacity={0}
             />
             <Circle
-              size={45}
+              size={50}
               stroke={THEME.colors.earth.ochre}
-              lineWidth={2.5}
-              opacity={0.4}
+              lineWidth={3}
+              opacity={0.5}
             />
             <Circle
-              size={22}
+              size={26}
               fill={`${THEME.colors.earth.terracotta}55`}
               stroke={THEME.colors.earth.terracotta}
-              lineWidth={2}
+              lineWidth={2.5}
             />
 
-            {/* Pin de Cehuamilli */}
+            {/* Pin de Cehuamilli con escala para proyección */}
             <Node ref={this.pinNode} position={[24, -22]} scale={0} opacity={0}>
               <Circle
                 ref={this.pinPulse}
-                size={36}
+                size={42}
                 stroke={THEME.colors.climate.droughtOrange}
-                lineWidth={3}
+                lineWidth={3.5}
                 opacity={0}
               />
               <Circle
-                size={18}
+                size={24}
                 fill={THEME.colors.earth.terracotta}
                 stroke={THEME.colors.paper.cream}
-                lineWidth={3.5}
+                lineWidth={4}
                 shadowColor={`${THEME.colors.earth.dark}66`}
-                shadowBlur={10}
+                shadowBlur={12}
               />
-              <Circle size={6} fill={THEME.colors.paper.cream} />
+              <Circle size={8} fill={THEME.colors.paper.cream} />
 
               <Rect
-                position={[135, -20]}
-                width={220}
-                height={52}
+                position={[160, -24]}
+                width={280}
+                height={64}
                 fill={THEME.colors.earth.deep}
-                radius={10}
+                radius={12}
                 shadowColor={`${THEME.colors.earth.dark}55`}
-                shadowBlur={14}
+                shadowBlur={16}
                 shadowOffset={[0, 4]}
               >
                 <Txt
                   text="📍 Cehuamilli"
                   fill={THEME.colors.paper.cream}
                   fontFamily={THEME.typography.serif}
-                  fontSize={26}
+                  fontSize={32}
                   fontWeight={700}
                 />
               </Rect>
@@ -110,41 +110,64 @@ export class CdmxMapAnimation extends Node {
           </Node>
         </Node>
 
-        {/* Tarjeta de rótulo superior izquierda con dimensiones explícitas */}
+        {/* Tarjeta flotante en la diapositiva (gran tamaño para proyección en auditorio) */}
         <Rect
           ref={this.infoCard}
-          position={[-580, -380]}
-          width={640}
-          height={136}
+          position={[-560, -360]}
+          width={760}
+          height={165}
           fill={`${THEME.colors.paper.cream}F5`}
           stroke={THEME.colors.earth.ochre}
-          lineWidth={2}
-          radius={14}
-          padding={[20, 32]}
-          shadowColor={`${THEME.colors.earth.dark}22`}
-          shadowBlur={20}
+          lineWidth={2.5}
+          radius={16}
+          padding={[24, 36]}
+          shadowColor={`${THEME.colors.earth.dark}25`}
+          shadowBlur={25}
           shadowOffset={[0, 6]}
           opacity={0}
-          y={-360}
+          y={-340}
         >
           <Node>
+            <Txt
+              ref={this.cdmxTitle}
+              text="Ciudad de México"
+              fill={THEME.colors.earth.deep}
+              fontFamily={THEME.typography.serif}
+              fontSize={54}
+              fontWeight={700}
+              position={[0, -22]}
+              opacity={1}
+            />
+            <Txt
+              ref={this.cdmxSubtitle}
+              text="Suelo de Conservación y Zona Metropolitana"
+              position={[0, 36]}
+              fill={THEME.colors.milpa.deepGreen}
+              fontFamily={THEME.typography.sans}
+              fontSize={28}
+              fontWeight={600}
+              opacity={1}
+            />
+
             <Txt
               ref={this.teuhtliTitle}
               text="Volcán Teuhtli"
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
-              fontSize={46}
+              fontSize={54}
               fontWeight={700}
-              position={[0, -18]}
+              position={[0, -22]}
+              opacity={0}
             />
             <Txt
               ref={this.teuhtliSubtitle}
               text="2,710 msnm · Santiago Tulyehualco (1,661 ha)"
-              position={[0, 32]}
+              position={[0, 36]}
               fill={THEME.colors.earth.terracotta}
               fontFamily={THEME.typography.sans}
-              fontSize={24}
+              fontSize={28}
               fontWeight={600}
+              opacity={0}
             />
           </Node>
         </Rect>
@@ -156,8 +179,10 @@ export class CdmxMapAnimation extends Node {
    * Animación de entrada inicial de la CDMX (alrededor de ~3.0s)
    */
   public *introCdmx(duration: number = 0.8) {
-    // La cartela estática del mapa Matplotlib luce limpia en el plano general
-    yield* waitFor(duration);
+    yield* all(
+      this.infoCard().opacity(1, duration, easeOutCubic),
+      this.infoCard().position.y(-360, duration, easeOutCubic),
+    );
   }
 
   /**
@@ -165,28 +190,36 @@ export class CdmxMapAnimation extends Node {
    */
   public *zoomToTeuhtli(duration: number = 2.0) {
     const mapHeight = 1000;
-    const mapWidth = mapHeight * (2429 / 3200);
-    const teuhtliPosX = mapWidth * 0.2459;
+    const mapWidth = mapHeight * (2356 / 3200);
+    const teuhtliPosX = mapWidth * 0.2689;
     const teuhtliPosY = mapHeight * 0.1260;
     const zoomScale = 3.2;
     const zoomTargetX = -teuhtliPosX * zoomScale + 120;
     const zoomTargetY = -teuhtliPosY * zoomScale;
 
+    const self = this;
     yield* all(
       this.camera().scale(zoomScale, duration, easeInOutCubic),
       this.camera().position([zoomTargetX, zoomTargetY], duration, easeInOutCubic),
 
-      this.infoCard().opacity(1, duration * 0.7, easeOutCubic),
-      this.infoCard().position.y(-380, duration * 0.7, easeOutCubic),
-    );
+      // Transición fluida del texto de la tarjeta
+      this.cdmxTitle().opacity(0, duration * 0.35, easeOutCubic),
+      this.cdmxSubtitle().opacity(0, duration * 0.35, easeOutCubic),
+      this.teuhtliTitle().opacity(1, duration * 0.6, easeOutCubic),
+      this.teuhtliSubtitle().opacity(1, duration * 0.6, easeOutCubic),
 
-    // Cae el pin en la ladera
-    yield* all(
-      this.pinNode().opacity(1, 0.4, easeOutCubic),
-      this.pinNode().scale(1, 0.6, easeOutBack),
-      this.pinPulse().opacity(0.9, 0.3, easeOutCubic),
-      this.pinPulse().size(80, 0.8, easeOutCubic),
-      this.pinPulse().opacity(0, 0.8, easeInOutCubic),
+      // Cae el pin en la ladera hacia el final del zoom dentro del tiempo exacto
+      (function* () {
+        yield* waitFor(duration * 0.5);
+        yield* all(
+          self.pinNode().opacity(1, duration * 0.25, easeOutCubic),
+          self.pinNode().scale(1, duration * 0.25, easeOutBack),
+        );
+        yield* all(
+          self.pinPulse().size(95, duration * 0.25, easeOutCubic),
+          self.pinPulse().opacity(0, duration * 0.25, easeInOutCubic),
+        );
+      })(),
     );
   }
 
@@ -196,10 +229,10 @@ export class CdmxMapAnimation extends Node {
   public *holdTeuhtli(duration: number = 2.9) {
     const pulseTime = duration / 2;
     for (let i = 0; i < 2; i++) {
-      this.pinPulse().size(36);
+      this.pinPulse().size(42);
       this.pinPulse().opacity(0.8);
       yield* all(
-        this.pinPulse().size(90, pulseTime, easeOutCubic),
+        this.pinPulse().size(110, pulseTime, easeOutCubic),
         this.pinPulse().opacity(0, pulseTime, easeInOutCubic),
       );
     }

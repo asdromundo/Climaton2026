@@ -66,7 +66,7 @@ export default makeScene2D('toma-08', function* (view) {
             opacity={0}
             scale={0}
           />
-          <Txt text="🌾 Alegría" position={[-110, -50]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={700} opacity={0.95} />
+          <Txt text="🌾 Alegría" position={[-115, -50]} fill={THEME.colors.earth.terracotta} fontFamily={THEME.typography.sans} fontSize={24} fontWeight={700} opacity={0.95} />
 
           {/* Rama de olivo */}
           <Path
@@ -76,7 +76,7 @@ export default makeScene2D('toma-08', function* (view) {
             opacity={0}
             scale={0}
           />
-          <Txt text="🌿 Olivo" position={[110, -30]} fill={THEME.colors.milpa.nopal} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={700} opacity={0.95} />
+          <Txt text="🌿 Olivo" position={[115, -30]} fill={THEME.colors.milpa.nopal} fontFamily={THEME.typography.sans} fontSize={24} fontWeight={700} opacity={0.95} />
 
           {/* Quelites al ras del suelo */}
           <Path
@@ -86,7 +86,7 @@ export default makeScene2D('toma-08', function* (view) {
             opacity={0}
             scale={0}
           />
-          <Txt text="🌱 Quelites" position={[-170, 95]} fill={THEME.colors.milpa.leaf} fontFamily={THEME.typography.sans} fontSize={20} fontWeight={700} opacity={0.95} />
+          <Txt text="🌱 Quelites" position={[-175, 95]} fill={THEME.colors.milpa.leaf} fontFamily={THEME.typography.sans} fontSize={24} fontWeight={700} opacity={0.95} />
         </Node>
 
         {/* Título de cierre y lema */}
@@ -95,36 +95,36 @@ export default makeScene2D('toma-08', function* (view) {
             text="CEHUAMILLI"
             fill={THEME.colors.earth.deep}
             fontFamily={THEME.typography.serif}
-            fontSize={72}
+            fontSize={80}
             fontWeight={700}
-            letterSpacing={6}
+            letterSpacing={8}
           />
           <Txt
             text="Alertas que nacen de la tierra"
-            position={[0, 65]}
+            position={[0, 70]}
             fill={THEME.colors.milpa.deepGreen}
             fontFamily={THEME.typography.serif}
-            fontSize={32}
+            fontSize={38}
             fontStyle="italic"
           />
         </Node>
 
         {/* Área de Logotipos Institucionales */}
         <Node ref={logosArea} position={[0, 310]} opacity={0}>
-          <Rect width={1100} height={80} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.ochre} lineWidth={1.5} radius={14} padding={[10, 30]}>
-            <Node position={[-360, 0]}>
-              <Rect width={220} height={46} fill={THEME.colors.paper.amateLight} radius={8}>
-                <Txt text="[LOGO: CEHUAMILLI]" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={17} fontWeight={600} />
+          <Rect width={1140} height={86} fill={THEME.colors.paper.cream} stroke={THEME.colors.earth.ochre} lineWidth={1.5} radius={16} padding={[10, 30]}>
+            <Node position={[-370, 0]}>
+              <Rect width={260} height={54} fill={THEME.colors.paper.amateLight} radius={10}>
+                <Txt text="[LOGO: CEHUAMILLI]" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={20} fontWeight={600} />
               </Rect>
             </Node>
             <Node position={[0, 0]}>
-              <Rect width={220} height={46} fill={THEME.colors.paper.amateLight} radius={8}>
-                <Txt text="[LOGO: UNAM]" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={17} fontWeight={600} />
+              <Rect width={260} height={54} fill={THEME.colors.paper.amateLight} radius={10}>
+                <Txt text="[LOGO: UNAM]" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={20} fontWeight={600} />
               </Rect>
             </Node>
-            <Node position={[360, 0]}>
-              <Rect width={240} height={46} fill={THEME.colors.paper.amateLight} radius={8}>
-                <Txt text="[LOGO: CLIMATÓN 2026]" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={17} fontWeight={600} />
+            <Node position={[370, 0]}>
+              <Rect width={260} height={54} fill={THEME.colors.paper.amateLight} radius={10}>
+                <Txt text="[LOGO: CLIMATÓN 2026]" fill={THEME.colors.earth.deep} fontFamily={THEME.typography.mono} fontSize={20} fontWeight={600} />
               </Rect>
             </Node>
           </Rect>
