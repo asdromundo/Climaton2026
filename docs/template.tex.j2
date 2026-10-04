@@ -1,0 +1,35 @@
+((=- extends 'style_jupyter.tex.j2' -=))
+
+((* block title *))
+\title{
+    \vspace{2cm}
+    \Huge \textbf{Título Principal del Documento} \\[0.5em]
+    \large Subtítulo o Descripción del Proyecto
+}
+\author{
+    \textbf{Tu Nombre} \\
+    \texttt{tu\_correo@dominio.com}
+}
+\date{\today}
+((* endblock title *))
+
+((* block maketitle *))
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    
+    {\Huge \bfseries Título del Notebook \par}
+    \vspace{1cm}
+    {\Large Subtítulo o reporte técnico \par}
+    
+    \vfill
+    
+    {\large \textbf{Autor:} Tu Nombre \par}
+    {\large \texttt{tu.email@ejemplo.com} \par}
+    \vspace{0.5cm}
+    {\large \today \par}
+    
+    \vspace{2cm}
+\end{titlepage}
+\newpage
+((* endblock maketitle *))
