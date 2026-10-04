@@ -30,9 +30,9 @@ export class CdmxMapAnimation extends Node {
     super(props);
 
     const mapHeight = 1000;
-    const mapWidth = mapHeight * (3085 / 3580); // ~861.7 px
-    const teuhtliPosX = mapWidth * 0.2699; // Coordenada normalizada exacta
-    const teuhtliPosY = mapHeight * 0.2246;
+    const mapWidth = mapHeight * (2356 / 3200); // 736.25 px
+    const teuhtliPosX = mapWidth * 0.2689; // Coordenada normalizada exacta
+    const teuhtliPosY = mapHeight * 0.1260;
 
     this.add(
       <Node>
@@ -183,9 +183,9 @@ export class CdmxMapAnimation extends Node {
    */
   public *zoomToTeuhtli(duration: number = 2.0) {
     const mapHeight = 1000;
-    const mapWidth = mapHeight * (3085 / 3580);
-    const teuhtliPosX = mapWidth * 0.2699;
-    const teuhtliPosY = mapHeight * 0.2246;
+    const mapWidth = mapHeight * (2356 / 3200);
+    const teuhtliPosX = mapWidth * 0.2689;
+    const teuhtliPosY = mapHeight * 0.1260;
     const zoomScale = 3.2;
     const zoomTargetX = -teuhtliPosX * zoomScale + 120;
     const zoomTargetY = -teuhtliPosY * zoomScale;

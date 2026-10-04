@@ -33,13 +33,13 @@ export default makeScene2D('ins-01-ubicacion', function* (view) {
   const teuhtliTitle = createRef<Txt>();
   const teuhtliSubtitle = createRef<Txt>();
 
-  // Dimensiones base del mapa (1860 x 2180 escalado a altura 1000)
+  // Dimensiones base del mapa (2356 x 3200 escalado a altura 1000)
   const mapHeight = 1000;
-  const mapWidth = mapHeight * (1860 / 2180); // ~853 px
+  const mapWidth = mapHeight * (2356 / 3200); // 736.25 px
 
-  // Posición relativa del Teuhtli sobre el mapa (medida con precisión: +35.5% X, +25.5% Y)
-  const teuhtliPosX = mapWidth * 0.355;
-  const teuhtliPosY = mapHeight * 0.255;
+  // Posición relativa del Teuhtli sobre el mapa (medida con precisión: +26.89% X, +12.60% Y)
+  const teuhtliPosX = mapWidth * 0.2689;
+  const teuhtliPosY = mapHeight * 0.1260;
 
   // Escala para el zoom hacia el volcán
   const zoomScale = 3.2;
