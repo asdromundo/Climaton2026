@@ -1,4 +1,4 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path } from "@revideo/2d";
+import { makeScene2D, Node, Audio, Rect, Img } from "@revideo/2d";
 import {
   all,
   createRef,
@@ -10,201 +10,101 @@ import {
 import { THEME } from "../theme";
 
 import audioParrafo8 from "../../audio/parrafo8.m4a";
+import logoCehuamilli from "../../assets/textures/logo_cehuamilli.jpg";
+import logoUnam from "../../assets/textures/logo_unam.jpeg";
+import logoClimaton from "../../assets/textures/logo_climaton.jpg";
 
 /**
  * TOMA 8 MAESTRA · 8.70 s
  * Sincronización continua con parrafo8.m4a
  *
  * Estructura:
- * 1. [0.0s – 4.5s]:   INS-13 (Crecimiento de la milpa: alegría, olivo y quelites)
- * 2. [4.5s – 5.5s]:   Pausa serena
- * 3. [5.5s – 8.70s]:  Título Cehuamilli + Alertas que nacen de la tierra + Logos oficiales
+ * 1. [0.0s – 4.7s]:   Entrada de la tríada institucional (UNAM, Cehuamilli, Climatón 2026)
+ * 2. [4.7s – 8.70s]:  A la mitad de la toma («Somos Cehuamilli»), Cehuamilli crece hasta
+ *                     ocupar la mitad de la toma (~520px de altura) como héroe central.
  */
 export default makeScene2D("toma-08", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
-  const milpaNode = createRef<Node>();
-  const stalkCorn = createRef<Rect>();
-  const earAmaranto = createRef<Path>();
-  const branchOlivo = createRef<Path>();
-  const leafQuelites = createRef<Path>();
-
-  const titleNode = createRef<Node>();
-  const logosArea = createRef<Node>();
+  const cehuamilliNode = createRef<Node>();
+  const unamNode = createRef<Node>();
+  const climatonNode = createRef<Node>();
 
   view.add(
     <Node>
       {/* Audio maestro continuo de la Toma 8 */}
       <Audio src={audioParrafo8} play={true} />
 
-      {/* Contenedor central de cierre */}
+      {/* Contenedor central de cierre editorial */}
       <Rect
         width={1600}
-        height={800}
+        height={820}
         fill={THEME.colors.paper.amateLight}
         stroke={THEME.colors.earth.ochre}
         lineWidth={2.5}
         radius={24}
         position={[0, 0]}
         padding={[40, 50]}
-        clip={true}
+        shadowColor={`${THEME.colors.earth.dark}20`}
+        shadowBlur={22}
       >
-        {/* Gráfica botánica: Milpa + Alegría + Olivo + Quelites */}
-        <Node ref={milpaNode} position={[0, 120]}>
-          {/* Suelo fértil */}
+        {/* Filete decorativo interior */}
+        <Rect
+          width={1540}
+          height={760}
+          stroke={`${THEME.colors.earth.ochre}70`}
+          lineWidth={1.5}
+          radius={18}
+        />
+
+        {/* 1. Logo UNAM (Izquierda) */}
+        <Node ref={unamNode} position={[-530, 0]} opacity={0}>
           <Rect
-            width={1000}
-            height={6}
-            position={[0, 160]}
-            fill={THEME.colors.earth.terracotta}
-            radius={3}
-          />
-
-          {/* Tallo de maíz central */}
-          <Rect
-            ref={stalkCorn}
-            width={12}
-            height={0}
-            position={[0, 160]}
-            offset={[0, 1]}
-            fill={THEME.colors.milpa.deepGreen}
-            radius={6}
-          />
-
-          {/* Espiga de amaranto / alegría */}
-          <Path
-            ref={earAmaranto}
-            data="M -40,40 C -80,-10 -90,-80 -40,-130 C -20,-80 -10,-10 -40,40 Z"
-            fill={THEME.colors.earth.terracotta}
-            opacity={0}
-            scale={0}
-          />
-          <Txt
-            text="🌾 Alegría"
-            position={[-115, -50]}
-            fill={THEME.colors.earth.terracotta}
-            fontFamily={THEME.typography.sans}
-            fontSize={24}
-            fontWeight={700}
-            opacity={0.95}
-          />
-
-          {/* Rama de olivo */}
-          <Path
-            ref={branchOlivo}
-            data="M 40,60 C 80,10 90,-50 50,-100 C 30,-50 20,-10 40,60 Z"
-            fill={THEME.colors.milpa.nopal}
-            opacity={0}
-            scale={0}
-          />
-          <Txt
-            text="🌿 Olivo"
-            position={[115, -30]}
-            fill={THEME.colors.milpa.nopal}
-            fontFamily={THEME.typography.sans}
-            fontSize={24}
-            fontWeight={700}
-            opacity={0.95}
-          />
-
-          {/* Quelites al ras del suelo */}
-          <Path
-            ref={leafQuelites}
-            data="M -150,160 C -190,130 -160,100 -120,120 C -130,140 -140,150 -150,160 Z"
-            fill={THEME.colors.milpa.leaf}
-            opacity={0}
-            scale={0}
-          />
-          <Txt
-            text="🌱 Quelites"
-            position={[-175, 95]}
-            fill={THEME.colors.milpa.leaf}
-            fontFamily={THEME.typography.sans}
-            fontSize={24}
-            fontWeight={700}
-            opacity={0.95}
-          />
+            width={340}
+            height={180}
+            fill="#FFFFFF"
+            stroke={THEME.colors.earth.ochre}
+            lineWidth={2}
+            radius={20}
+            clip={true}
+            shadowColor={`${THEME.colors.earth.dark}16`}
+            shadowBlur={16}
+          >
+            <Img src={logoUnam} width={300} height={145} radius={12} />
+          </Rect>
         </Node>
 
-        {/* Título de cierre y lema */}
-        <Node ref={titleNode} position={[0, -180]} opacity={0} y={-140}>
-          <Txt
-            text="CEHUAMILLI"
-            fill={THEME.colors.earth.deep}
-            fontFamily={THEME.typography.serif}
-            fontSize={80}
-            fontWeight={700}
-            letterSpacing={8}
-          />
-          <Txt
-            text="Alertas que nacen de la tierra"
-            position={[0, 70]}
-            fill={THEME.colors.milpa.deepGreen}
-            fontFamily={THEME.typography.serif}
-            fontSize={38}
-            fontStyle="italic"
-          />
+        {/* 2. Logo Cehuamilli (Centro, que crece a escala hero hasta ~520px) */}
+        <Node ref={cehuamilliNode} position={[0, 0]} opacity={0} scale={0.85}>
+          <Rect
+            width={360}
+            height={360}
+            fill={THEME.colors.paper.cream}
+            stroke={THEME.colors.earth.terracotta}
+            lineWidth={3.5}
+            radius={28}
+            clip={true}
+            shadowColor={`${THEME.colors.earth.dark}28`}
+            shadowBlur={26}
+          >
+            <Img src={logoCehuamilli} width={360} height={360} radius={28} />
+          </Rect>
         </Node>
 
-        {/* Área de Logotipos Institucionales */}
-        <Node ref={logosArea} position={[0, 310]} opacity={0}>
+        {/* 3. Logo Climatón 2026 (Derecha) */}
+        <Node ref={climatonNode} position={[530, 0]} opacity={0}>
           <Rect
-            width={1140}
-            height={86}
+            width={280}
+            height={280}
             fill={THEME.colors.paper.cream}
             stroke={THEME.colors.earth.ochre}
-            lineWidth={1.5}
-            radius={16}
-            padding={[10, 30]}
+            lineWidth={2}
+            radius={22}
+            clip={true}
+            shadowColor={`${THEME.colors.earth.dark}16`}
+            shadowBlur={16}
           >
-            <Node position={[-370, 0]}>
-              <Rect
-                width={260}
-                height={54}
-                fill={THEME.colors.paper.amateLight}
-                radius={10}
-              >
-                <Txt
-                  text="[LOGO: CEHUAMILLI]"
-                  fill={THEME.colors.earth.deep}
-                  fontFamily={THEME.typography.mono}
-                  fontSize={20}
-                  fontWeight={600}
-                />
-              </Rect>
-            </Node>
-            <Node position={[0, 0]}>
-              <Rect
-                width={260}
-                height={54}
-                fill={THEME.colors.paper.amateLight}
-                radius={10}
-              >
-                <Txt
-                  text="[LOGO: UNAM]"
-                  fill={THEME.colors.earth.deep}
-                  fontFamily={THEME.typography.mono}
-                  fontSize={20}
-                  fontWeight={600}
-                />
-              </Rect>
-            </Node>
-            <Node position={[370, 0]}>
-              <Rect
-                width={260}
-                height={54}
-                fill={THEME.colors.paper.amateLight}
-                radius={10}
-              >
-                <Txt
-                  text="[LOGO: CLIMATÓN 2026]"
-                  fill={THEME.colors.earth.deep}
-                  fontFamily={THEME.typography.mono}
-                  fontSize={20}
-                  fontWeight={600}
-                />
-              </Rect>
-            </Node>
+            <Img src={logoClimaton} width={250} height={250} radius={16} />
           </Rect>
         </Node>
       </Rect>
@@ -215,27 +115,31 @@ export default makeScene2D("toma-08", function* (view) {
   // COREOGRAFÍA TEMPORAL EXACTA (8.70 s)
   // ==========================================
 
-  // [0.0s – 4.5s]: «Si la milpa sigue en pie, la alegría, el olivo y los quelites también.»
-  yield* stalkCorn().height(260, 1.4, easeOutCubic);
+  // [0.0s – 0.5s]: Breve entrada inicial
+  yield* waitFor(0.5);
 
+  // [0.5s – 1.6s]: Entrada armónica de los tres logotipos
   yield* all(
-    earAmaranto().opacity(1, 0.6, easeOutBack),
-    earAmaranto().scale(1, 0.6, easeOutBack),
-    branchOlivo().opacity(1, 0.6, easeOutBack),
-    branchOlivo().scale(1, 0.6, easeOutBack),
-    leafQuelites().opacity(1, 0.6, easeOutBack),
-    leafQuelites().scale(1, 0.6, easeOutBack),
+    cehuamilliNode().opacity(1, 0.75, easeOutCubic),
+    cehuamilliNode().scale(1.0, 0.75, easeOutBack),
+    unamNode().opacity(1, 0.7, easeOutCubic),
+    unamNode().position.x(-490, 0.7, easeOutCubic),
+    climatonNode().opacity(1, 0.7, easeOutCubic),
+    climatonNode().position.x(490, 0.7, easeOutCubic),
   );
 
-  // [4.5s – 5.5s]: Pausa serena
-  yield* waitFor(1.5);
+  // [1.6s – 4.7s]: «Si la milpa sigue en pie, la alegría, el olivo y los quelites también.»
+  yield* waitFor(3.1);
 
-  // [5.5s – 8.70s]: «Somos Cehuamilli: alertas que nacen de la tierra.»
+  // [4.7s – 5.8s]: A la mitad de la toma («Somos Cehuamilli: alertas que nacen de la tierra»)
+  // El logo de Cehuamilli crece hasta ocupar la mitad de la toma (~520px de altura)
+  // y los logos laterales se ajustan hacia afuera con suavidad
   yield* all(
-    titleNode().opacity(1, 0.8, easeOutBack),
-    titleNode().position.y(-180, 0.8, easeOutBack),
-    logosArea().opacity(1, 0.8, easeOutCubic),
+    cehuamilliNode().scale(1.42, 0.95, easeOutBack),
+    unamNode().position.x(-560, 0.95, easeInOutCubic),
+    climatonNode().position.x(560, 0.95, easeInOutCubic),
   );
 
-  yield* waitFor(4.5);
+  // [5.8s – 8.70s]: Presencia monumental de cierre del video máster
+  yield* waitFor(2.9);
 });

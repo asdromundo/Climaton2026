@@ -13,13 +13,13 @@ import { VideoPlaceholder } from "../components/VideoPlaceholder";
 import audioParrafo6 from "../../audio/parrafo6.m4a";
 
 /**
- * TOMA 6 MAESTRA · 28.18 s
+ * TOMA 6 MAESTRA · 28.22 s
  * Sincronización continua con parrafo6.m4a
  *
  * Estructura:
  * 1. [0.0s – 4.5s]:   TOMA REAL 1 (Familias colaborando)
  * 2. [4.5s – 27.5s]:  INS-10 (Línea del tiempo continua: 3 etapas + corchete financiamiento)
- * 3. [27.5s – 28.18s]: Transición a Toma 7
+ * 3. [27.5s – 28.22s]: Transición a Toma 7
  */
 export default makeScene2D("toma-06", function* (view) {
   view.fill(THEME.colors.paper.cream);
@@ -32,7 +32,7 @@ export default makeScene2D("toma-06", function* (view) {
   const step1Node = createRef<Node>();
   const step2Node = createRef<Node>();
   const step3Node = createRef<Node>();
-  const fundingBracket = createRef<Rect>();
+  const fundingBracket = createRef<Node>();
 
   view.add(
     <Node>
@@ -49,21 +49,33 @@ export default makeScene2D("toma-06", function* (view) {
         />
       </Node>
 
-      {/* 2. Capa INS-10 (Las tres etapas) */}
+      {/* 2. Capa INS-10 (Las tres etapas · Maquetación perfectamente centrada y alineada) */}
       <Node ref={ins10Node} opacity={0}>
         <Rect
-          width={1660}
-          height={760}
+          width={1600}
+          height={820}
           fill={THEME.colors.paper.amateLight}
           stroke={THEME.colors.earth.ochre}
           lineWidth={2.5}
-          radius={20}
-          position={[0, -20]}
+          radius={24}
+          position={[0, 0]}
           padding={[40, 50]}
+          shadowColor={`${THEME.colors.earth.dark}20`}
+          shadowBlur={22}
         >
+          {/* Filete decorativo interior */}
+          <Rect
+            width={1540}
+            height={760}
+            stroke={`${THEME.colors.earth.ochre}70`}
+            lineWidth={1.5}
+            radius={18}
+          />
+
+          {/* Encabezado */}
           <Txt
             text="DESARROLLO EN TRES ETAPAS"
-            position={[0, -310]}
+            position={[0, -325]}
             fill={THEME.colors.earth.deep}
             fontFamily={THEME.typography.serif}
             fontSize={46}
@@ -72,47 +84,64 @@ export default makeScene2D("toma-06", function* (view) {
           />
           <Txt
             text="Ruta comunitaria de adaptación, implementación y adopción"
-            position={[0, -260]}
+            position={[0, -275]}
             fill={THEME.colors.earth.warmClay}
             fontFamily={THEME.typography.sans}
             fontSize={26}
             fontWeight={600}
           />
 
-          {/* Línea horizontal continua de tiempo */}
+          {/* Línea horizontal continua de tiempo (centrada de -560 a +560, Y=-170) */}
           <Rect
             ref={timelineBar}
             width={0}
-            height={4}
-            position={[-680, -110]}
+            height={5}
+            position={[-560, -170]}
             fill={THEME.colors.earth.ochre}
             offset={[-1, 0]}
+            radius={2.5}
           />
 
-          {/* Etapa 1: Adaptación */}
-          <Node ref={step1Node} position={[-460, 20]} opacity={0} y={50}>
+          {/* Etapa 1: Adaptación (x: -460) */}
+          <Node ref={step1Node} position={[-460, 30]} opacity={0}>
+            {/* Círculo indicador sobre la línea del tiempo */}
             <Circle
-              size={36}
+              size={44}
               fill={THEME.colors.milpa.deepGreen}
-              position={[0, -135]}
+              position={[0, -170]}
+              stroke={THEME.colors.paper.cream}
+              lineWidth={3}
             />
             <Txt
               text="1"
-              position={[0, -135]}
+              position={[0, -170]}
               fill={THEME.colors.paper.cream}
               fontFamily={THEME.typography.sans}
-              fontSize={20}
+              fontSize={22}
               fontWeight={700}
             />
 
+            {/* Conector del círculo hacia la tarjeta */}
+            <Rect
+              width={4}
+              height={26}
+              position={[0, -137]}
+              fill={THEME.colors.milpa.deepGreen}
+              radius={2}
+            />
+
+            {/* Tarjeta de contenido */}
             <Rect
               width={440}
               height={280}
+              position={[0, 15]}
               fill={THEME.colors.paper.cream}
               stroke={THEME.colors.milpa.leaf}
               lineWidth={2}
-              radius={16}
+              radius={18}
               padding={[22, 26]}
+              shadowColor={`${THEME.colors.earth.dark}12`}
+              shadowBlur={16}
             >
               <Txt
                 text="1 · ADAPTACIÓN"
@@ -159,30 +188,46 @@ export default makeScene2D("toma-06", function* (view) {
             </Rect>
           </Node>
 
-          {/* Etapa 2: Implementación */}
-          <Node ref={step2Node} position={[0, 20]} opacity={0} y={50}>
+          {/* Etapa 2: Implementación (x: 0) */}
+          <Node ref={step2Node} position={[0, 30]} opacity={0}>
+            {/* Círculo indicador sobre la línea del tiempo */}
             <Circle
-              size={36}
+              size={44}
               fill={THEME.colors.milpa.leaf}
-              position={[0, -135]}
+              position={[0, -170]}
+              stroke={THEME.colors.paper.cream}
+              lineWidth={3}
             />
             <Txt
               text="2"
-              position={[0, -135]}
+              position={[0, -170]}
               fill={THEME.colors.paper.cream}
               fontFamily={THEME.typography.sans}
-              fontSize={20}
+              fontSize={22}
               fontWeight={700}
             />
 
+            {/* Conector del círculo hacia la tarjeta */}
+            <Rect
+              width={4}
+              height={26}
+              position={[0, -137]}
+              fill={THEME.colors.milpa.leaf}
+              radius={2}
+            />
+
+            {/* Tarjeta de contenido */}
             <Rect
               width={440}
               height={280}
+              position={[0, 15]}
               fill={THEME.colors.paper.cream}
               stroke={THEME.colors.milpa.leaf}
               lineWidth={2}
-              radius={16}
+              radius={18}
               padding={[22, 26]}
+              shadowColor={`${THEME.colors.earth.dark}12`}
+              shadowBlur={16}
             >
               <Txt
                 text="2 · IMPLEMENTACIÓN"
@@ -229,30 +274,46 @@ export default makeScene2D("toma-06", function* (view) {
             </Rect>
           </Node>
 
-          {/* Etapa 3: Adopción */}
-          <Node ref={step3Node} position={[460, 20]} opacity={0} y={50}>
+          {/* Etapa 3: Adopción (x: 460) */}
+          <Node ref={step3Node} position={[460, 30]} opacity={0}>
+            {/* Círculo indicador sobre la línea del tiempo */}
             <Circle
-              size={36}
+              size={44}
               fill={THEME.colors.earth.ochre}
-              position={[0, -135]}
+              position={[0, -170]}
+              stroke={THEME.colors.paper.cream}
+              lineWidth={3}
             />
             <Txt
               text="3"
-              position={[0, -135]}
+              position={[0, -170]}
               fill={THEME.colors.paper.cream}
               fontFamily={THEME.typography.sans}
-              fontSize={20}
+              fontSize={22}
               fontWeight={700}
             />
 
+            {/* Conector del círculo hacia la tarjeta */}
+            <Rect
+              width={4}
+              height={26}
+              position={[0, -137]}
+              fill={THEME.colors.earth.ochre}
+              radius={2}
+            />
+
+            {/* Tarjeta de contenido */}
             <Rect
               width={440}
               height={280}
+              position={[0, 15]}
               fill={THEME.colors.paper.cream}
               stroke={THEME.colors.earth.ochre}
               lineWidth={2}
-              radius={16}
+              radius={18}
               padding={[22, 26]}
+              shadowColor={`${THEME.colors.earth.dark}12`}
+              shadowBlur={16}
             >
               <Txt
                 text="3 · ADOPCIÓN"
@@ -299,35 +360,36 @@ export default makeScene2D("toma-06", function* (view) {
             </Rect>
           </Node>
 
-          {/* Resalte / Corchete de Financiamiento (Etapas 1 y 2) */}
-          <Rect
-            ref={fundingBracket}
-            position={[-230, 230]}
-            width={960}
-            height={72}
-            fill={THEME.colors.milpa.deepGreen}
-            radius={14}
-            padding={[16, 26]}
-            shadowColor={`${THEME.colors.milpa.deepGreen}44`}
-            shadowBlur={16}
-            opacity={0}
-            scale={0.9}
-          >
-            <Txt
-              text="Financiamiento: las dos primeras etapas (Adaptación + Implementación)"
-              fill={THEME.colors.paper.cream}
-              fontFamily={THEME.typography.sans}
-              fontSize={24}
-              fontWeight={700}
-            />
-          </Rect>
+          {/* Resalte / Corchete de Financiamiento (Exactamente debajo de Etapas 1 y 2, ancho 900px, centrado en -230) */}
+          <Node ref={fundingBracket} position={[-230, 245]} opacity={0} scale={0.92}>
+            <Rect
+              width={900}
+              height={76}
+              fill={THEME.colors.milpa.deepGreen}
+              stroke={THEME.colors.earth.ochre}
+              lineWidth={2}
+              radius={16}
+              padding={[16, 26]}
+              shadowColor={`${THEME.colors.milpa.deepGreen}40`}
+              shadowBlur={18}
+            >
+              <Txt
+                text="✦ Financiamiento: cubre las dos primeras etapas (Adaptación + Implementación)"
+                fill={THEME.colors.paper.cream}
+                fontFamily={THEME.typography.sans}
+                fontSize={22}
+                fontWeight={700}
+                letterSpacing={0.5}
+              />
+            </Rect>
+          </Node>
         </Rect>
       </Node>
     </Node>,
   );
 
   // ==========================================
-  // COREOGRAFÍA TEMPORAL EXACTA (28.18 s)
+  // COREOGRAFÍA TEMPORAL EXACTA (28.22 s)
   // ==========================================
 
   // [0.0s – 4.5s]: Toma Real 1
@@ -340,34 +402,34 @@ export default makeScene2D("toma-06", function* (view) {
   );
 
   // [4.5s – 11.5s]: Etapa 1 «Primero, adaptación: durante el primer año, desde 2027...»
-  yield* timelineBar().width(1300, 2.0, easeOutCubic);
+  yield* timelineBar().width(1120, 1.8, easeOutCubic);
   yield* all(
     step1Node().opacity(1, 0.6, easeOutBack),
-    step1Node().position.y(20, 0.6, easeOutBack),
+    step1Node().position.y(0, 0.6, easeOutBack),
   );
-  yield* waitFor(4.5);
+  yield* waitFor(4.7);
 
   // [11.5s – 18.5s]: Etapa 2 «Luego, implementación: las estaciones miden y avisan...»
   yield* all(
     step2Node().opacity(1, 0.6, easeOutBack),
-    step2Node().position.y(20, 0.6, easeOutBack),
+    step2Node().position.y(0, 0.6, easeOutBack),
   );
-  yield* waitFor(5.0);
+  yield* waitFor(5.2);
 
   // [18.5s – 22.0s]: Etapa 3 «Y de 2028 en adelante, adopción: la comunidad lo opera sola.»
   yield* all(
     step3Node().opacity(1, 0.6, easeOutBack),
-    step3Node().position.y(20, 0.6, easeOutBack),
+    step3Node().position.y(0, 0.6, easeOutBack),
   );
-  yield* waitFor(2.5);
+  yield* waitFor(2.8);
 
   // [22.0s – 27.5s]: «El financiamiento nos permitirá iniciar las dos primeras etapas.»
   yield* all(
-    fundingBracket().opacity(1, 0.8, easeOutBack),
-    fundingBracket().scale(1, 0.8, easeOutBack),
+    fundingBracket().opacity(1, 0.75, easeOutBack),
+    fundingBracket().scale(1.0, 0.75, easeOutBack),
   );
   yield* waitFor(4.5);
 
-  // [27.5s – 28.18s]: Cierre
-  yield* waitFor(3.0);
+  // [27.5s – 28.22s]: Cierre
+  yield* waitFor(1.5);
 });

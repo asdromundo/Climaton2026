@@ -1,4 +1,13 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path, Img } from "@revideo/2d";
+import {
+  makeScene2D,
+  Node,
+  Audio,
+  Rect,
+  Txt,
+  Circle,
+  Path,
+  Img,
+} from "@revideo/2d";
 import {
   all,
   createRef,
@@ -74,11 +83,7 @@ export default makeScene2D("toma-03", function* (view) {
           clip={true}
         >
           {/* Mapa cartográfico estilizado de la Cuenca del Pacífico y El Niño */}
-          <Img
-            src={pacificoElNinoTexture}
-            width={1540}
-            height={740}
-          />
+          <Img src={pacificoElNinoTexture} width={1540} height={740} />
 
           {/* Tarjeta de datos NOAA con escala de proyección en flanco oeste */}
           <Rect
@@ -106,7 +111,7 @@ export default makeScene2D("toma-03", function* (view) {
             />
 
             <Txt
-              text="Probabilidad mayor al 90%"
+              text="Probabilidad > 90%"
               position={[0, -78]}
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
@@ -115,7 +120,7 @@ export default makeScene2D("toma-03", function* (view) {
             />
 
             <Txt
-              text="de un evento muy fuerte durante el otoño y el invierno"
+              text="evento muy fuerte durante otoño/invierno"
               position={[0, -18]}
               fill={THEME.colors.earth.warmClay}
               fontFamily={THEME.typography.sans}

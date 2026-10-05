@@ -1,26 +1,45 @@
 """
-Generador cartográfico ILUSTRATIVO del Océano Pacífico Ecuatorial y el fenómeno de El Niño.
-Diseñado para la Toma 3 de Cehuamilli:
-- Mapa base de alta calidad cartográfica (Natural Earth, estética papel amate).
-- Representación conceptual e ilustrativa (sin mapas de calor simulados ni pseudoisotermas numéricas).
-- Corredor ecuatorial cálido estilizado y flechas de flujo oceánico hacia el este (Onda Kelvin).
-- Debilitamiento ilustrativo de los vientos alisios.
-- Región de monitoreo oficial Niño 3.4 (5°N–5°S, 170°W–120°W) NOAA.
-- Arco de teleconexión hacia el Altiplano Central de México (CDMX / Tulyehualco).
+Generador de mapa PICTOGRÁFICO y CONCEPTUAL de la Cuenca del Pacífico y El Niño.
+- Siluetas continentales suavizadas y redondeadas (estilo infografía de diseño / pictograma).
+- Sin ruido de islas diminutas ni líneas de polígonos angulares.
+- Cinta de corriente cálida ESBELTA (muy delgada, ~3° a 4° máx), con ondas marinas pictográficas.
+- Íconos gráficos: sol/calor estilizado en Niño 3.4, brisa de alisios debilitados, volcán Teuhtli icónico.
+- Arco de teleconexión limpio y sin saturación.
 """
 import os
 os.environ["MPLCONFIGDIR"] = "/tmp/mpl"
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from matplotlib.patches import Polygon as MplPolygon, Rectangle as MplRectangle, FancyArrowPatch
+from matplotlib.patches import Polygon as MplPolygon, Rectangle as MplRectangle, FancyArrowPatch, Circle as MplCircle
 import matplotlib.patheffects as pe
 import geopandas as gpd
 import pandas as pd
-from shapely.geometry import box
+from shapely.geometry import box, Polygon, MultiPolygon
 import numpy as np
 
-def generar_mapa_ilustrativo():
+def smooth_gdf(gdf, tol=0.35, buf=0.35, min_area=3.0):
+    """Suaviza geometrías preservando curvas orgánicas y filtrando ruido de islas menores."""
+    processed = []
+    for geom in gdf.geometry:
+        if geom is None or geom.is_empty:
+            continue
+        simp = geom.simplify(tol, preserve_topology=True)
+        try:
+            smoothed = simp.buffer(buf, resolution=12, join_style=1).buffer(-buf, resolution=12, join_style=1)
+        except Exception:
+            smoothed = simp
+        
+        if isinstance(smoothed, Polygon):
+            if smoothed.area >= min_area:
+                processed.append(smoothed)
+        elif isinstance(smoothed, MultiPolygon):
+            big_parts = [p for p in smoothed.geoms if p.area >= min_area]
+            if big_parts:
+                processed.append(MultiPolygon(big_parts))
+    return gpd.GeoDataFrame(geometry=processed, crs=gdf.crs)
+
+def generar_mapa_pictografico():
     # 1. Cargar capas de Natural Earth
     land_path = "motion/data/ne_110m_land.geojson"
     countries_path = "motion/data/ne_110m_admin_0_countries.geojson"
@@ -28,8 +47,7 @@ def generar_mapa_ilustrativo():
     land = gpd.read_file(land_path)
     countries = gpd.read_file(countries_path)
 
-    # 2. Centrado en la Cuenca del Pacífico:
-    # Dividir y desplazar longitudes negativas (-180 a 0) sumando +360 (se vuelven 180 a 360).
+    # 2. Centrado en el Pacífico (+360 lon oeste)
     bbox_east = box(0, -90, 180, 90)
     bbox_west = box(-180, -90, 0, 90)
 
@@ -44,9 +62,6 @@ def generar_mapa_ilustrativo():
     pacific_land = shift_to_pacific(land)
     pacific_countries = shift_to_pacific(countries)
 
-    # Ventana de visualización de la Cuenca del Pacífico:
-    # Longitud: 112°E a 292° (68°W) -> 180 grados
-    # Latitud: -36°S a +40°N -> 76 grados
     xlim = (112, 292)
     ylim = (-36, 40)
 
@@ -54,11 +69,18 @@ def generar_mapa_ilustrativo():
     pacific_land_clipped = pacific_land.clip(view_box)
     pacific_countries_clipped = pacific_countries.clip(view_box)
 
-    # 3. Configurar figura Matplotlib 4K panorámica (proporción ~1540 x 740)
+    # Suavizado pictográfico de masas terrestres
+    land_smooth = smooth_gdf(pacific_land_clipped, tol=0.9, buf=0.7, min_area=4.0)
+
+    # México en silueta redondeada y destacada
+    mexico_raw = pacific_countries_clipped[pacific_countries_clipped['NAME'] == 'Mexico']
+    mexico_smooth = smooth_gdf(mexico_raw, tol=0.7, buf=0.5, min_area=2.0)
+
+    # 3. Lienzo editorial panorámico
     fig, ax = plt.subplots(figsize=(18, 8.65), dpi=200)
     
-    # Fondo oceánico amate
-    ocean_color = '#E7EDF2'
+    # Fondo amate editorial suave
+    ocean_color = '#F5F0E6'  # Arena / marfil sutil de papel amate
     fig.patch.set_facecolor('#FAF7F0')
     ax.set_facecolor(ocean_color)
 
@@ -67,253 +89,224 @@ def generar_mapa_ilustrativo():
     ax.set_aspect(1.06)
     ax.axis('off')
 
-    # 4. Graticule cartográfica
-    for lat, ls, col, lw in [
-        (23.436, ':', '#8FA4B0', 1.0),
-        (0.0, '-', '#3A6B88', 1.8),
-        (-23.436, ':', '#8FA4B0', 1.0),
-    ]:
-        ax.plot([xlim[0], xlim[1]], [lat, lat], linestyle=ls, color=col, linewidth=lw, zorder=2)
+    # Marco exterior minimalista
+    border_rect = MplRectangle(
+        (xlim[0] + 0.5, ylim[0] + 0.5), (xlim[1] - xlim[0] - 1), (ylim[1] - ylim[0] - 1),
+        fill=False, edgecolor='#DACDBA', linewidth=1.2, linestyle='-'
+    )
+    ax.add_patch(border_rect)
 
-    halo_grat = [pe.withStroke(linewidth=2.8, foreground=ocean_color)]
-    ax.text(175, 23.436 + 1.2, "23.4° N · Trópico de Cáncer", fontsize=9, color='#708998', fontweight='bold', zorder=3, path_effects=halo_grat)
-    ax.text(175, 0.0 + 1.2, "ECUADOR · 0°", fontsize=9.5, color='#2C5B77', fontweight='bold', zorder=3, path_effects=halo_grat)
-    ax.text(175, -23.436 + 1.2, "23.4° S · Trópico de Capricornio", fontsize=9, color='#708998', fontweight='bold', zorder=3, path_effects=halo_grat)
+    # Eje ecuatorial pictográfico (línea guía limpia)
+    ax.plot([xlim[0] + 2, xlim[1] - 2], [0, 0], linestyle='--', color='#C8B9A6', linewidth=1.2, zorder=2)
+    halo_ocean = [pe.withStroke(linewidth=2.5, foreground=ocean_color)]
+    ax.text(142, 1.2, "LÍNEA ECUATORIAL  (0°)", fontsize=9, color='#94816D', fontweight='bold', zorder=3, path_effects=halo_ocean)
 
-    # Meridianos
-    meridianos = [
-        (120, '120°E'), (140, '140°E'), (160, '160°E'),
-        (180, '180° Antimeridiano'),
-        (200, '160°W'), (220, '140°W'), (240, '120°W'),
-        (260, '100°W'), (280, '80°W')
-    ]
-    for m, lbl in meridianos:
-        ax.plot([m, m], [ylim[0], ylim[1]], linestyle=':', color='#BDCEDB', linewidth=0.75, zorder=2)
-        ax.text(m, ylim[0] + 2.5, lbl, fontsize=8.5, color='#6C8594', ha='center', zorder=3,
-                path_effects=[pe.withStroke(linewidth=2.2, foreground=ocean_color)])
-
-    # 5. Capa de continentes
-    pacific_land_clipped.plot(
+    # 4. Continentes pictográficos (siluetas suaves, limpias y orgánicas)
+    land_smooth.plot(
         ax=ax,
-        facecolor='#F4EFE6',
-        edgecolor='#B8A690',
-        linewidth=0.9,
+        facecolor='#EAE2D5',
+        edgecolor='#C9BCA9',
+        linewidth=1.2,
         zorder=4
     )
 
-    pacific_countries_clipped.boundary.plot(
-        ax=ax,
-        color='#D4C5B0',
-        linewidth=0.6,
-        zorder=5
-    )
-
-    # México resaltado en terracota y tono arena
-    mexico = pacific_countries_clipped[pacific_countries_clipped['NAME'] == 'Mexico']
-    if not mexico.empty:
-        mexico.plot(
+    # México resaltado en terracota amate
+    if not mexico_smooth.empty:
+        mexico_smooth.plot(
             ax=ax,
-            facecolor='#EDE2D0',
-            edgecolor='#6E391F',
-            linewidth=1.8,
+            facecolor='#DECDB8',
+            edgecolor='#78281F',
+            linewidth=2.0,
             zorder=6
         )
 
-    # Rótulos continentales
-    halo_continente = [pe.withStroke(linewidth=3.5, foreground='#FAF7F0')]
-    rotulos = [
-        (273, 34, "AMÉRICA DEL NORTE", 12.5, '#4A3525'),
-        (257, 26, "MÉXICO", 14, '#6E391F'),
-        (282, -14, "AMÉRICA DEL SUR", 12.5, '#4A3525'),
-        (282.5, -5.5, "Perú", 9.5, '#6E4828'),
-        (126, 26, "ASIA", 13, '#4A3525'),
-        (136, -24, "AUSTRALIA", 13, '#4A3525'),
-        (122, -1, "INDONESIA", 10, '#5C432E'),
-    ]
-    for rx, ry, txt, fs, col in rotulos:
-        ax.text(rx, ry, txt, fontsize=fs, fontweight='bold', color=col,
-                ha='center', va='center', zorder=7, path_effects=halo_continente)
+    # Rótulos continentales mínimos
+    halo_cont = [pe.withStroke(linewidth=3, foreground=ocean_color)]
+    ax.text(268, 34, "AMÉRICA DEL NORTE", fontsize=11, fontweight='bold', color='#7D6E5D', ha='center', zorder=7, path_effects=halo_cont)
+    ax.text(257, 26, "MÉXICO", fontsize=13, fontweight='bold', color='#78281F', ha='center', zorder=7, path_effects=halo_cont)
+    ax.text(280, -14, "AMÉRICA DEL SUR", fontsize=11, fontweight='bold', color='#7D6E5D', ha='center', zorder=7, path_effects=halo_cont)
+    ax.text(126, 26, "ASIA", fontsize=11, fontweight='bold', color='#7D6E5D', ha='center', zorder=7, path_effects=halo_cont)
+    ax.text(136, -24, "AUSTRALIA", fontsize=11, fontweight='bold', color='#7D6E5D', ha='center', zorder=7, path_effects=halo_cont)
 
     # =========================================================================
-    # 6. REPRESENTACIÓN ILUSTRATIVA Y CONCEPTUAL DE EL NIÑO (ENSO)
-    # (Completamente honesta, sin falsas isotermas ni mapas de calor simulados)
+    # 5. REPRESENTACIÓN PICTOGRÁFICA DE EL NIÑO (ESBELTA Y ESTILIZADA)
     # =========================================================================
 
-    # A. Corredor conceptual de acumulación de aguas cálidas (Franja Ecuatorial)
-    x_curve = np.linspace(155, 281, 100)
-    half_width_outer = 6.6 * np.sin(np.pi * (x_curve - 150) / 135)**0.65
-    half_width_inner = 4.0 * np.sin(np.pi * (x_curve - 150) / 135)**0.65
+    # A. CINTA ESBELTA DE AGUAS CÁLIDAS (NO ISOTERMAS ANCHAS)
+    # Máximo semi-ancho de 2.2 grados de latitud (en total ~4.4° de altura, elegante y fina)
+    x_cinta = np.linspace(158, 280, 150)
+    w_cinta = 2.2 * np.sin(np.pi * (x_cinta - 150) / 138)**0.75
 
-    # Franja exterior cálida (halo suave ámbar)
-    poly_outer = np.vstack([
-        np.column_stack([x_curve, half_width_outer]),
-        np.column_stack([x_curve[::-1], -half_width_outer[::-1]])
+    poly_cinta = np.vstack([
+        np.column_stack([x_cinta, w_cinta]),
+        np.column_stack([x_cinta[::-1], -w_cinta[::-1]])
     ])
     ax.add_patch(MplPolygon(
-        poly_outer, closed=True,
+        poly_cinta, closed=True,
         facecolor='#F5B041', edgecolor='#E67E22',
-        linewidth=1.2, linestyle='--', alpha=0.30, zorder=3
+        linewidth=1.2, alpha=0.32, zorder=5
     ))
 
-    # Franja interior núcleo cálido
-    poly_inner = np.vstack([
-        np.column_stack([x_curve, half_width_inner]),
-        np.column_stack([x_curve[::-1], -half_width_inner[::-1]])
-    ])
-    ax.add_patch(MplPolygon(
-        poly_inner, closed=True,
-        facecolor='#EB984E', edgecolor='#C0392B',
-        linewidth=1.3, alpha=0.40, zorder=3
-    ))
+    # B. ONDAS MARINAS PICTOGRÁFICAS (Flujo estilizado con flechas)
+    for y_base, col, alpha, lw in [
+        (0.8, '#D35400', 0.85, 1.6),
+        (0.0, '#922B21', 0.95, 2.2),
+        (-0.8, '#D35400', 0.85, 1.6),
+    ]:
+        x_wave = np.linspace(162, 276, 300)
+        y_wave = y_base + 0.35 * np.sin(2 * np.pi * (x_wave - 160) / 22)
+        ax.plot(x_wave, y_wave, color=col, linewidth=lw, alpha=alpha, zorder=6)
 
-    # B. Flechas de corriente oceánica anómala hacia el este (Onda Kelvin / Flujo cálido)
-    flow_arrows = [
-        (170, 0.0, 192, 0.0),
-        (200, 0.0, 230, 0.0),
-        (242, 0.0, 268, 0.0),
-        (272, -1.5, 281, -1.5),
-    ]
-    for x1, y1, x2, y2 in flow_arrows:
+    # Flechas pictográficas de flujo oceánico en serie (indicando dirección hacia el este)
+    flow_points = [(192, 0), (222, 0), (252, 0), (275, -0.6)]
+    for fx, fy in flow_points:
         arrow = FancyArrowPatch(
-            (x1, y1), (x2, y2),
+            (fx - 10, fy), (fx + 5, fy),
             arrowstyle='-|>,head_length=8,head_width=5.5',
-            color='#922B21', linewidth=2.6, zorder=8
+            color='#78281F', linewidth=2.6, zorder=8
         )
         ax.add_patch(arrow)
 
-    # Rótulo del flujo cálido centrado dentro de la región de monitoreo
+    # Rótulo conciso del flujo cálido centrado dentro del recuadro
     ax.text(
-        215, 2.3, "FLUJO ANÓMALO DE AGUAS CÁLIDAS HACIA EL ESTE",
-        fontsize=9, fontweight='bold', color='#78281F', ha='center', va='bottom',
-        path_effects=[pe.withStroke(linewidth=3, foreground='#FAF7F0')],
+        215, 3.2, "Flujo cálido hacia el este (Onda Kelvin)",
+        fontsize=9.2, fontweight='bold', color='#78281F', ha='center', va='bottom',
+        path_effects=[pe.withStroke(linewidth=3, foreground=ocean_color)],
         zorder=9
     )
-    # Rótulo de continuación hacia Sudamérica
     ax.text(
-        260, 2.3, "Onda Kelvin hacia Sudamérica",
+        260, 3.2, "Hacia costas de Sudamérica",
         fontsize=8.5, fontweight='bold', color='#8C4D2E', ha='center', va='bottom',
-        path_effects=[pe.withStroke(linewidth=2.8, foreground='#FAF7F0')],
+        path_effects=[pe.withStroke(linewidth=2.8, foreground=ocean_color)],
         zorder=9
     )
 
-    # C. Indicador ilustrativo de debilitamiento de los vientos alisios
+    # C. PICTOGRAMA DE ALISIOS ATENUADOS (Brisa suave debilitada hacia el oeste)
     arrow_alisios = FancyArrowPatch(
-        (204, -8.5), (170, -8.5),
+        (202, -5.5), (170, -5.5),
         arrowstyle='-|>,head_length=6,head_width=4',
-        color='#3A6B88', linewidth=1.8, linestyle=':', zorder=8
+        color='#3A6B88', linewidth=1.6, linestyle=':', zorder=7
     )
     ax.add_patch(arrow_alisios)
     ax.text(
-        187, -10.3, "Debilitamiento de Vientos Alisios del Este",
+        186, -7.2, "Debilitamiento de vientos alisios",
         fontsize=8.5, fontweight='bold', color='#3A6B88', ha='center',
         path_effects=[pe.withStroke(linewidth=2.5, foreground=ocean_color)],
         zorder=8
     )
 
-    # D. RECUADRO OFICIAL DE MONITOREO: REGIÓN NIÑO 3.4 (NOAA CPC)
-    # Coordenadas exactas estándar internacional: 5°N a 5°S, 170°W a 120°W
+    # D. RECUADRO TÉCNICO PICTOGRÁFICO: REGIÓN NIÑO 3.4 (NOAA)
+    # Cuadrante oficial: 5°N a 5°S, 170°W a 120°W (x: 190 a 240, y: -4.5 a 4.5)
     rect_nino34 = MplRectangle(
-        (190, -5), 50, 10,
-        fill=True,
-        facecolor='#C0392B12',
+        (190, -4.6), 50, 9.2,
+        fill=False,
         edgecolor='#78281F',
-        linewidth=2.2,
+        linewidth=1.8,
         linestyle='--',
         zorder=7
     )
     ax.add_patch(rect_nino34)
-    
-    # Rótulo de Niño 3.4 situado hacia la izquierda para despejar el punto de teleconexión
+
+    # Ícono pictográfico de sol térmico en el centro de Niño 3.4
+    sun_x, sun_y = 205, 0
+    # Halo solar
+    sun_circle = MplCircle((sun_x, sun_y), 2.2, facecolor='#F5B04144', edgecolor='#E67E22', linewidth=1.2, zorder=6)
+    ax.add_patch(sun_circle)
+    # Núcleo solar
+    sun_core = MplCircle((sun_x, sun_y), 1.0, facecolor='#C0392B', edgecolor='#78281F', linewidth=1.0, zorder=7)
+    ax.add_patch(sun_core)
+
     ax.text(
-        205, 6.4, "REGIÓN NIÑO 3.4 (NOAA CPC)",
-        fontsize=10, fontweight='bold', color='#78281F', ha='center', va='bottom',
-        path_effects=[pe.withStroke(linewidth=3, foreground='#FAF7F0')],
+        205, 5.8, "ZONA DE MONITOREO NIÑO 3.4 (NOAA)",
+        fontsize=9.8, fontweight='bold', color='#78281F', ha='center', va='bottom',
+        path_effects=[pe.withStroke(linewidth=3, foreground=ocean_color)],
         zorder=9
     )
-    # Rótulo de coordenadas POR DEBAJO del recuadro
     ax.text(
-        215, -6.4, "Zona oficial de referencia climática · 5°N–5°S, 170°W–120°W",
+        215, -5.8, "Cuadrante oficial · 170°W a 120°W",
         fontsize=8.5, fontweight='bold', color='#8C4D2E', ha='center', va='top',
-        path_effects=[pe.withStroke(linewidth=2.5, foreground='#FAF7F0')],
+        path_effects=[pe.withStroke(linewidth=2.5, foreground=ocean_color)],
         zorder=9
     )
 
-    # E. ARCO DE TELECONEXIÓN ATMOSFÉRICA HACIA MÉXICO (Altiplano Central)
+    # E. ARCO DE TELECONEXIÓN ATMOSFÉRICA HACIA MÉXICO
     cdmx_x, cdmx_y = 260.97, 19.25
     tele_arrow = FancyArrowPatch(
-        (226, 5.0), (cdmx_x - 1.8, cdmx_y - 1.2),
+        (225, 4.6), (cdmx_x - 2.0, cdmx_y - 1.2),
         connectionstyle="arc3,rad=-0.22",
         arrowstyle='-|>,head_length=8.5,head_width=5.5',
-        color='#78281F', linewidth=2.5, linestyle='--',
+        color='#78281F', linewidth=2.4, linestyle='--',
         zorder=9
     )
     ax.add_patch(tele_arrow)
 
     # Rótulo de teleconexión ubicado en aguas abiertas al suroeste de México
     ax.text(
-        250, 10.2, "TELECONEXIÓN ATMOSFÉRICA\nAlteración del temporal en el centro de México",
+        250, 10.5, "TELECONEXIÓN ATMOSFÉRICA\nAlteración del temporal en el centro de México",
         fontsize=9.5, fontweight='bold', color='#78281F', ha='center', va='top',
         linespacing=1.2,
-        path_effects=[pe.withStroke(linewidth=3.5, foreground='#FAF7F0')],
+        path_effects=[pe.withStroke(linewidth=3.5, foreground=ocean_color)],
         zorder=10
     )
 
-    # F. PIN LOCAL: CDMX / SANTIAGO TULYEHUALCO (ZONA DE ESTUDIO)
-    ax.plot(cdmx_x, cdmx_y, marker='o', markersize=9, color='#C0392B',
-            markeredgecolor='#FAF7F0', markeredgewidth=2, zorder=10)
-    ax.plot(cdmx_x, cdmx_y, marker='o', markersize=16, color='#C0392B',
-            fillstyle='none', markeredgewidth=1.8, linestyle=':', zorder=10)
+    # F. PICTOGRAMA DE DESTINO: VOLCÁN TEUHTLI / TULYEHUALCO
+    # Glifo icónico de montaña / volcán
+    volcan_poly = np.array([
+        [cdmx_x - 1.8, cdmx_y - 1.2],
+        [cdmx_x + 1.8, cdmx_y - 1.2],
+        [cdmx_x, cdmx_y + 1.8]
+    ])
+    ax.add_patch(MplPolygon(volcan_poly, closed=True, facecolor='#78281F', edgecolor='#FAF7F0', linewidth=1.5, zorder=10))
+    ax.plot(cdmx_x, cdmx_y + 1.8, marker='o', markersize=5, color='#F5B041', zorder=11)
 
     ax.annotate(
-        "● CDMX · Santiago Tulyehualco\n   (Zona de Estudio Cehuamilli · Faldas del Teuhtli)",
-        xy=(cdmx_x, cdmx_y), xytext=(cdmx_x - 7, cdmx_y + 4.2),
-        arrowprops=dict(arrowstyle="->", color='#78281F', lw=1.4, shrinkA=3, shrinkB=6),
+        "▲ Volcán Teuhtli · Santiago Tulyehualco\n   (Zona de Estudio Cehuamilli)",
+        xy=(cdmx_x, cdmx_y + 1.5), xytext=(cdmx_x - 7, cdmx_y + 5.5),
+        arrowprops=dict(arrowstyle="->", color='#78281F', lw=1.3, shrinkA=3, shrinkB=6),
         fontsize=10, fontweight='bold', color='#78281F', ha='right', va='center',
-        path_effects=[pe.withStroke(linewidth=3.5, foreground='#FAF7F0')],
-        zorder=10
+        path_effects=[pe.withStroke(linewidth=3.5, foreground=ocean_color)],
+        zorder=11
     )
 
-    # 7. CARTELA OFICIAL (En el Pacífico Norte Central, despejada y visible)
-    cartela_x = 212
-    cartela_y = 33
+    # 6. CARTELA INFOGRÁFICA PICTÓRICA
     ax.text(
-        cartela_x, cartela_y,
-        "ESQUEMA CONCEPTUAL · DINÁMICA DE EL NIÑO (ENSO)\n"
-        "Representación ilustrativa de teleconexión océano-atmósfera\n"
-        "Fuente: Discusión Diagnóstica ENSO · NOAA CPC",
-        fontsize=11.5, fontweight='bold', color='#2F241D', linespacing=1.35, ha='center',
-        bbox=dict(boxstyle='square,pad=0.7', facecolor='#FAF7F0', edgecolor='#6E391F', linewidth=1.8, alpha=0.96),
+        210, 32.5,
+        "INFOGRAFÍA CONCEPTUAL · DINÁMICA DE EL NIÑO (ENSO)\n"
+        "Esquema ilustrativo de teleconexión global a local\n"
+        "Fuente: Discusión Diagnóstica · NOAA CPC",
+        fontsize=11, fontweight='bold', color='#2F241D', linespacing=1.35, ha='center',
+        bbox=dict(boxstyle='round,pad=0.6,rounding_size=0.3', facecolor='#FAF7F0', edgecolor='#8C7A65', linewidth=1.5, alpha=0.96),
         zorder=10
     )
 
-    # 8. LEYENDA CARTOGRÁFICA ILUSTRATIVA (En el Pacífico Sur Central, libre de obstrucciones)
+    # 7. LEYENDA PICTOGRÁFICA LIMPIA
     leyenda_parches = [
-        mpatches.Patch(facecolor='#F5B04188', edgecolor='#C0392B', linewidth=1.5, linestyle='--',
-                       label='Franja cálida ecuatorial (Esquema ilustrativo)'),
-        FancyArrowPatch((0, 0), (1, 0), color='#922B21', linewidth=2.0, arrowstyle='-|>',
-                        label='Flujo de aguas cálidas hacia el este'),
-        mpatches.Patch(facecolor='#C0392B14', edgecolor='#78281F', linestyle='--', linewidth=1.8,
-                       label='Región Niño 3.4 (Monitoreo oficial NOAA)'),
+        mpatches.Patch(facecolor='#F5B04188', edgecolor='#E67E22', linewidth=1.2,
+                       label='Cinta de aguas cálidas (Representación ilustrativa)'),
+        FancyArrowPatch((0, 0), (1, 0), color='#78281F', linewidth=2.0, arrowstyle='-|>',
+                        label='Flujo hacia el este (Onda Kelvin)'),
+        mpatches.Patch(facecolor='none', edgecolor='#78281F', linestyle='--', linewidth=1.5,
+                       label='Zona de Monitoreo Niño 3.4 (NOAA)'),
         FancyArrowPatch((0, 0), (1, 0), color='#78281F', linewidth=2.0, linestyle='--', arrowstyle='-|>',
                         label='Teleconexión hacia el centro de México'),
-        mpatches.Patch(facecolor='#EDE2D0', edgecolor='#6E391F', linewidth=1.5,
-                       label='México (Zona receptora de impacto)'),
+        mpatches.Patch(facecolor='#78281F', edgecolor='#FAF7F0', linewidth=1.0,
+                       label='▲ Volcán Teuhtli (Punto de estudio)'),
     ]
     leg = ax.legend(
-        handles=leyenda_parches, loc='lower center', bbox_to_anchor=(0.56, 0.05),
-        frameon=True, facecolor='#FAF7F0', edgecolor='#6E391F', fontsize=9.2, framealpha=0.96,
+        handles=leyenda_parches, loc='lower center', bbox_to_anchor=(0.56, 0.04),
+        frameon=True, facecolor='#FAF7F0', edgecolor='#8C7A65', fontsize=8.8, framealpha=0.96,
         ncol=2
     )
-    leg.get_frame().set_linewidth(1.5)
+    leg.get_frame().set_linewidth(1.3)
     leg.set_zorder(10)
 
     plt.tight_layout(pad=0)
 
-    # Guardar en textura oficial
+    # Guardar textura
     out_png = "motion/assets/textures/pacifico-el-nino.png"
     plt.savefig(out_png, dpi=200, bbox_inches='tight', pad_inches=0, facecolor='#FAF7F0')
     plt.close()
-    print(f"Mapa ilustrativo generado con éxito en: {out_png}")
+    print("Mapa pictográfico generado con éxito en:", out_png)
 
 if __name__ == "__main__":
-    generar_mapa_ilustrativo()
+    generar_mapa_pictografico()
