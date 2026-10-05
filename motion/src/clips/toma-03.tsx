@@ -480,5 +480,6 @@ export default makeScene2D("toma-03", function* (view) {
     stationPin().scale(1, 0.6, easeOutBack),
   );
 
-  yield* waitFor(3.7);
+  // Extensión final para cubrir con holgura natural hasta el final del audio (23.104 s)
+  yield* waitFor(4.704);
 });

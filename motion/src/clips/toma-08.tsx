@@ -15,13 +15,14 @@ import logoUnam from "../../assets/textures/logo_unam.jpeg";
 import logoClimaton from "../../assets/textures/logo_climaton.jpg";
 
 /**
- * TOMA 8 MAESTRA · 8.70 s
- * Sincronización continua con parrafo8.m4a
+ * TOMA 8 MAESTRA · 10.00 s
+ * Sincronización continua con parrafo8.m4a (8.704 s) + cola de cierre
  *
  * Estructura:
- * 1. [0.0s – 4.7s]:   Entrada de la tríada institucional (UNAM, Cehuamilli, Climatón 2026)
- * 2. [4.7s – 8.70s]:  A la mitad de la toma («Somos Cehuamilli»), Cehuamilli crece hasta
- *                     ocupar la mitad de la toma (~520px de altura) como héroe central.
+ * 1. [0.0s – 4.8s]:   Entrada de la tríada institucional (UNAM, Cehuamilli, Climatón 2026)
+ * 2. [4.8s – 5.75s]:  En «Somos Cehuamilli», Cehuamilli crece hasta ocupar la mitad de la toma
+ *                     (~520px de altura) como héroe central.
+ * 3. [5.75s – 10.0s]: Locución concluye en 8.64s con presencia monumental y 1.36s de colchón final.
  */
 export default makeScene2D("toma-08", function* (view) {
   view.fill(THEME.colors.paper.cream);
@@ -112,13 +113,13 @@ export default makeScene2D("toma-08", function* (view) {
   );
 
   // ==========================================
-  // COREOGRAFÍA TEMPORAL EXACTA (8.70 s)
+  // COREOGRAFÍA TEMPORAL EXACTA (10.00 s)
   // ==========================================
 
   // [0.0s – 0.5s]: Breve entrada inicial
   yield* waitFor(0.5);
 
-  // [0.5s – 1.6s]: Entrada armónica de los tres logotipos
+  // [0.5s – 1.25s]: Entrada armónica de los tres logotipos
   yield* all(
     cehuamilliNode().opacity(1, 0.75, easeOutCubic),
     cehuamilliNode().scale(1.0, 0.75, easeOutBack),
@@ -128,10 +129,10 @@ export default makeScene2D("toma-08", function* (view) {
     climatonNode().position.x(490, 0.7, easeOutCubic),
   );
 
-  // [1.6s – 4.7s]: «Si la milpa sigue en pie, la alegría, el olivo y los quelites también.»
-  yield* waitFor(3.1);
+  // [1.25s – 4.80s]: «Si la milpa sigue en pie, la alegría, el olivo y los quelites también.»
+  yield* waitFor(3.55);
 
-  // [4.7s – 5.8s]: A la mitad de la toma («Somos Cehuamilli: alertas que nacen de la tierra»)
+  // [4.80s – 5.75s]: Justo al inicio de «Somos Cehuamilli: alertas que nacen de la tierra»
   // El logo de Cehuamilli crece hasta ocupar la mitad de la toma (~520px de altura)
   // y los logos laterales se ajustan hacia afuera con suavidad
   yield* all(
@@ -140,6 +141,7 @@ export default makeScene2D("toma-08", function* (view) {
     climatonNode().position.x(560, 0.95, easeInOutCubic),
   );
 
-  // [5.8s – 8.70s]: Presencia monumental de cierre del video máster
-  yield* waitFor(2.9);
+  // [5.75s – 10.00s]: Presencia monumental de cierre del video máster
+  // La locución concluye en 8.64s («...alertas que nacen de la tierra») y deja 1.36s de colchón visual
+  yield* waitFor(4.25);
 });

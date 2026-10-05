@@ -640,11 +640,7 @@ export default makeScene2D("toma-04", function* (view) {
       <Node ref={footage3Node} opacity={0}>
         <Rect width={1920} height={1080} clip={true}>
           <Node ref={footage3CameraNode} position={[0, 0]} scale={1.01}>
-            <Img
-              src={familiasCultivoTexture}
-              width={1920}
-              height={1080}
-            />
+            <Img src={familiasCultivoTexture} width={1920} height={1080} />
           </Node>
 
           {/* Sombra de viñeta inferior cinematográfica */}
@@ -678,7 +674,7 @@ export default makeScene2D("toma-04", function* (view) {
               text="Familias y parcelas de cultivo · Laderas del Teuhtli, Tulyehualco"
               fill={THEME.colors.paper.cream}
               fontFamily={THEME.typography.sans}
-              fontSize={18}
+              fontSize={30}
               fontWeight={600}
             />
           </Rect>
@@ -1237,10 +1233,10 @@ export default makeScene2D("toma-04", function* (view) {
             padding={[8, 22]}
           >
             <Txt
-              text="Resiliencia comunitaria y toma de decisiones · San Pedro Actopan"
+              text="Resiliencia comunitaria y toma de decisiones - Santiago Tulyehualco"
               fill={THEME.colors.paper.cream}
               fontFamily={THEME.typography.sans}
-              fontSize={18}
+              fontSize={30}
               fontWeight={600}
             />
           </Rect>
@@ -1337,7 +1333,7 @@ export default makeScene2D("toma-04", function* (view) {
 
   // Hilo de agua bajando por la ladera («inundaciones que antes no había»)
   yield* floodWater().lineWidth(8, 2.0, easeInOutCubic);
-  yield* waitFor(4.5);
+  yield* waitFor(1.5);
 
   // Transición hacia Toma Real 3
   yield* all(
@@ -1349,7 +1345,7 @@ export default makeScene2D("toma-04", function* (view) {
   yield* all(
     footage3CameraNode().scale(1.05, 1.15, easeInOutCubic),
     footage3CameraNode().position.x(15, 1.15, easeInOutCubic),
-    waitFor(1.15),
+    waitFor(4.15),
   );
 
   // Transición hacia INS-08 (~10 frames antes de «llenan un vacío de información»)

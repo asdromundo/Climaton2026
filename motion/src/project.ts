@@ -20,7 +20,7 @@ import toma08 from "./clips/toma-08";
  * - Toma 5: 21.61 s (INS-09 El Manual Vivo)
  * - Toma 6: 28.18 s (INS-10 Las Tres Etapas + Financiamiento)
  * - Toma 7: 26.90 s (INS-11 Recarga del Acuífero + INS-12 Escalabilidad)
- * - Toma 8:  8.70 s (INS-13 Cierre Milpa + Título + Logos)
+ * - Toma 8: 10.00 s (INS-13 Cierre Milpa + Título + Logos)
  *
  * Duración total continua: ~3 min 07 s
  */
@@ -32,9 +32,17 @@ export default makeProject({
     },
     rendering: {
       fps: 30,
+      resolutionScale: 1,
+      exporter: {
+        name: "@revideo/core/ffmpeg",
+        options: {
+          format: "mp4",
+        },
+      },
     },
     preview: {
       fps: 30,
+      resolutionScale: 1,
     },
   },
 });

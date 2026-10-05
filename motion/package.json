@@ -9,7 +9,7 @@
     "start": "vite",
     "dev": "vite",
     "build": "tsc && vite build",
-    "render": "vite --mode render",
+    "render": "bun scripts/render.ts",
     "fetch-data": "bun scripts/fetch-data.ts",
     "prepare-data": "bun scripts/prepare-data.ts",
     "license-check": "bunx license-checker --summary"
