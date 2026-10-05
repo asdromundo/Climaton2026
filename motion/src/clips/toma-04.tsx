@@ -7,6 +7,7 @@ import {
   Circle,
   Path,
   Img,
+  Gradient,
 } from "@revideo/2d";
 import {
   all,
@@ -17,10 +18,12 @@ import {
   waitFor,
 } from "@revideo/core";
 import { THEME } from "../theme";
-import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo4 from "../../audio/parrafo4.m4a";
 import equipoCehuamilliTexture from "../../assets/textures/toma-04-equipo-cehuamilli.jpeg";
+import prototipoSensoresTexture from "../../assets/textures/toma-04-prototipo-sensores.png";
+import familiasCultivoTexture from "../../assets/textures/toma-04-familias-cultivo.png";
+import resilienciaComunitariaTexture from "../../assets/textures/toma-04-resiliencia-comunitaria.png";
 
 /**
  * TOMA 4 MAESTRA · 38.76 s
@@ -29,11 +32,11 @@ import equipoCehuamilliTexture from "../../assets/textures/toma-04-equipo-cehuam
  * Estructura:
  * 1. [0.0s – 4.5s]:   IMAGEN REAL ANIMADA 1 (Equipo Cehuamilli interdisciplinario)
  * 2. [4.5s – 12.5s]:  INS-06 (Perfil del Teuhtli + estaciones a distintas alturas)
- * 3. [12.5s – 14.2s]: TOMA REAL 2 (Prototipos y herramientas auxiliares)
+ * 3. [12.5s – 14.2s]: IMAGEN REAL ANIMADA 2 (Prototipos y herramientas auxiliares)
  * 4. [14.2s – 25.5s]: INS-07 (Alerta que baja por la ladera + celular genérico + inundación)
- * 5. [25.5s – 27.0s]: TOMA REAL 3 (Familias y campos)
+ * 5. [25.5s – 27.0s]: IMAGEN REAL ANIMADA 3 (Familias y campos)
  * 6. [27.0s – 34.0s]: INS-08 (Vacío que se llena de datos + planta brotando)
- * 7. [34.0s – 38.76s]: TOMA REAL 4 (Toma de decisiones y resiliencia comunitaria)
+ * 7. [34.0s – 38.76s]: IMAGEN REAL ANIMADA 4 (Toma de decisiones y resiliencia comunitaria)
  */
 export default makeScene2D("toma-04", function* (view) {
   view.fill(THEME.colors.paper.cream);
@@ -43,10 +46,13 @@ export default makeScene2D("toma-04", function* (view) {
   const pinPulseRef = createRef<Circle>();
   const ins06Node = createRef<Node>();
   const footage2Node = createRef<Node>();
+  const prototipoCameraNode = createRef<Node>();
   const ins07Node = createRef<Node>();
   const footage3Node = createRef<Node>();
+  const footage3CameraNode = createRef<Node>();
   const ins08Node = createRef<Node>();
   const footage4Node = createRef<Node>();
+  const footage4CameraNode = createRef<Node>();
 
   // Elementos INS-06 (Estaciones a distintas alturas)
   const mountainProfile = createRef<Path>();
@@ -280,14 +286,170 @@ export default makeScene2D("toma-04", function* (view) {
         </Rect>
       </Node>
 
-      {/* 3. Capa Toma Real 2 */}
+      {/* 3. Capa Toma Real 2 (Prototipos y herramientas auxiliares) */}
       <Node ref={footage2Node} opacity={0}>
-        <VideoPlaceholder
-          title="Prototipos y herramientas auxiliares"
-          cue="Son una herramienta auxiliar..."
-          suggestedFile="toma-04-prototipo-sensores.mp4"
-          durationSeconds={1.7}
-        />
+        <Rect width={1920} height={1080} fill={THEME.colors.paper.cream}>
+          {/* Tarjeta de Especificaciones Técnicas (Izquierda) */}
+          <Rect
+            width={720}
+            height={880}
+            position={[-360, 0]}
+            fill={THEME.colors.paper.amateLight}
+            stroke={THEME.colors.earth.ochre}
+            lineWidth={2.5}
+            radius={20}
+            padding={[45, 50]}
+            shadowColor={`${THEME.colors.earth.dark}20`}
+            shadowBlur={24}
+          >
+            <Rect
+              width={660}
+              height={820}
+              stroke={`${THEME.colors.earth.ochre}60`}
+              lineWidth={1.5}
+              radius={15}
+            />
+
+            {/* Etiqueta superior */}
+            <Rect
+              position={[0, -350]}
+              fill={THEME.colors.climate.droughtOrange}
+              radius={8}
+              padding={[6, 18]}
+            >
+              <Txt
+                text="PROTOTIPOS LOCALES · BAJO COSTO"
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={17}
+                fontWeight={700}
+                letterSpacing={2}
+              />
+            </Rect>
+
+            {/* Título de la tarjeta */}
+            <Txt
+              text="Herramientas Auxiliares"
+              position={[0, -280]}
+              fill={THEME.colors.earth.deep}
+              fontFamily={THEME.typography.serif}
+              fontSize={40}
+              fontWeight={700}
+            />
+            <Txt
+              text="Red de estaciones agrometeorológicas de ladera"
+              position={[0, -230]}
+              fill={THEME.colors.earth.warmClay}
+              fontFamily={THEME.typography.sans}
+              fontSize={21}
+              fontWeight={600}
+            />
+
+            {/* Separador */}
+            <Rect
+              width={540}
+              height={1.5}
+              position={[0, -185]}
+              fill={`${THEME.colors.earth.ochre}50`}
+            />
+
+            {/* Especificaciones / Puntos clave */}
+            <Node position={[-270, -130]}>
+              <Txt
+                text="• Sensores de humedad de suelo y microclima"
+                position={[0, 0]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={22}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+              <Txt
+                text="• Telemetría abierta y bajo costo de ensamblaje"
+                position={[0, 52]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={22}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+              <Txt
+                text="• Calibración continua con saberes campesinos"
+                position={[0, 104]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={22}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+              <Txt
+                text="• Alerta temprana ante heladas y golpes de calor"
+                position={[0, 156]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.sans}
+                fontSize={22}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+            </Node>
+
+            {/* Caja de cita / audio cue */}
+            <Rect
+              width={580}
+              height={120}
+              position={[0, 270]}
+              fill={THEME.colors.paper.cream}
+              stroke={`${THEME.colors.earth.ochre}70`}
+              lineWidth={1.5}
+              radius={12}
+              padding={[16, 24]}
+            >
+              <Txt
+                text="«Respaldar las decisiones locales, no sustituirlas.»"
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.serif}
+                fontSize={32}
+                fontWeight={600}
+                fontStyle="italic"
+                textAlign="center"
+              />
+            </Rect>
+          </Rect>
+
+          {/* Fotografía / Ilustración del prototipo (Derecha) con Ken Burns */}
+          <Rect
+            width={660}
+            height={880}
+            position={[370, 0]}
+            fill={THEME.colors.paper.amateLight}
+            stroke={THEME.colors.earth.ochre}
+            lineWidth={2.5}
+            radius={20}
+            clip={true}
+            shadowColor={`${THEME.colors.earth.dark}20`}
+            shadowBlur={24}
+          >
+            <Node ref={prototipoCameraNode} position={[0, 0]} scale={1.0}>
+              <Img src={prototipoSensoresTexture} width={660} height={990} />
+            </Node>
+            <Rect
+              width={660}
+              height={50}
+              position={[0, 415]}
+              fill={`${THEME.colors.earth.dark}DD`}
+              padding={[10, 20]}
+            >
+              <Txt
+                text="Prototipo Cehuamilli · Sensorística y monitoreo de suelo"
+                fill={THEME.colors.paper.cream}
+                fontFamily={THEME.typography.sans}
+                fontSize={16}
+                fontWeight={600}
+                textAlign="center"
+              />
+            </Rect>
+          </Rect>
+        </Rect>
       </Node>
 
       {/* 4. Capa INS-07 (La alerta baja por la ladera) */}
@@ -474,14 +636,53 @@ export default makeScene2D("toma-04", function* (view) {
         </Rect>
       </Node>
 
-      {/* 5. Capa Toma Real 3 */}
+      {/* 5. Capa Toma Real 3 (Familias y campos de cultivo) */}
       <Node ref={footage3Node} opacity={0}>
-        <VideoPlaceholder
-          title="Familias y campos de cultivo"
-          cue="Y, lo más importante..."
-          suggestedFile="toma-04-familias-cultivo.mp4"
-          durationSeconds={1.5}
-        />
+        <Rect width={1920} height={1080} clip={true}>
+          <Node ref={footage3CameraNode} position={[0, 0]} scale={1.01}>
+            <Img
+              src={familiasCultivoTexture}
+              width={1920}
+              height={1080}
+            />
+          </Node>
+
+          {/* Sombra de viñeta inferior cinematográfica */}
+          <Rect
+            width={1920}
+            height={160}
+            position={[0, 460]}
+            fill={
+              new Gradient({
+                type: "linear",
+                from: [0, -80],
+                to: [0, 80],
+                stops: [
+                  { offset: 0, color: "rgba(26,18,16,0)" },
+                  { offset: 1, color: "rgba(26,18,16,0.75)" },
+                ],
+              })
+            }
+          />
+
+          {/* Cartela contextual elegante */}
+          <Rect
+            position={[-470, 470]}
+            fill={`${THEME.colors.earth.dark}E6`}
+            stroke={THEME.colors.earth.ochre}
+            lineWidth={1.5}
+            radius={8}
+            padding={[8, 22]}
+          >
+            <Txt
+              text="Familias y parcelas de cultivo · Laderas del Teuhtli, Tulyehualco"
+              fill={THEME.colors.paper.cream}
+              fontFamily={THEME.typography.sans}
+              fontSize={18}
+              fontWeight={600}
+            />
+          </Rect>
+        </Rect>
       </Node>
 
       {/* 6. Capa INS-08 (Datos climáticos locales · Llenan un vacío de información) */}
@@ -997,14 +1198,53 @@ export default makeScene2D("toma-04", function* (view) {
         </Rect>
       </Node>
 
-      {/* 7. Capa Toma Real 4 */}
+      {/* 7. Capa Toma Real 4 (Comunidad y resiliencia climática) */}
       <Node ref={footage4Node} opacity={0}>
-        <VideoPlaceholder
-          title="Comunidad y resiliencia climática"
-          cue="...para tomar decisiones más acertadas y fortalecer la resiliencia comunitaria."
-          suggestedFile="toma-04-resiliencia-comunitaria.mp4"
-          durationSeconds={4.76}
-        />
+        <Rect width={1920} height={1080} clip={true}>
+          <Node ref={footage4CameraNode} position={[0, 0]} scale={1.01}>
+            <Img
+              src={resilienciaComunitariaTexture}
+              width={1920}
+              height={1440}
+            />
+          </Node>
+
+          {/* Sombra de viñeta inferior cinematográfica */}
+          <Rect
+            width={1920}
+            height={160}
+            position={[0, 460]}
+            fill={
+              new Gradient({
+                type: "linear",
+                from: [0, -80],
+                to: [0, 80],
+                stops: [
+                  { offset: 0, color: "rgba(26,18,16,0)" },
+                  { offset: 1, color: "rgba(26,18,16,0.75)" },
+                ],
+              })
+            }
+          />
+
+          {/* Cartela contextual elegante */}
+          <Rect
+            position={[-440, 470]}
+            fill={`${THEME.colors.earth.dark}E6`}
+            stroke={THEME.colors.earth.ochre}
+            lineWidth={1.5}
+            radius={8}
+            padding={[8, 22]}
+          >
+            <Txt
+              text="Resiliencia comunitaria y toma de decisiones · San Pedro Actopan"
+              fill={THEME.colors.paper.cream}
+              fontFamily={THEME.typography.sans}
+              fontSize={18}
+              fontWeight={600}
+            />
+          </Rect>
+        </Rect>
       </Node>
     </Node>,
   );
@@ -1070,8 +1310,12 @@ export default makeScene2D("toma-04", function* (view) {
     footage2Node().opacity(1, 0.35, easeInOutCubic),
   );
 
-  // [12.5s – 14.2s]: Toma Real 2
-  yield* waitFor(1.35);
+  // [12.5s – 14.2s]: Imagen Real Animada 2 (Prototipo sensores - animación de cámara)
+  yield* all(
+    prototipoCameraNode().scale(1.05, 1.35, easeInOutCubic),
+    prototipoCameraNode().position.y(-15, 1.35, easeInOutCubic),
+    waitFor(1.35),
+  );
 
   // Transición hacia INS-07 (~10 frames antes de «alertas por WhatsApp...»)
   yield* all(
@@ -1101,8 +1345,12 @@ export default makeScene2D("toma-04", function* (view) {
     footage3Node().opacity(1, 0.35, easeInOutCubic),
   );
 
-  // [25.5s – 27.0s]: Toma Real 3
-  yield* waitFor(1.15);
+  // [25.5s – 27.0s]: Imagen Real Animada 3 (Familias y campos de cultivo - Ken Burns)
+  yield* all(
+    footage3CameraNode().scale(1.05, 1.15, easeInOutCubic),
+    footage3CameraNode().position.x(15, 1.15, easeInOutCubic),
+    waitFor(1.15),
+  );
 
   // Transición hacia INS-08 (~10 frames antes de «llenan un vacío de información»)
   yield* all(
@@ -1161,6 +1409,10 @@ export default makeScene2D("toma-04", function* (view) {
     footage4Node().opacity(1, 0.35, easeInOutCubic),
   );
 
-  // [34.0s – 38.76s]: Toma Real 4
-  yield* waitFor(8.8);
+  // [34.0s – 38.81s]: Imagen Real Animada 4 (Comunidad y resiliencia climática - Ken Burns)
+  yield* all(
+    footage4CameraNode().scale(1.06, 5.05, easeInOutCubic),
+    footage4CameraNode().position.y(-15, 5.05, easeInOutCubic),
+    waitFor(5.05),
+  );
 });

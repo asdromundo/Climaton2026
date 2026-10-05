@@ -1,4 +1,13 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Circle } from "@revideo/2d";
+import {
+  makeScene2D,
+  Node,
+  Audio,
+  Rect,
+  Txt,
+  Circle,
+  Img,
+  Gradient,
+} from "@revideo/2d";
 import {
   all,
   createRef,
@@ -8,16 +17,16 @@ import {
   waitFor,
 } from "@revideo/core";
 import { THEME } from "../theme";
-import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo6 from "../../audio/parrafo6.m4a";
+import familiaAsambleaTexture from "../../assets/textures/toma-06-familia-asamblea.png";
 
 /**
  * TOMA 6 MAESTRA · 28.22 s
  * Sincronización continua con parrafo6.m4a
  *
  * Estructura:
- * 1. [0.0s – 4.5s]:   TOMA REAL 1 (Familias colaborando)
+ * 1. [0.0s – 4.5s]:   IMAGEN REAL ANIMADA 1 (Familias colaborando y asamblea)
  * 2. [4.5s – 27.5s]:  INS-10 (Línea del tiempo continua: 3 etapas + corchete financiamiento)
  * 3. [27.5s – 28.22s]: Transición a Toma 7
  */
@@ -25,6 +34,7 @@ export default makeScene2D("toma-06", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
+  const footage1CameraNode = createRef<Node>();
   const ins10Node = createRef<Node>();
 
   // Elementos INS-10 (Línea del tiempo)
@@ -39,14 +49,41 @@ export default makeScene2D("toma-06", function* (view) {
       {/* Audio maestro continuo de la Toma 6 */}
       <Audio src={audioParrafo6} play={true} />
 
-      {/* 1. Capa Toma Real 1 */}
+      {/* 1. Capa Toma Real 1 (Familias colaborando y asamblea comunitaria) */}
       <Node ref={footage1Node} opacity={1}>
-        <VideoPlaceholder
-          title="Familias colaborando y asamblea comunitaria"
-          cue="Hay familias dispuestas a colaborar, y desarrollaremos el proyecto en tres etapas."
-          suggestedFile="toma-06-familias-asamblea.mp4"
-          durationSeconds={4.5}
-        />
+        <Rect width={1920} height={1080} clip={true}>
+          <Node ref={footage1CameraNode} position={[0, 0]} scale={1.01}>
+            <Img src={familiaAsambleaTexture} width={1920} height={1080} />
+          </Node>
+
+          {/* Sombra de viñeta inferior cinematográfica */}
+          <Rect
+            width={1920}
+            height={160}
+            position={[0, 460]}
+            fill={
+              new Gradient({
+                type: "linear",
+                from: [0, -80],
+                to: [0, 80],
+                stops: [
+                  { offset: 0, color: "rgba(26,18,16,0)" },
+                  { offset: 1, color: "rgba(26,18,16,0.75)" },
+                ],
+              })
+            }
+          />
+
+          {/* Cartela contextual elegante */}
+          <Rect
+            position={[-470, 470]}
+            fill={`${THEME.colors.earth.dark}E6`}
+            stroke={THEME.colors.earth.ochre}
+            lineWidth={1.5}
+            radius={8}
+            padding={[8, 22]}
+          ></Rect>
+        </Rect>
       </Node>
 
       {/* 2. Capa INS-10 (Las tres etapas · Maquetación perfectamente centrada y alineada) */}
@@ -361,7 +398,12 @@ export default makeScene2D("toma-06", function* (view) {
           </Node>
 
           {/* Resalte / Corchete de Financiamiento (Exactamente debajo de Etapas 1 y 2, ancho 900px, centrado en -230) */}
-          <Node ref={fundingBracket} position={[-230, 245]} opacity={0} scale={0.92}>
+          <Node
+            ref={fundingBracket}
+            position={[-230, 245]}
+            opacity={0}
+            scale={0.92}
+          >
             <Rect
               width={900}
               height={76}
@@ -392,8 +434,12 @@ export default makeScene2D("toma-06", function* (view) {
   // COREOGRAFÍA TEMPORAL EXACTA (28.22 s)
   // ==========================================
 
-  // [0.0s – 4.5s]: Toma Real 1
-  yield* waitFor(4.15);
+  // [0.0s – 4.5s]: Imagen Real Animada 1 (Familias colaborando - cámara Ken Burns)
+  yield* all(
+    footage1CameraNode().scale(1.05, 4.15, easeInOutCubic),
+    footage1CameraNode().position.x(20, 4.15, easeInOutCubic),
+    waitFor(4.15),
+  );
 
   // Transición hacia INS-10 (~10 frames antes de «Primero, adaptación...»)
   yield* all(

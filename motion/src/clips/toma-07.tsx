@@ -1,4 +1,15 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path, Video } from "@revideo/2d";
+import {
+  makeScene2D,
+  Node,
+  Audio,
+  Rect,
+  Txt,
+  Circle,
+  Path,
+  Video,
+  Img,
+  Gradient,
+} from "@revideo/2d";
 import {
   all,
   createRef,
@@ -8,17 +19,17 @@ import {
   waitFor,
 } from "@revideo/core";
 import { THEME } from "../theme";
-import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo7 from "../../audio/parrafo7.m4a";
 import videoDanosNetos from "../../footage/toma-07-danos-netos-cero.mp4";
+import sueloConservacionTexture from "../../assets/textures/toma-07-suelo-conservacion.png";
 
 /**
  * TOMA 7 MAESTRA · 26.90 s
  * Sincronización continua con parrafo7.m4a
  *
  * Estructura:
- * 1. [0.0s – 2.5s]:   TOMA REAL 1 (Suelo de Conservación)
+ * 1. [0.0s – 2.5s]:   IMAGEN REAL ANIMADA 1 (Suelo de Conservación)
  * 2. [2.5s – 10.5s]:  INS-11 (Recarga del acuífero ~70%)
  * 3. [10.5s – 16.0s]: TOMA REAL 2 (Cobeneficios y Daños Netos Cero)
  * 4. [16.0s – 26.5s]: INS-12 (Escalabilidad: Tulyehualco -> Red institucional)
@@ -28,6 +39,7 @@ export default makeScene2D("toma-07", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
+  const footage1CameraNode = createRef<Node>();
   const ins11Node = createRef<Node>();
   const footage2Node = createRef<Node>();
   const videoDanosNetosRef = createRef<Video>();
@@ -52,14 +64,49 @@ export default makeScene2D("toma-07", function* (view) {
       {/* Audio maestro continuo de la Toma 7 */}
       <Audio src={audioParrafo7} play={true} />
 
-      {/* 1. Capa Toma Real 1 */}
+      {/* 1. Capa Toma Real 1 (Suelo de Conservación y parcelas de milpa) */}
       <Node ref={footage1Node} opacity={1}>
-        <VideoPlaceholder
-          title="Suelo de Conservación y parcelas de milpa"
-          cue="El Suelo de Conservación aporta..."
-          suggestedFile="toma-07-suelo-conservacion.mp4"
-          durationSeconds={2.5}
-        />
+        <Rect width={1920} height={1080} clip={true}>
+          <Node ref={footage1CameraNode} position={[0, 0]} scale={1.01}>
+            <Img src={sueloConservacionTexture} width={1920} height={1080} />
+          </Node>
+
+          {/* Sombra de viñeta inferior cinematográfica */}
+          <Rect
+            width={1920}
+            height={160}
+            position={[0, 460]}
+            fill={
+              new Gradient({
+                type: "linear",
+                from: [0, -80],
+                to: [0, 80],
+                stops: [
+                  { offset: 0, color: "rgba(26,18,16,0)" },
+                  { offset: 1, color: "rgba(26,18,16,0.75)" },
+                ],
+              })
+            }
+          />
+
+          {/* Cartela contextual elegante */}
+          <Rect
+            position={[-450, 470]}
+            fill={`${THEME.colors.earth.dark}E6`}
+            stroke={THEME.colors.earth.ochre}
+            lineWidth={1.5}
+            radius={8}
+            padding={[8, 22]}
+          >
+            <Txt
+              text="Suelo de Conservación y parcelas de milpa · Laderas del Teuhtli"
+              fill={THEME.colors.paper.cream}
+              fontFamily={THEME.typography.sans}
+              fontSize={18}
+              fontWeight={600}
+            />
+          </Rect>
+        </Rect>
       </Node>
 
       {/* 2. Capa INS-11 (Recarga del acuífero ~70%) */}
@@ -397,8 +444,12 @@ export default makeScene2D("toma-07", function* (view) {
   // COREOGRAFÍA TEMPORAL EXACTA (26.90 s)
   // ==========================================
 
-  // [0.0s – 2.5s]: Toma Real 1
-  yield* waitFor(2.15);
+  // [0.0s – 2.5s]: Imagen Real Animada 1 (Suelo de Conservación - cámara Ken Burns)
+  yield* all(
+    footage1CameraNode().scale(1.05, 2.15, easeInOutCubic),
+    footage1CameraNode().position.y(-10, 2.15, easeInOutCubic),
+    waitFor(2.15),
+  );
 
   // Transición hacia INS-11 (~10 frames antes de «cerca del 70 %...»)
   yield* all(

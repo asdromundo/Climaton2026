@@ -442,7 +442,7 @@ export default makeScene2D("toma-03", function* (view) {
   );
 
   // [10.2s – 12.8s]: Toma Real 2 («Pero un pronóstico global no nos dice...»)
-  yield* waitFor(2.25);
+  yield* waitFor(4.25);
 
   // Transición hacia INS-05 (~10 frames antes de «aquí, en estas laderas»)
   yield* all(
@@ -457,21 +457,21 @@ export default makeScene2D("toma-03", function* (view) {
     q1Node().opacity(1, 0.5, easeOutCubic),
     q1Node().position.x(0, 0.5, easeOutBack),
   );
-  yield* waitFor(1.1);
+  yield* waitFor(0.6);
 
   // ¿Cuándo llegará la lluvia? (~15.5s)
   yield* all(
     q2Node().opacity(1, 0.5, easeOutCubic),
     q2Node().position.x(0, 0.5, easeOutBack),
   );
-  yield* waitFor(1.1);
+  yield* waitFor(0.6);
 
   // ¿Cuánto cambiará la temporada? (~17.0s)
   yield* all(
     q3Node().opacity(1, 0.5, easeOutCubic),
     q3Node().position.x(0, 0.5, easeOutBack),
   );
-  yield* waitFor(2.0);
+  yield* waitFor(0.5);
 
   // «Por eso, hay que empezar a medir desde ahora» (~20.4s)
   yield* all(
@@ -480,5 +480,5 @@ export default makeScene2D("toma-03", function* (view) {
     stationPin().scale(1, 0.6, easeOutBack),
   );
 
-  yield* waitFor(4.2);
+  yield* waitFor(3.7);
 });

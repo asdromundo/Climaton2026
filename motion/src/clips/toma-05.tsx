@@ -398,25 +398,16 @@ export default makeScene2D("toma-05", function* (view) {
               offset={[-1, 0]}
             />
 
-            {/* Fila 1: Don Francisco Chavira */}
+            {/* Fila 1: Agricultores */}
             <Node ref={sig1TextNode} position={[0, -75]} opacity={0}>
               {/* Texto a la izquierda */}
               <Txt
-                text="Don Francisco Chavira Morales"
-                position={[-670, -14]}
+                text="Agricultores"
+                position={[-670, 0]}
                 fill={THEME.colors.earth.deep}
                 fontFamily={THEME.typography.serif}
-                fontSize={24}
+                fontSize={26}
                 fontWeight={700}
-                offset={[-1, 0]}
-              />
-              <Txt
-                text="Agricultor de temporal · Paraje El Teuhtli"
-                position={[-670, 16]}
-                fill={THEME.colors.earth.warmClay}
-                fontFamily={THEME.typography.sans}
-                fontSize={17}
-                fontWeight={600}
                 offset={[-1, 0]}
               />
               {/* Rúbrica caligráfica viva en columna dedicada a la derecha */}
@@ -434,25 +425,16 @@ export default makeScene2D("toma-05", function* (view) {
               </Node>
             </Node>
 
-            {/* Fila 2: Doña Martha Valencia */}
+            {/* Fila 2: Productores */}
             <Node ref={sig2TextNode} position={[0, 20]} opacity={0}>
               {/* Texto a la izquierda */}
               <Txt
-                text="Doña Martha Valencia Medina"
-                position={[-670, -14]}
+                text="Productores"
+                position={[-670, 0]}
                 fill={THEME.colors.earth.deep}
                 fontFamily={THEME.typography.serif}
-                fontSize={24}
+                fontSize={26}
                 fontWeight={700}
-                offset={[-1, 0]}
-              />
-              <Txt
-                text="Transformadora tradicional de amaranto · San Juan"
-                position={[-670, 16]}
-                fill={THEME.colors.earth.warmClay}
-                fontFamily={THEME.typography.sans}
-                fontSize={17}
-                fontWeight={600}
                 offset={[-1, 0]}
               />
               {/* Rúbrica caligráfica viva en columna dedicada a la derecha */}
@@ -470,25 +452,16 @@ export default makeScene2D("toma-05", function* (view) {
               </Node>
             </Node>
 
-            {/* Fila 3: Comité de Productores */}
+            {/* Fila 3: Miembros de la comunidad */}
             <Node ref={sig3TextNode} position={[0, 115]} opacity={0}>
               {/* Texto a la izquierda */}
               <Txt
-                text="Comité de Productores y Aguas Ejidales"
-                position={[-670, -14]}
+                text="Miembros de la comunidad"
+                position={[-670, 0]}
                 fill={THEME.colors.earth.deep}
                 fontFamily={THEME.typography.serif}
-                fontSize={24}
+                fontSize={26}
                 fontWeight={700}
-                offset={[-1, 0]}
-              />
-              <Txt
-                text="Asamblea Agraria de Santiago Tulyehualco"
-                position={[-670, 16]}
-                fill={THEME.colors.earth.warmClay}
-                fontFamily={THEME.typography.sans}
-                fontSize={17}
-                fontWeight={600}
                 offset={[-1, 0]}
               />
               {/* Rúbrica caligráfica viva en columna dedicada a la derecha */}
@@ -676,21 +649,21 @@ export default makeScene2D("toma-05", function* (view) {
   ); // 15.93s
 
   // Firmas caligráficas a tinta viva que se trazan mientras se enuncia el conocimiento plasmado
-  // 1. Firma Don Francisco Chavira
+  // 1. Firma Agricultores
   yield* all(
     sig1TextNode().opacity(1, 0.4, easeOutCubic),
     sig1Path().end(1, 0.85, easeInOutCubic),
   ); // 16.93s
   yield* waitFor(0.15); // 17.08s
 
-  // 2. Firma Doña Martha Valencia
+  // 2. Firma Productores
   yield* all(
     sig2TextNode().opacity(1, 0.4, easeOutCubic),
     sig2Path().end(1, 0.85, easeInOutCubic),
   ); // 18.08s
   yield* waitFor(0.15); // 18.23s
 
-  // 3. Firma Comité Ejidal
+  // 3. Firma Miembros de la comunidad
   yield* all(
     sig3TextNode().opacity(1, 0.4, easeOutCubic),
     sig3Path().end(1, 0.85, easeInOutCubic),
