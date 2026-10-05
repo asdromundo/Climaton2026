@@ -1,4 +1,4 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Img } from "@revideo/2d";
+import { makeScene2D, Node, Audio, Rect, Txt, Img, Video } from "@revideo/2d";
 import {
   all,
   createRef,
@@ -12,6 +12,7 @@ import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo2 from "../../audio/parrafo2.m4a";
 import mapTemporalTexture from "../../assets/textures/cdmx-mapa-temporal.png";
+import videoSaberTradicional from "../../footage/toma-02-saber-tradicional.mp4";
 
 /**
  * TOMA 2 MAESTRA · 20.24 s
@@ -29,6 +30,7 @@ export default makeScene2D("toma-02", function* (view) {
   const footage1Node = createRef<Node>();
   const ins03Node = createRef<Node>();
   const footage2Node = createRef<Node>();
+  const video2Ref = createRef<Video>();
 
   // Elementos internos de INS-03 (Tiempo 1: Mapa + Estadística)
   const gridNode = createRef<Node>();
@@ -286,13 +288,14 @@ export default makeScene2D("toma-02", function* (view) {
         </Node>
       </Node>
 
-      {/* 4. Capa Toma Real 2 */}
+      {/* 4. Capa Toma Real 2 (Saber tradicional) */}
       <Node ref={footage2Node} opacity={0}>
-        <VideoPlaceholder
-          title="Agricultores y el saber tradicional"
-          cue="Quienes siembran lo enfrentan solos... el saber tradicional se está perdiendo."
-          suggestedFile="toma-02-saber-tradicional.mp4"
-          durationSeconds={8.0}
+        <Video
+          ref={video2Ref}
+          src={videoSaberTradicional}
+          volume={0}
+          width={1920}
+          height={1080}
         />
       </Node>
     </Node>,
@@ -343,6 +346,7 @@ export default makeScene2D("toma-02", function* (view) {
   yield* waitFor(3.05);
 
   // Transición hacia Toma Real 2 (~10 frames después de «finales de junio»)
+  video2Ref().play();
   yield* all(
     ins03Node().opacity(0, 0.35, easeInOutCubic),
     footage2Node().opacity(1, 0.35, easeInOutCubic),

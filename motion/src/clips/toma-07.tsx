@@ -1,4 +1,4 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path } from "@revideo/2d";
+import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path, Video } from "@revideo/2d";
 import {
   all,
   createRef,
@@ -11,6 +11,7 @@ import { THEME } from "../theme";
 import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo7 from "../../audio/parrafo7.m4a";
+import videoDanosNetos from "../../footage/toma-07-danos-netos-cero.mp4";
 
 /**
  * TOMA 7 MAESTRA · 26.90 s
@@ -29,6 +30,7 @@ export default makeScene2D("toma-07", function* (view) {
   const footage1Node = createRef<Node>();
   const ins11Node = createRef<Node>();
   const footage2Node = createRef<Node>();
+  const videoDanosNetosRef = createRef<Video>();
   const ins12Node = createRef<Node>();
 
   // Elementos INS-11 (Recarga del acuífero)
@@ -215,13 +217,14 @@ export default makeScene2D("toma-07", function* (view) {
         </Rect>
       </Node>
 
-      {/* 3. Capa Toma Real 2 */}
+      {/* 3. Capa Toma Real 2 (Daños Netos Cero y cobeneficios) */}
       <Node ref={footage2Node} opacity={0}>
-        <VideoPlaceholder
-          title="Agricultores en la milpa y Daños Netos Cero"
-          cue="Es adaptación con cobeneficios dentro del paradigma de Daños Netos Cero..."
-          suggestedFile="toma-07-danos-netos-cero.mp4"
-          durationSeconds={5.5}
+        <Video
+          ref={videoDanosNetosRef}
+          src={videoDanosNetos}
+          volume={0}
+          width={1920}
+          height={1080}
         />
       </Node>
 
@@ -417,12 +420,13 @@ export default makeScene2D("toma-07", function* (view) {
   yield* waitFor(5.4);
 
   // Transición hacia Toma Real 2 (~10 frames después de «el agua de la ciudad»)
+  videoDanosNetosRef().play();
   yield* all(
     ins11Node().opacity(0, 0.35, easeInOutCubic),
     footage2Node().opacity(1, 0.35, easeInOutCubic),
   );
 
-  // [10.5s – 16.0s]: Toma Real 2
+  // [10.5s – 16.0s]: Toma Real 2 (Daños Netos Cero)
   yield* waitFor(5.15);
 
   // Transición hacia INS-12 (~10 frames antes de «Tulyehualco es nuestro modelo...»)
@@ -430,6 +434,7 @@ export default makeScene2D("toma-07", function* (view) {
     footage2Node().opacity(0, 0.35, easeInOutCubic),
     ins12Node().opacity(1, 0.35, easeInOutCubic),
   );
+  videoDanosNetosRef().pause();
 
   // [16.0s – 26.5s]: INS-12 (Escalabilidad y réplica)
   yield* all(

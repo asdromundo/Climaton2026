@@ -7,6 +7,7 @@ import {
   Circle,
   Path,
   Img,
+  Video,
 } from "@revideo/2d";
 import {
   all,
@@ -21,13 +22,15 @@ import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo3 from "../../audio/parrafo3.m4a";
 import pacificoElNinoTexture from "../../assets/textures/pacifico-el-nino.png";
+import agricultoresCieloTexture from "../../assets/textures/toma-03-agricultores-mirando-cielo.jpg";
+import videoCieloLaderas from "../../footage/toma-03-cielo-laderas.mp4";
 
 /**
  * TOMA 3 MAESTRA · 23.104 s
  * Sincronización continua con parrafo3.m4a
  *
  * Estructura:
- * 1. [0.0s – 2.5s]:   TOMA REAL 1 (Agricultores mirando el cielo / laderas)
+ * 1. [0.0s – 2.5s]:   IMAGEN REAL ANIMADA 1 (Agricultores mirando el cielo / laderas)
  * 2. [2.5s – 10.2s]:  INS-04 (El Niño NOAA: Mapa estilizado Pacífico, anomalía térmica TSM, medidor >90%)
  * 3. [10.2s – 12.8s]: TOMA REAL 2 (Incertidumbre en las laderas)
  * 4. [12.8s – 23.1s]: INS-05 (De lo global a lo local: 3 preguntas + estación agrometeorológica)
@@ -36,8 +39,10 @@ export default makeScene2D("toma-03", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
+  const cieloCameraNode = createRef<Node>();
   const ins04Node = createRef<Node>();
   const footage2Node = createRef<Node>();
+  const videoCieloLaderasRef = createRef<Video>();
   const ins05Node = createRef<Node>();
 
   // Elementos INS-04 (El Niño)
@@ -57,14 +62,16 @@ export default makeScene2D("toma-03", function* (view) {
       {/* 1. Audio maestro continuo de la Toma 3 */}
       <Audio src={audioParrafo3} play={true} />
 
-      {/* 2. Capa Toma Real 1 */}
+      {/* 2. Capa Imagen Real 1 (Agricultores mirando al cielo) */}
       <Node ref={footage1Node} opacity={1}>
-        <VideoPlaceholder
-          title="Laderas del Teuhtli y agricultores mirando el campo"
-          cue="El próximo año puede ser más difícil."
-          suggestedFile="toma-03-agricultores-cielo.mp4"
-          durationSeconds={2.5}
-        />
+        <Node ref={cieloCameraNode} position={[0, 0]} scale={1.02}>
+          <Img
+            src={agricultoresCieloTexture}
+            width={1920}
+            height={1080}
+            position={[0, 0]}
+          />
+        </Node>
       </Node>
 
       {/* 3. Capa INS-04 (El Niño - NOAA) */}
@@ -171,13 +178,14 @@ export default makeScene2D("toma-03", function* (view) {
         </Rect>
       </Node>
 
-      {/* 4. Capa Toma Real 2 */}
+      {/* 4. Capa Toma Real 2 (Cielo nublado e incertidumbre en las faldas del volcán) */}
       <Node ref={footage2Node} opacity={0}>
-        <VideoPlaceholder
-          title="Cielo nublado e incertidumbre en las faldas del volcán"
-          cue="Pero un pronóstico global no nos dice exactamente qué pasará aquí..."
-          suggestedFile="toma-03-cielo-laderas.mp4"
-          durationSeconds={2.6}
+        <Video
+          ref={videoCieloLaderasRef}
+          src={videoCieloLaderas}
+          volume={0}
+          width={1920}
+          height={1080}
         />
       </Node>
 
@@ -398,13 +406,19 @@ export default makeScene2D("toma-03", function* (view) {
   // COREOGRAFÍA TEMPORAL EXACTA (23.06 s)
   // ==========================================
 
-  // [0.0s – 2.5s]: Toma Real 1 («El próximo año puede ser más difícil.»)
-  yield* waitFor(2.2);
-
-  // Transición hacia INS-04 (~10 frames antes de «De acuerdo con la NOAA...»)
+  // [0.0s – 2.5s]: Imagen Real 1 («El próximo año puede ser más difícil.»)
+  // Animación de cámara Ken Burns: sutil avance y paneo hacia el horizonte señalado
   yield* all(
-    footage1Node().opacity(0, 0.35, easeInOutCubic),
-    ins04Node().opacity(1, 0.35, easeInOutCubic),
+    cieloCameraNode().position.x(18, 2.55, easeInOutCubic),
+    cieloCameraNode().scale(1.06, 2.55, easeInOutCubic),
+    (function* () {
+      yield* waitFor(2.2);
+      // Transición hacia INS-04 (~10 frames antes de «De acuerdo con la NOAA...»)
+      yield* all(
+        footage1Node().opacity(0, 0.35, easeInOutCubic),
+        ins04Node().opacity(1, 0.35, easeInOutCubic),
+      );
+    })(),
   );
 
   // [2.5s – 10.2s]: INS-04 (El Niño)
@@ -421,6 +435,7 @@ export default makeScene2D("toma-03", function* (view) {
   yield* waitFor(4.5);
 
   // Transición hacia Toma Real 2 (~10 frames después de «otoño y el invierno»)
+  videoCieloLaderasRef().play();
   yield* all(
     ins04Node().opacity(0, 0.35, easeInOutCubic),
     footage2Node().opacity(1, 0.35, easeInOutCubic),
@@ -434,6 +449,7 @@ export default makeScene2D("toma-03", function* (view) {
     footage2Node().opacity(0, 0.35, easeInOutCubic),
     ins05Node().opacity(1, 0.35, easeInOutCubic),
   );
+  videoCieloLaderasRef().pause();
 
   // [12.8s – 22.8s]: INS-05 (Preguntas escalonadas + incertidumbre)
   // ¿Lloverá menos? (~14.0s)

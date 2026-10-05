@@ -1,4 +1,4 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path } from "@revideo/2d";
+import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path, Img } from "@revideo/2d";
 import {
   all,
   createRef,
@@ -8,23 +8,24 @@ import {
   waitFor,
 } from "@revideo/core";
 import { THEME } from "../theme";
-import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo5 from "../../audio/parrafo5.m4a";
+import tallerComunitarioTexture from "../../assets/textures/toma-05-taller-comunitario.jpg";
 
 /**
- * TOMA 5 MAESTRA · 21.65 s
- * Sincronización continua con parrafo5.m4a
+ * TOMA 5 MAESTRA · 21.653 s (Duración exacta de parrafo5.m4a)
+ * Sincronización continua de audio sin cortes prematuros
  *
  * Estructura:
- * 1. [0.0s – 5.4s]:   TOMA REAL 1 (Taller comunitario / diálogo con productores)
- * 2. [5.4s – 15.2s]:  INS-09 (El manual vivo por dentro: saber + datos, fichas contingencia)
- * 3. [15.2s – 21.65s]: INS-09b (Portada del Manual Vivo: firmas a tinta viva y Gran Sello «Autores: La comunidad»)
+ * 1. [0.0s – 5.4s]:   IMAGEN REAL ANIMADA 1 (Taller comunitario / diálogo con productores)
+ * 2. [5.4s – 15.58s]: INS-09 (El manual vivo por dentro: saber + datos, fichas contingencia, anillo anual)
+ * 3. [15.58s – 21.653s]: INS-09b (Portada del Manual Vivo: firmas comunitarias a tinta viva y Gran Sello «Autores: La comunidad»)
  */
 export default makeScene2D("toma-05", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
+  const tallerCameraNode = createRef<Node>();
   const ins09Node = createRef<Node>();
   const coverAuthorshipNode = createRef<Node>();
 
@@ -51,33 +52,44 @@ export default makeScene2D("toma-05", function* (view) {
 
   view.add(
     <Node>
-      {/* Audio maestro continuo de la Toma 5 (21.65 s) */}
+      {/* Audio maestro continuo de la Toma 5 (21.653 s) */}
       <Audio src={audioParrafo5} play={true} />
 
-      {/* 1. Capa Toma Real 1 */}
+      {/* 1. Capa Imagen Real 1 (Taller comunitario y diálogo con productores) */}
       <Node ref={footage1Node} opacity={1}>
-        <VideoPlaceholder
-          title="Taller comunitario y diálogo con productores"
-          cue="El corazón de Cehuamilli es un manual vivo y adaptable, que la comunidad escribe junto a nosotros:"
-          suggestedFile="toma-05-taller-comunitario.mp4"
-          durationSeconds={5.4}
-        />
+        <Node ref={tallerCameraNode} position={[0, 0]} scale={1.03}>
+          <Img
+            src={tallerComunitarioTexture}
+            width={1920}
+            height={1100}
+            position={[0, 0]}
+          />
+        </Node>
       </Node>
 
       {/* 2. Capa INS-09 (Manual Vivo Interior: Fichas y Anillo Anual) */}
       <Node ref={ins09Node} opacity={0}>
         <Rect
           width={1600}
-          height={760}
+          height={780}
           fill={THEME.colors.paper.amateLight}
           stroke={THEME.colors.earth.ochre}
           lineWidth={2.5}
-          radius={20}
-          position={[0, -20]}
+          radius={22}
+          position={[0, 0]}
           padding={[40, 50]}
           shadowColor={`${THEME.colors.earth.dark}18`}
           shadowBlur={20}
         >
+          {/* Filete decorativo interior */}
+          <Rect
+            width={1540}
+            height={720}
+            stroke={`${THEME.colors.earth.ochre}60`}
+            lineWidth={1.5}
+            radius={16}
+          />
+
           <Txt
             text="MANUAL VIVO Y ADAPTABLE"
             position={[0, -310]}
@@ -287,22 +299,21 @@ export default makeScene2D("toma-05", function* (view) {
         <Rect
           ref={coverCard}
           width={1600}
-          height={780}
+          height={800}
           fill={THEME.colors.paper.amateLight}
           stroke={THEME.colors.earth.terracotta}
           lineWidth={3}
-          radius={22}
-          position={[0, -10]}
+          radius={24}
+          position={[0, 0]}
           padding={[35, 45]}
           shadowColor={`${THEME.colors.earth.dark}20`}
           shadowBlur={22}
-          clip={true}
         >
           {/* Lomo encuadernado artesanal en el costado izquierdo */}
           <Rect
             position={[-755, 0]}
             width={70}
-            height={780}
+            height={800}
             fill={`${THEME.colors.earth.warmClay}25`}
             stroke={THEME.colors.earth.ochre}
             lineWidth={1.5}
@@ -317,7 +328,7 @@ export default makeScene2D("toma-05", function* (view) {
 
           {/* Cintillo superior: Metadatos y Soberanía Local */}
           <Rect
-            position={[25, -325]}
+            position={[25, -330]}
             width={620}
             height={36}
             fill={`${THEME.colors.milpa.deepGreen}15`}
@@ -338,7 +349,7 @@ export default makeScene2D("toma-05", function* (view) {
           {/* Título de la Portada del Manual */}
           <Txt
             text="MANUAL BIOCLIMÁTICO COMUNITARIO"
-            position={[25, -265]}
+            position={[25, -270]}
             fill={THEME.colors.earth.deep}
             fontFamily={THEME.typography.serif}
             fontSize={46}
@@ -347,7 +358,7 @@ export default makeScene2D("toma-05", function* (view) {
           />
           <Txt
             text="Saber tradicional de la milpa entrelazado con datos meteorológicos locales"
-            position={[25, -215]}
+            position={[25, -220]}
             fill={THEME.colors.earth.warmClay}
             fontFamily={THEME.typography.sans}
             fontSize={24}
@@ -367,149 +378,150 @@ export default makeScene2D("toma-05", function* (view) {
             shadowColor={`${THEME.colors.earth.dark}12`}
             shadowBlur={15}
           >
-            {/* LADO IZQUIERDO: Registro de Firmas Comunitarias */}
-            <Node position={[-250, 0]}>
+            {/* LADO IZQUIERDO: Encabezado de firmas */}
+            <Txt
+              text="REGISTRO DE COAUTORÍA Y SABERES LOCALES"
+              position={[-670, -190]}
+              fill={THEME.colors.milpa.deepGreen}
+              fontFamily={THEME.typography.mono}
+              fontSize={17}
+              fontWeight={700}
+              offset={[-1, 0]}
+            />
+            <Txt
+              text="«En él queda plasmado su conocimiento, con ellos como autores»"
+              position={[-670, -160]}
+              fill={THEME.colors.earth.deep}
+              fontFamily={THEME.typography.sans}
+              fontSize={19}
+              fontStyle="italic"
+              offset={[-1, 0]}
+            />
+
+            {/* Fila 1: Don Francisco Chavira */}
+            <Node ref={sig1TextNode} position={[0, -75]} opacity={0}>
+              {/* Texto a la izquierda */}
               <Txt
-                text="REGISTRO DE COAUTORÍA Y SABERES LOCALES"
-                position={[-420, -195]}
-                fill={THEME.colors.milpa.deepGreen}
-                fontFamily={THEME.typography.mono}
-                fontSize={17}
-                fontWeight={700}
-                offset={[-1, 0]}
-              />
-              <Txt
-                text="«En él queda plasmado su conocimiento, con ellos como autores»"
-                position={[-420, -165]}
+                text="Don Francisco Chavira Morales"
+                position={[-670, -14]}
                 fill={THEME.colors.earth.deep}
-                fontFamily={THEME.typography.sans}
-                fontSize={19}
-                fontStyle="italic"
-                offset={[-1, 0]}
-              />
-
-              {/* Fila 1: Don Francisco Chavira */}
-              <Node ref={sig1TextNode} position={[-420, -80]} opacity={0}>
-                <Txt
-                  text="Don Francisco Chavira Morales"
-                  position={[0, -16]}
-                  fill={THEME.colors.earth.deep}
-                  fontFamily={THEME.typography.serif}
-                  fontSize={24}
-                  fontWeight={700}
-                  offset={[-1, 0]}
-                />
-                <Txt
-                  text="Agricultor de temporal · Paraje El Teuhtli"
-                  position={[0, 16]}
-                  fill={THEME.colors.earth.warmClay}
-                  fontFamily={THEME.typography.sans}
-                  fontSize={17}
-                  fontWeight={600}
-                  offset={[-1, 0]}
-                />
-                {/* Rúbrica caligráfica viva */}
-                <Node position={[490, 0]}>
-                  <Rect width={270} height={1.5} position={[0, 18]} fill={`${THEME.colors.earth.ochre}80`} />
-                  <Path
-                    ref={sig1Path}
-                    data="M -110,12 C -85,-28 -65,22 -45,-18 C -25,-45 -5,18 20,-8 C 45,-28 65,18 85,-5 C 105,-22 120,8 135,-12"
-                    stroke={THEME.colors.earth.deep}
-                    lineWidth={3.5}
-                    lineCap="round"
-                    lineJoin="round"
-                    end={0}
-                  />
-                </Node>
-              </Node>
-
-              {/* Fila 2: Doña Martha Valencia */}
-              <Node ref={sig2TextNode} position={[-420, 20]} opacity={0}>
-                <Txt
-                  text="Doña Martha Valencia Medina"
-                  position={[0, -16]}
-                  fill={THEME.colors.earth.deep}
-                  fontFamily={THEME.typography.serif}
-                  fontSize={24}
-                  fontWeight={700}
-                  offset={[-1, 0]}
-                />
-                <Txt
-                  text="Transformadora tradicional de amaranto · San Juan"
-                  position={[0, 16]}
-                  fill={THEME.colors.earth.warmClay}
-                  fontFamily={THEME.typography.sans}
-                  fontSize={17}
-                  fontWeight={600}
-                  offset={[-1, 0]}
-                />
-                {/* Rúbrica caligráfica viva */}
-                <Node position={[490, 0]}>
-                  <Rect width={270} height={1.5} position={[0, 18]} fill={`${THEME.colors.earth.ochre}80`} />
-                  <Path
-                    ref={sig2Path}
-                    data="M -110,-10 C -92,25 -70,-32 -48,12 C -28,32 -8,-22 15,16 C 38,35 58,-16 78,6 C 98,22 118,-24 135,-6"
-                    stroke={THEME.colors.earth.deep}
-                    lineWidth={3.5}
-                    lineCap="round"
-                    lineJoin="round"
-                    end={0}
-                  />
-                </Node>
-              </Node>
-
-              {/* Fila 3: Comité de Productores */}
-              <Node ref={sig3TextNode} position={[-420, 120]} opacity={0}>
-                <Txt
-                  text="Comité de Productores y Aguas Ejidales"
-                  position={[0, -16]}
-                  fill={THEME.colors.earth.deep}
-                  fontFamily={THEME.typography.serif}
-                  fontSize={24}
-                  fontWeight={700}
-                  offset={[-1, 0]}
-                />
-                <Txt
-                  text="Asamblea Agraria de Santiago Tulyehualco"
-                  position={[0, 16]}
-                  fill={THEME.colors.earth.warmClay}
-                  fontFamily={THEME.typography.sans}
-                  fontSize={17}
-                  fontWeight={600}
-                  offset={[-1, 0]}
-                />
-                {/* Rúbrica caligráfica viva */}
-                <Node position={[490, 0]}>
-                  <Rect width={270} height={1.5} position={[0, 18]} fill={`${THEME.colors.earth.ochre}80`} />
-                  <Path
-                    ref={sig3Path}
-                    data="M -110,2 C -80,-35 -50,32 -25,-18 C 0,-38 25,24 50,-10 C 75,-30 100,20 120,-14 C 130,5 138,-10 142,-2"
-                    stroke={THEME.colors.earth.deep}
-                    lineWidth={3.5}
-                    lineCap="round"
-                    lineJoin="round"
-                    end={0}
-                  />
-                </Node>
-              </Node>
-
-              {/* Pie de firmas */}
-              <Txt
-                text="✦ Coautoría comunitaria, memoria bioclimática y soberanía territorial"
-                position={[-420, 205]}
-                fill={THEME.colors.milpa.deepGreen}
-                fontFamily={THEME.typography.mono}
-                fontSize={15}
+                fontFamily={THEME.typography.serif}
+                fontSize={24}
                 fontWeight={700}
                 offset={[-1, 0]}
               />
+              <Txt
+                text="Agricultor de temporal · Paraje El Teuhtli"
+                position={[-670, 16]}
+                fill={THEME.colors.earth.warmClay}
+                fontFamily={THEME.typography.sans}
+                fontSize={17}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+              {/* Rúbrica caligráfica viva en columna dedicada a la derecha */}
+              <Node position={[-110, 0]}>
+                <Rect width={250} height={1.5} position={[0, 18]} fill={`${THEME.colors.earth.ochre}80`} />
+                <Path
+                  ref={sig1Path}
+                  data="M -100,12 C -75,-28 -55,22 -35,-18 C -15,-45 5,18 30,-8 C 55,-28 75,18 95,-5 C 110,-22 120,8 130,-12"
+                  stroke={THEME.colors.earth.deep}
+                  lineWidth={3.5}
+                  lineCap="round"
+                  lineJoin="round"
+                  end={0}
+                />
+              </Node>
             </Node>
 
+            {/* Fila 2: Doña Martha Valencia */}
+            <Node ref={sig2TextNode} position={[0, 20]} opacity={0}>
+              {/* Texto a la izquierda */}
+              <Txt
+                text="Doña Martha Valencia Medina"
+                position={[-670, -14]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.serif}
+                fontSize={24}
+                fontWeight={700}
+                offset={[-1, 0]}
+              />
+              <Txt
+                text="Transformadora tradicional de amaranto · San Juan"
+                position={[-670, 16]}
+                fill={THEME.colors.earth.warmClay}
+                fontFamily={THEME.typography.sans}
+                fontSize={17}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+              {/* Rúbrica caligráfica viva en columna dedicada a la derecha */}
+              <Node position={[-110, 0]}>
+                <Rect width={250} height={1.5} position={[0, 18]} fill={`${THEME.colors.earth.ochre}80`} />
+                <Path
+                  ref={sig2Path}
+                  data="M -100,-10 C -82,25 -60,-32 -38,12 C -18,32 2,-22 25,16 C 48,35 68,-16 88,6 C 105,22 115,-24 125,-6"
+                  stroke={THEME.colors.earth.deep}
+                  lineWidth={3.5}
+                  lineCap="round"
+                  lineJoin="round"
+                  end={0}
+                />
+              </Node>
+            </Node>
+
+            {/* Fila 3: Comité de Productores */}
+            <Node ref={sig3TextNode} position={[0, 115]} opacity={0}>
+              {/* Texto a la izquierda */}
+              <Txt
+                text="Comité de Productores y Aguas Ejidales"
+                position={[-670, -14]}
+                fill={THEME.colors.earth.deep}
+                fontFamily={THEME.typography.serif}
+                fontSize={24}
+                fontWeight={700}
+                offset={[-1, 0]}
+              />
+              <Txt
+                text="Asamblea Agraria de Santiago Tulyehualco"
+                position={[-670, 16]}
+                fill={THEME.colors.earth.warmClay}
+                fontFamily={THEME.typography.sans}
+                fontSize={17}
+                fontWeight={600}
+                offset={[-1, 0]}
+              />
+              {/* Rúbrica caligráfica viva en columna dedicada a la derecha */}
+              <Node position={[-110, 0]}>
+                <Rect width={250} height={1.5} position={[0, 18]} fill={`${THEME.colors.earth.ochre}80`} />
+                <Path
+                  ref={sig3Path}
+                  data="M -100,2 C -70,-35 -40,32 -15,-18 C 10,-38 35,24 60,-10 C 85,-30 105,20 120,-14 C 126,5 130,-10 134,-2"
+                  stroke={THEME.colors.earth.deep}
+                  lineWidth={3.5}
+                  lineCap="round"
+                  lineJoin="round"
+                  end={0}
+                />
+              </Node>
+            </Node>
+
+            {/* Pie de firmas */}
+            <Txt
+              text="✦ Coautoría comunitaria, memoria bioclimática y soberanía territorial"
+              position={[-670, 195]}
+              fill={THEME.colors.milpa.deepGreen}
+              fontFamily={THEME.typography.mono}
+              fontSize={15}
+              fontWeight={700}
+              offset={[-1, 0]}
+            />
+
             {/* LADO DERECHO: El Gran Sello de Coautoría («AUTORES: LA COMUNIDAD») */}
-            <Node ref={sealNode} position={[480, 0]} opacity={0} scale={1.4} rotation={8}>
+            <Node ref={sealNode} position={[450, 0]} opacity={0} scale={1.4} rotation={8}>
               {/* Sello circular artesanal */}
               <Circle
-                size={340}
+                size={330}
                 fill={THEME.colors.paper.amateLight}
                 stroke={THEME.colors.earth.terracotta}
                 lineWidth={4.5}
@@ -517,13 +529,13 @@ export default makeScene2D("toma-05", function* (view) {
                 shadowBlur={20}
               />
               <Circle
-                size={305}
+                size={295}
                 stroke={THEME.colors.milpa.deepGreen}
                 lineWidth={2}
                 lineDash={[8, 6]}
               />
               <Circle
-                size={270}
+                size={260}
                 stroke={THEME.colors.earth.ochre}
                 lineWidth={1.5}
               />
@@ -531,7 +543,7 @@ export default makeScene2D("toma-05", function* (view) {
               {/* Textos del Sello */}
               <Txt
                 text="DOCUMENTO APROBADO"
-                position={[0, -98]}
+                position={[0, -92]}
                 fill={THEME.colors.earth.warmClay}
                 fontFamily={THEME.typography.mono}
                 fontSize={15}
@@ -540,7 +552,7 @@ export default makeScene2D("toma-05", function* (view) {
               />
               <Txt
                 text="AUTORES:"
-                position={[0, -56]}
+                position={[0, -52]}
                 fill={THEME.colors.earth.terracotta}
                 fontFamily={THEME.typography.serif}
                 fontSize={28}
@@ -549,7 +561,7 @@ export default makeScene2D("toma-05", function* (view) {
               />
               <Txt
                 text="LA COMUNIDAD"
-                position={[0, -10]}
+                position={[0, -8]}
                 fill={THEME.colors.earth.dark}
                 fontFamily={THEME.typography.serif}
                 fontSize={38}
@@ -558,18 +570,18 @@ export default makeScene2D("toma-05", function* (view) {
               />
               <Rect
                 position={[0, 26]}
-                width={200}
+                width={190}
                 height={2.5}
                 fill={THEME.colors.milpa.deepGreen}
               />
               <Txt
                 text="🌾 ☀️ 💧"
-                position={[0, 56]}
+                position={[0, 54]}
                 fontSize={26}
               />
               <Txt
                 text="SANTIAGO TULYEHUALCO"
-                position={[0, 94]}
+                position={[0, 90]}
                 fill={THEME.colors.milpa.deepGreen}
                 fontFamily={THEME.typography.mono}
                 fontSize={16}
@@ -578,7 +590,7 @@ export default makeScene2D("toma-05", function* (view) {
               />
               <Txt
                 text="CIENCIA COMUNITARIA · 2026"
-                position={[0, 118]}
+                position={[0, 114]}
                 fill={THEME.colors.earth.warmClay}
                 fontFamily={THEME.typography.mono}
                 fontSize={13}
@@ -588,14 +600,14 @@ export default makeScene2D("toma-05", function* (view) {
               {/* Hilos que se anudan en el sello */}
               <Path
                 ref={sealThreadTradition}
-                data="M -230,-120 C -150,-100 -80,-140 -20,-115"
+                data="M -220,-115 C -145,-95 -75,-135 -15,-110"
                 stroke={THEME.colors.earth.terracotta}
                 lineWidth={3.5}
                 opacity={0.85}
               />
               <Path
                 ref={sealThreadData}
-                data="M 230,-120 C 150,-100 80,-140 20,-115"
+                data="M 220,-115 C 145,-95 75,-135 15,-110"
                 stroke={THEME.colors.climate.rainBlue}
                 lineWidth={3.5}
                 opacity={0.85}
@@ -608,83 +620,91 @@ export default makeScene2D("toma-05", function* (view) {
   );
 
   // ==========================================
-  // COREOGRAFÍA TEMPORAL EXACTA (21.65 s)
+  // COREOGRAFÍA TEMPORAL EXACTA (21.653 s)
+  // Sincronización continua de muestra con parrafo5.m4a
   // ==========================================
 
-  // [0.0s – 5.4s]: Toma Real 1 (Taller comunitario)
-  yield* waitFor(5.05);
-
-  // Transición hacia INS-09 (~10 frames antes de «junta su saber tradicional...»)
+  // [0.0s – 5.40s]: Imagen Real 1 (Taller comunitario y diálogo con productores)
+  // Animación Ken Burns: paneo horizontal recorriendo la mesa de diálogo + zoom sutil
   yield* all(
-    footage1Node().opacity(0, 0.35, easeInOutCubic),
-    ins09Node().opacity(1, 0.35, easeInOutCubic),
-  );
+    tallerCameraNode().position.x(-15, 5.4, easeInOutCubic),
+    tallerCameraNode().scale(1.06, 5.4, easeInOutCubic),
+    (function* () {
+      yield* waitFor(5.05);
+      // Transición hacia INS-09 (~10 frames antes de «junta su saber tradicional...»)
+      yield* all(
+        footage1Node().opacity(0, 0.35, easeInOutCubic),
+        ins09Node().opacity(1, 0.35, easeInOutCubic),
+      );
+    })(),
+  ); // 5.40s exacto
 
-  // [5.4s – 15.2s]: INS-09 (Fichas del manual y ciclo anual)
-  // Entrada ficha 1: Sequía
+  // [5.40s – 14.18s]: INS-09 (Fichas del manual y ciclo anual)
+  // Entrada ficha 1: Sequía (al compás de «sequías...»)
   yield* all(
     cardSequia().opacity(1, 0.6, easeOutBack),
     cardSequia().position.y(-10, 0.6, easeOutBack),
-  );
-  yield* waitFor(1.5);
+  ); // 6.00s
+  yield* waitFor(1.6); // 7.60s
 
-  // Entrada ficha 2: Ventarrón
+  // Entrada ficha 2: Ventarrón (al compás de «ventarrones...»)
   yield* all(
     cardVentarron().opacity(1, 0.6, easeOutBack),
     cardVentarron().position.y(-10, 0.6, easeOutBack),
-  );
-  yield* waitFor(1.5);
+  ); // 8.20s
+  yield* waitFor(1.6); // 9.80s
 
-  // Entrada ficha 3: Helada
+  // Entrada ficha 3: Helada (al compás de «heladas...»)
   yield* all(
     cardHelada().opacity(1, 0.6, easeOutBack),
     cardHelada().position.y(-10, 0.6, easeOutBack),
-  );
-  yield* waitFor(2.8);
+  ); // 10.40s
+  yield* waitFor(3.78); // 14.18s («...para estar preparados. [pausa]»)
 
-  // [14.1s – 15.2s]: Rotación del ciclo anual («Se actualiza cada año...»)
+  // [14.18s – 15.58s]: «Se actualiza cada año...»
   yield* all(
     annualRing().rotation(360, 1.1, easeInOutCubic),
     annualRing().scale(1.2, 0.55, easeOutBack),
-  );
-  yield* annualRing().scale(1.0, 0.45, easeInOutCubic);
+  ); // 15.28s
+  yield* annualRing().scale(1.0, 0.3, easeInOutCubic); // 15.58s
 
-  // [15.2s – 15.55s]: Transición hacia INS-09b («...y en él queda plasmado su conocimiento...»)
+  // [15.58s – 19.50s]: «...y en él queda plasmado su conocimiento,»
+  // Transición hacia INS-09b (Portada del Manual de Amate)
   yield* all(
     ins09Node().opacity(0, 0.35, easeInOutCubic),
     coverAuthorshipNode().opacity(1, 0.35, easeInOutCubic),
-  );
+  ); // 15.93s
 
-  // [15.55s – 19.34s]: Firmas caligráficas a tinta viva
+  // Firmas caligráficas a tinta viva que se trazan mientras se enuncia el conocimiento plasmado
   // 1. Firma Don Francisco Chavira
   yield* all(
-    sig1TextNode().opacity(1, 0.35, easeOutCubic),
-    sig1Path().end(1, 0.75, easeInOutCubic),
-  );
-  yield* waitFor(0.2);
+    sig1TextNode().opacity(1, 0.4, easeOutCubic),
+    sig1Path().end(1, 0.85, easeInOutCubic),
+  ); // 16.93s
+  yield* waitFor(0.15); // 17.08s
 
   // 2. Firma Doña Martha Valencia
   yield* all(
-    sig2TextNode().opacity(1, 0.35, easeOutCubic),
-    sig2Path().end(1, 0.75, easeInOutCubic),
-  );
-  yield* waitFor(0.2);
+    sig2TextNode().opacity(1, 0.4, easeOutCubic),
+    sig2Path().end(1, 0.85, easeInOutCubic),
+  ); // 18.08s
+  yield* waitFor(0.15); // 18.23s
 
   // 3. Firma Comité Ejidal
   yield* all(
-    sig3TextNode().opacity(1, 0.35, easeOutCubic),
-    sig3Path().end(1, 0.75, easeInOutCubic),
-  );
-  yield* waitFor(0.4);
+    sig3TextNode().opacity(1, 0.4, easeOutCubic),
+    sig3Path().end(1, 0.85, easeInOutCubic),
+  ); // 18.78s
+  yield* waitFor(0.72); // 19.50s («...con ellos como autores.»)
 
-  // [19.34s – 21.65s]: Remate «...con ellos como autores.»
-  // El Gran Sello de Coautoría se estampa con impacto artesanal
+  // [19.50s – 20.00s]: «...con ellos como autores.»
+  // El Gran Sello de Coautoría se estampa con impacto artesanal justo en la frase de remate
   yield* all(
     sealNode().opacity(1, 0.15, easeOutCubic),
-    sealNode().scale(1.0, 0.45, easeOutBack),
-    sealNode().rotation(-5, 0.45, easeOutBack),
-  );
+    sealNode().scale(1.0, 0.5, easeOutBack),
+    sealNode().rotation(-5, 0.5, easeOutBack),
+  ); // 20.00s
 
-  // Pausa final de asimilación hasta completar 21.65 s de parrafo5.m4a
-  yield* waitFor(1.85);
+  // Pausa serena final que cubre exactamente hasta el final de parrafo5.m4a (21.653 s)
+  yield* waitFor(1.653); // 21.653s total exacto
 });

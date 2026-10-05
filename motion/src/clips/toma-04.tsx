@@ -1,4 +1,13 @@
-import { makeScene2D, Node, Audio, Rect, Txt, Circle, Path } from "@revideo/2d";
+import {
+  makeScene2D,
+  Node,
+  Audio,
+  Rect,
+  Txt,
+  Circle,
+  Path,
+  Img,
+} from "@revideo/2d";
 import {
   all,
   createRef,
@@ -11,13 +20,14 @@ import { THEME } from "../theme";
 import { VideoPlaceholder } from "../components/VideoPlaceholder";
 
 import audioParrafo4 from "../../audio/parrafo4.m4a";
+import equipoCehuamilliTexture from "../../assets/textures/toma-04-equipo-cehuamilli.jpeg";
 
 /**
  * TOMA 4 MAESTRA · 38.76 s
  * Sincronización continua con parrafo4.m4a
  *
  * Estructura:
- * 1. [0.0s – 4.5s]:   TOMA REAL 1 (Equipo Cehuamilli)
+ * 1. [0.0s – 4.5s]:   IMAGEN REAL ANIMADA 1 (Equipo Cehuamilli interdisciplinario)
  * 2. [4.5s – 12.5s]:  INS-06 (Perfil del Teuhtli + estaciones a distintas alturas)
  * 3. [12.5s – 14.2s]: TOMA REAL 2 (Prototipos y herramientas auxiliares)
  * 4. [14.2s – 25.5s]: INS-07 (Alerta que baja por la ladera + celular genérico + inundación)
@@ -29,6 +39,8 @@ export default makeScene2D("toma-04", function* (view) {
   view.fill(THEME.colors.paper.cream);
 
   const footage1Node = createRef<Node>();
+  const equipoCameraNode = createRef<Node>();
+  const pinPulseRef = createRef<Circle>();
   const ins06Node = createRef<Node>();
   const footage2Node = createRef<Node>();
   const ins07Node = createRef<Node>();
@@ -66,14 +78,26 @@ export default makeScene2D("toma-04", function* (view) {
       {/* Audio maestro continuo de la Toma 4 */}
       <Audio src={audioParrafo4} play={true} />
 
-      {/* 1. Capa Toma Real 1 */}
+      {/* 1. Capa Imagen Real 1 (Equipo Cehuamilli interdisciplinario) */}
       <Node ref={footage1Node} opacity={1}>
-        <VideoPlaceholder
-          title="Equipo Cehuamilli interdisciplinario"
-          cue="Somos Cehuamilli, un equipo interdisciplinario, y proponemos un ecosistema:"
-          suggestedFile="toma-04-equipo-cehuamilli.mp4"
-          durationSeconds={4.5}
-        />
+        <Node ref={equipoCameraNode} position={[0, 10]} scale={1.02}>
+          <Img
+            src={equipoCehuamilliTexture}
+            width={1920}
+            height={1080}
+            position={[0, 0]}
+          />
+          {/* Pulsar / halo vivo sobre el pin del volcán Teuhtli */}
+          <Circle
+            ref={pinPulseRef}
+            position={[706, 132]}
+            size={36}
+            stroke={THEME.colors.earth.terracotta}
+            lineWidth={2.5}
+            opacity={0.85}
+            scale={1}
+          />
+        </Node>
       </Node>
 
       {/* 2. Capa INS-06 (Estaciones a distintas alturas) */}
@@ -135,7 +159,7 @@ export default makeScene2D("toma-04", function* (view) {
               padding={[10, 16]}
             >
               <Txt
-                text="Base · 2,260 msnm"
+                text="Base"
                 position={[0, -16]}
                 fill={THEME.colors.earth.deep}
                 fontFamily={THEME.typography.mono}
@@ -154,7 +178,7 @@ export default makeScene2D("toma-04", function* (view) {
           </Node>
 
           {/* Estación 2: Ladera Media / Parcelas de Temporal */}
-          <Node ref={station2} position={[-200, 90]} opacity={0} scale={0}>
+          <Node ref={station2} position={[-200, 120]} opacity={0} scale={0}>
             <Circle size={28} fill={THEME.colors.milpa.deepGreen} />
             <Rect
               position={[0, -70]}
@@ -167,7 +191,7 @@ export default makeScene2D("toma-04", function* (view) {
               padding={[10, 16]}
             >
               <Txt
-                text="Ladera Media · 2,450 msnm"
+                text="Ladera Media"
                 position={[0, -16]}
                 fill={THEME.colors.earth.deep}
                 fontFamily={THEME.typography.mono}
@@ -185,8 +209,8 @@ export default makeScene2D("toma-04", function* (view) {
             </Rect>
           </Node>
 
-          {/* Estación 3: Cumbre del Teuhtli */}
-          <Node ref={station3} position={[0, -110]} opacity={0} scale={0}>
+          {/* Estación 3: Ladera alta del Teuhtli */}
+          <Node ref={station3} position={[-100, 0]} opacity={0} scale={0}>
             <Circle
               size={32}
               fill={THEME.colors.earth.terracotta}
@@ -204,7 +228,7 @@ export default makeScene2D("toma-04", function* (view) {
               padding={[10, 16]}
             >
               <Txt
-                text="Cumbre · 2,710 msnm"
+                text="Ladera alta"
                 position={[0, -16]}
                 fill={THEME.colors.earth.deep}
                 fontFamily={THEME.typography.mono}
@@ -508,7 +532,7 @@ export default makeScene2D("toma-04", function* (view) {
             shadowBlur={18}
           >
             <Txt
-              text="REGISTRO HIPERLOCAL · LADERA DEL TEUHTLI"
+              text="REGISTRO LOCAL · LADERA DEL TEUHTLI"
               position={[0, -215]}
               fill={THEME.colors.earth.warmClay}
               fontFamily={THEME.typography.mono}
@@ -517,7 +541,7 @@ export default makeScene2D("toma-04", function* (view) {
               letterSpacing={1.5}
             />
             <Txt
-              text="De la ausencia de datos a la serie continua"
+              text="De la ausencia de datos a la continuidad"
               position={[0, -182]}
               fill={THEME.colors.earth.deep}
               fontFamily={THEME.typography.serif}
@@ -537,13 +561,28 @@ export default makeScene2D("toma-04", function* (view) {
               clip={true}
             >
               {/* Ejes y cuadrícula */}
-              <Rect width={590} height={1.5} position={[0, 52]} fill={`${THEME.colors.earth.ochre}55`} />
-              <Rect width={590} height={1} position={[0, 0]} fill={`${THEME.colors.earth.ochre}33`} />
-              <Rect width={590} height={1} position={[0, -52]} fill={`${THEME.colors.earth.ochre}33`} />
+              <Rect
+                width={590}
+                height={1.5}
+                position={[0, 52]}
+                fill={`${THEME.colors.earth.ochre}55`}
+              />
+              <Rect
+                width={590}
+                height={1}
+                position={[0, 0]}
+                fill={`${THEME.colors.earth.ochre}33`}
+              />
+              <Rect
+                width={590}
+                height={1}
+                position={[0, -52]}
+                fill={`${THEME.colors.earth.ochre}33`}
+              />
 
               {/* Rótulo de vacío histórico previo */}
               <Txt
-                text="Vacío histórico de estaciones en ladera"
+                text="Vacío histórico de estaciones en la zona"
                 position={[-110, -58]}
                 fill={`${THEME.colors.earth.warmClay}99`}
                 fontFamily={THEME.typography.mono}
@@ -552,16 +591,18 @@ export default makeScene2D("toma-04", function* (view) {
               />
 
               {/* Meses en eje X */}
-              {["May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov"].map((m, idx) => (
-                <Txt
-                  text={m}
-                  position={[-250 + idx * 83, 68]}
-                  fill={THEME.colors.earth.warmClay}
-                  fontFamily={THEME.typography.mono}
-                  fontSize={15}
-                  fontWeight={600}
-                />
-              ))}
+              {["May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov"].map(
+                (m, idx) => (
+                  <Txt
+                    text={m}
+                    position={[-250 + idx * 83, 68]}
+                    fill={THEME.colors.earth.warmClay}
+                    fontFamily={THEME.typography.mono}
+                    fontSize={15}
+                    fontWeight={600}
+                  />
+                ),
+              )}
 
               {/* Área y Curva continua Cehuamilli de precipitación acumulada */}
               <Node>
@@ -575,11 +616,33 @@ export default makeScene2D("toma-04", function* (view) {
                   lineWidth={3.5}
                 />
                 {/* Hitos de medición a lo largo de la curva */}
-                <Circle position={[-260, 50]} size={10} fill={THEME.colors.milpa.deepGreen} />
-                <Circle position={[-110, 35]} size={10} fill={THEME.colors.climate.rainBlue} />
-                <Circle position={[-40, 5]} size={10} fill={THEME.colors.climate.rainBlue} />
-                <Circle position={[100, -68]} size={10} fill={THEME.colors.climate.rainBlue} />
-                <Circle position={[270, -118]} size={12} fill={THEME.colors.milpa.leaf} stroke={THEME.colors.paper.cream} lineWidth={2} />
+                <Circle
+                  position={[-260, 50]}
+                  size={10}
+                  fill={THEME.colors.milpa.deepGreen}
+                />
+                <Circle
+                  position={[-110, 35]}
+                  size={10}
+                  fill={THEME.colors.climate.rainBlue}
+                />
+                <Circle
+                  position={[-40, 5]}
+                  size={10}
+                  fill={THEME.colors.climate.rainBlue}
+                />
+                <Circle
+                  position={[100, -68]}
+                  size={10}
+                  fill={THEME.colors.climate.rainBlue}
+                />
+                <Circle
+                  position={[270, -118]}
+                  size={12}
+                  fill={THEME.colors.milpa.leaf}
+                  stroke={THEME.colors.paper.cream}
+                  lineWidth={2}
+                />
               </Node>
 
               {/* Cortina / máscara reveladora que descubre la curva hacia la derecha */}
@@ -617,7 +680,7 @@ export default makeScene2D("toma-04", function* (view) {
                 padding={[10, 14]}
               >
                 <Txt
-                  text="🌧️ Lluvia orográfica"
+                  text="🌧️ Precipitación pluvial"
                   position={[-135, -16]}
                   fill={THEME.colors.climate.rainBlue}
                   fontFamily={THEME.typography.sans}
@@ -765,7 +828,13 @@ export default makeScene2D("toma-04", function* (view) {
             {/* Ilustración Botánica Viva del Amaranto (lado izquierdo del panel derecho) */}
             <Node position={[-230, 20]}>
               {/* Suelo fértil */}
-              <Rect width={180} height={14} position={[0, 195]} radius={7} fill={THEME.colors.earth.warmClay} />
+              <Rect
+                width={180}
+                height={14}
+                position={[0, 195]}
+                radius={7}
+                fill={THEME.colors.earth.warmClay}
+              />
 
               {/* Tallo que crece */}
               <Rect
@@ -914,7 +983,7 @@ export default makeScene2D("toma-04", function* (view) {
                   offset={[-1, 0]}
                 />
                 <Txt
-                  text="Soberanía de datos para acuerdos de asamblea"
+                  text="Soberanía de datos para manejo localx|"
                   position={[-165, 16]}
                   fill={THEME.colors.earth.deep}
                   fontFamily={THEME.typography.sans}
@@ -944,13 +1013,33 @@ export default makeScene2D("toma-04", function* (view) {
   // COREOGRAFÍA TEMPORAL EXACTA (38.76 s)
   // ==========================================
 
-  // [0.0s – 4.5s]: Toma Real 1
-  yield* waitFor(4.15);
-
-  // Transición hacia INS-06 (~10 frames antes de «estaciones agrometeorológicas...»)
+  // [0.0s – 4.5s]: Presentación del Equipo Cehuamilli
+  // Animación viva de cámara Ken Burns + pulso georreferenciado en el pin del Teuhtli
   yield* all(
-    footage1Node().opacity(0, 0.35, easeInOutCubic),
-    ins06Node().opacity(1, 0.35, easeInOutCubic),
+    equipoCameraNode().position.y(-10, 4.5, easeInOutCubic),
+    equipoCameraNode().scale(1.06, 4.5, easeInOutCubic),
+    (function* () {
+      // Primer pulso de radar en el pin
+      yield* all(
+        pinPulseRef().scale(2.4, 1.8, easeOutCubic),
+        pinPulseRef().opacity(0, 1.8, easeOutCubic),
+      );
+      pinPulseRef().scale(1);
+      pinPulseRef().opacity(0.85);
+      // Segundo pulso de radar en el pin
+      yield* all(
+        pinPulseRef().scale(2.6, 1.8, easeOutCubic),
+        pinPulseRef().opacity(0, 1.8, easeOutCubic),
+      );
+    })(),
+    (function* () {
+      yield* waitFor(4.15);
+      // Transición hacia INS-06 (~10 frames antes de «estaciones agrometeorológicas...»)
+      yield* all(
+        footage1Node().opacity(0, 0.35, easeInOutCubic),
+        ins06Node().opacity(1, 0.35, easeInOutCubic),
+      );
+    })(),
   );
 
   // [4.5s – 12.5s]: INS-06 (Perfil + estaciones)

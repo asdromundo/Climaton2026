@@ -58,6 +58,13 @@ export class CdmxMapAnimation extends Node {
           {/* Ancla del Volcán Teuhtli */}
           <Node ref={this.teuhtliTarget} position={[teuhtliPosX, teuhtliPosY]}>
             <Circle
+              ref={this.pinPulse}
+              size={42}
+              stroke={THEME.colors.climate.droughtOrange}
+              lineWidth={3.5}
+              opacity={0}
+            />
+            <Circle
               size={76}
               stroke={THEME.colors.climate.droughtOrange}
               lineWidth={3}
@@ -75,45 +82,6 @@ export class CdmxMapAnimation extends Node {
               stroke={THEME.colors.earth.terracotta}
               lineWidth={2.5}
             />
-
-            {/* Pin de Cehuamilli con escala para proyección */}
-            <Node ref={this.pinNode} position={[24, -22]} scale={0} opacity={0}>
-              <Circle
-                ref={this.pinPulse}
-                size={42}
-                stroke={THEME.colors.climate.droughtOrange}
-                lineWidth={3.5}
-                opacity={0}
-              />
-              <Circle
-                size={24}
-                fill={THEME.colors.earth.terracotta}
-                stroke={THEME.colors.paper.cream}
-                lineWidth={4}
-                shadowColor={`${THEME.colors.earth.dark}66`}
-                shadowBlur={12}
-              />
-              <Circle size={8} fill={THEME.colors.paper.cream} />
-
-              <Rect
-                position={[160, -24]}
-                width={280}
-                height={64}
-                fill={THEME.colors.earth.deep}
-                radius={12}
-                shadowColor={`${THEME.colors.earth.dark}55`}
-                shadowBlur={16}
-                shadowOffset={[0, 4]}
-              >
-                <Txt
-                  text="📍 Cehuamilli"
-                  fill={THEME.colors.paper.cream}
-                  fontFamily={THEME.typography.serif}
-                  fontSize={32}
-                  fontWeight={700}
-                />
-              </Rect>
-            </Node>
           </Node>
         </Node>
 
@@ -219,13 +187,11 @@ export class CdmxMapAnimation extends Node {
       this.teuhtliTitle().opacity(1, duration * 0.6, easeOutCubic),
       this.teuhtliSubtitle().opacity(1, duration * 0.6, easeOutCubic),
 
-      // Cae el pin en la ladera hacia el final del zoom dentro del tiempo exacto
+      // Pulso sobre el volcán Teuhtli hacia el final del zoom dentro del tiempo exacto
       (function* () {
         yield* waitFor(duration * 0.5);
-        yield* all(
-          self.pinNode().opacity(1, duration * 0.25, easeOutCubic),
-          self.pinNode().scale(1, duration * 0.25, easeOutBack),
-        );
+        self.pinPulse().size(42);
+        self.pinPulse().opacity(0.85);
         yield* all(
           self.pinPulse().size(95, duration * 0.25, easeOutCubic),
           self.pinPulse().opacity(0, duration * 0.25, easeInOutCubic),
